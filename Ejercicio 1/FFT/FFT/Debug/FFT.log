@@ -1,0 +1,7 @@
+﻿  main.cpp
+c:\users\tomas\desktop\itba\8° cuatrimestre\análisis de señales y sistemas digitales\trabajos prácticos\assd-tp2\ejercicio 1\fft\fft\main.cpp(22): warning C4244: 'argument': conversion from 'int' to 'const std::complex<float>::_Ty', possible loss of data
+c:\users\tomas\desktop\itba\8° cuatrimestre\análisis de señales y sistemas digitales\trabajos prácticos\assd-tp2\ejercicio 1\fft\fft\main.cpp(83): warning C4244: 'argument': conversion from 'double' to 'const std::complex<float>::_Ty', possible loss of data
+c:\users\tomas\desktop\itba\8° cuatrimestre\análisis de señales y sistemas digitales\trabajos prácticos\assd-tp2\ejercicio 1\fft\fft\main.cpp(84): warning C4244: 'argument': conversion from 'double' to 'const std::complex<float>::_Ty', possible loss of data
+c:\users\tomas\desktop\itba\8° cuatrimestre\análisis de señales y sistemas digitales\trabajos prácticos\assd-tp2\ejercicio 1\fft\fft\main.cpp(107): warning C4244: 'argument': conversion from 'double' to 'const std::complex<float>::_Ty', possible loss of data
+c:\users\tomas\desktop\itba\8° cuatrimestre\análisis de señales y sistemas digitales\trabajos prácticos\assd-tp2\ejercicio 1\fft\fft\main.cpp(108): warning C4244: 'argument': conversion from 'double' to 'const std::complex<float>::_Ty', possible loss of data
+  FFT.vcxproj -> C:\Users\Tomas\Desktop\ITBA\8° Cuatrimestre\Análisis de Señales y Sistemas Digitales\Trabajos Prácticos\ASSD-TP2\Ejercicio 1\FFT\Debug\FFT.exe
