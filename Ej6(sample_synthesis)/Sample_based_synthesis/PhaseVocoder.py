@@ -20,12 +20,21 @@ def PhVocoder(input,window,stretch_func,hop_size):
     tau=0
     j=0
     interp_spectrums = np.zeros( (synth_vector.size,int(len(window)/2)) )
-    for i in range(0,synth_vector.size):
+    gm= np.zeros(synth_vector.size, dtype='int16')
+    interp_spectrums[0] = spectrums[0]
+
+    for i in range(1,synth_vector.size):
         while tau < synth_vector[i]:
-            tau = t_func[j] #Busco cuando me paso del tiempo ya que la funcion es monotona creciente.
+            tau = stretch_func[j] #Busco cuando me paso del tiempo ya que la funcion es monotona creciente.
             j = j+1
-        lower_instance_index = math.floor( (j-1)/hop_size )
-        interp_spectrums[i] = InterpolateSpectrum(spectrums,j-1,lower_instance_index,hop_size)
+        time_index = math.floor( (j-1)/hop_size )
+        interp_spectrums[i] = InterpolateSpectrum(spectrums,j-1,int(time_index),hop_size)
+        gm[i] = int(analysis_vector[int(time_index)])
+    #Queda corregir la fase de los espectros
+    corrected_phases = np.zeros( (synth_vector.size,int(len(window)/2)) )
+    corrected_phases[0] = spectrums[0]
+    CorrectPhase(corrected_phases,spectrums,gm)
+    y=2
 
 def CalculateSpectrums(input,window,instances):
     window_size= window.size
@@ -56,4 +65,14 @@ def InterpolateSpectrum(spectrums,time,lower_instance_index,hop_size):
     #la instancia inmediatamente superior y la inferior.
    first_coef= (time-lower_instance_index*hop_size)/( hop_size )
    second_coef= ( (lower_instance_index+1)*hop_size-time )/( hop_size )
-   return ( first_coef*spectrums[lower_instance_index+1]+second_coef*spectrums[lower_instance_index])
+   if (lower_instance_index < (spectrums.shape[0]-1) ):
+        return ( first_coef*spectrums[lower_instance_index+1]+second_coef*spectrums[lower_instance_index])
+   else:
+       return spectrums[lower_instance_index]
+def CorrectPhase(result,spectrums,times):
+    time_interval, freq_interval= result.shape
+    for i in range(0,freq_interval):
+        for j in range(1,time_interval):
+            delta_phase= np.angle( spectrums[times[j]+1][i]) - np.angle( spectrums[times[j]][i])
+            result[j][i] = result[j-1][i] + delta_phase
+            result[j][i] = result[j][i] - math.floor( result[j][i]/(2.0*math.pi) )*2.0*math.pi #argumento principal
