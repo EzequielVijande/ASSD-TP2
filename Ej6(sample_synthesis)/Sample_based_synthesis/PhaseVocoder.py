@@ -16,24 +16,44 @@ def PhVocoder(input,window,stretch_func,hop_size):
         synth_vector[i]=i*hop_size
 
     spectrums = CalculateSpectrums(input,window,analysis_vector)
-    y=1
+    #Construyo el vector que mappea las instancias de sintesis en el input
+    tau=0
+    j=0
+    interp_spectrums = np.zeros( (synth_vector.size,int(len(window)/2)) )
+    for i in range(0,synth_vector.size):
+        while tau < synth_vector[i]:
+            tau = t_func[j] #Busco cuando me paso del tiempo ya que la funcion es monotona creciente.
+            j = j+1
+        lower_instance_index = math.floor( (j-1)/hop_size )
+        interp_spectrums[i] = InterpolateSpectrum(spectrums,j-1,lower_instance_index,hop_size)
 
 def CalculateSpectrums(input,window,instances):
     window_size= window.size
-    result = np.zeros( (instances.size,window_size) )
+    result = np.zeros( (instances.size,int(window_size/2)) )
     for i in range(0,instances.size):
+        k=0
         start_index = math.floor( instances[i] - (window_size/2.0) )
         points_left = window_size
-        if(start_index<0):
+        windowed_input = np.zeros( window_size)
+        if(start_index<0): #Parte de la ventana cae donde el input es nulo
             points_left= window_size + start_index
             start_index=0
-        windowed_input = np.zeros( points_left)
-        k=0
-        while (k<points_left)and(start_index+k <len(input)):
-            windowed_input[k] = input[start_index+k]*window[k]
-            k=k+1
+            while (k<points_left)and(start_index+k <len(input)):
+                windowed_input[window_size-points_left+k] = input[start_index+k]*window[window_size-points_left+k]
+                k=k+1
+        else:
+            while (k<points_left)and(start_index+k <len(input)):
+                windowed_input[k] = input[start_index+k]*window[k]
+                k=k+1
         #Le aplico la fft al segmento con la ventana aplicada
-        aux = 2*( fft.rfft(windowed_input)/points_left )
-        result[i] = np.array( aux[range(int(points_left/2))] )
+        aux = 2*( fft.rfft(windowed_input)/window_size )
+        result[i] = np.array( aux[range(int(window_size/2))] )
 
     return result
+def InterpolateSpectrum(spectrums,time,lower_instance_index,hop_size):
+    #Determina el espectro correspondiente al tiempo que
+    #recibe mediante una interpolacion lineal del espectro de
+    #la instancia inmediatamente superior y la inferior.
+   first_coef= (time-lower_instance_index*hop_size)/( hop_size )
+   second_coef= ( (lower_instance_index+1)*hop_size-time )/( hop_size )
+   return ( first_coef*spectrums[lower_instance_index+1]+second_coef*spectrums[lower_instance_index])
