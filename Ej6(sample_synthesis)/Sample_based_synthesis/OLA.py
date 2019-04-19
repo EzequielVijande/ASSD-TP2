@@ -20,35 +20,42 @@ def OLA(input,window,t_func,overlap=0.5):
         output_slots[i] = i*window_spacing
 
     input_slots= np.zeros( number_of_slots ) #Vector con las coordenadas centrales de los intervalos(grains) del input
-    aux=0
+    j=0
     tau=0
     for i in range(1,number_of_slots):
-        j=0
         while tau < output_slots[i]:
-            tau = t_func[aux+j] #Busco cuando me paso del tiempo ya que la funcion es monotona creciente.
+            tau = t_func[j] #Busco cuando me paso del tiempo ya que la funcion es monotona creciente.
             j = j+1
-        input_slots[i] = aux+j-1
-        aux = j
+        input_slots[i] = j-1
 
     #Copio los slots del input a su lugar correspondiente en el output
     center_of_window = math.floor(len(window)/2.0)
     grain= np.multiply( input[0:center_of_window], window[center_of_window:])
     output[0:center_of_window]= grain
-    grain= np.zeros(grain_size)
     for j in range(1,number_of_slots):
-        start_index_inp = math.floor(input_slots[j] - (grain_size/2.0))
-        if(start_index_inp< 0):
-            start_index_inp=0
-        start_index_out= math.floor(output_slots[j] - (grain_size/2.0))
         k=0
+        grain= np.zeros(grain_size)
+        start_index_inp = math.floor(input_slots[j] - (grain_size/2.0))
+        points_left = grain_size
+        start_index_out= math.floor(output_slots[j] - (grain_size/2.0))
         end_of_grain = math.floor(input_slots[j] + (grain_size/2.0))
-        while (k<grain_size)and(start_index_out+k<output_size)and( start_index_inp+k<len(input))and(start_index_inp+k<end_of_grain):
-            #obtengo el intervalo a copiar
-            grain[k] = input[start_index_inp+k]
-            grain[k] = grain[k]*window[k]
-            #Actualizo el vector de output
-            output[start_index_out+k] = grain[k]
-            k= k+1
+        if(start_index_inp< 0):
+            points_left = grain_size + start_index_inp
+            start_index_inp=0
+            while (k<points_left)and(start_index_out+k<output_size)and( start_index_inp+k<len(input)):
+                #obtengo el intervalo a copiar
+                grain[grain_size-points_left+k] = input[start_index_inp+k] * window[grain_size-points_left+k]
+                #Actualizo el vector de output
+                output[start_index_out+k] = grain[grain_size-points_left+k]
+                k= k+1
+        else:
+            while (k<grain_size)and(start_index_out+k<output_size)and( start_index_inp+k<len(input))and(start_index_inp+k<end_of_grain):
+                #obtengo el intervalo a copiar
+                grain[k] = input[start_index_inp+k]
+                grain[k] = grain[k]*window[k]
+                #Actualizo el vector de output
+                output[start_index_out+k] = grain[k]
+                k= k+1
     #Normalizo el vector
     sum_of_input_windows= np.zeros(len(output))
     for i in range(0,number_of_slots):

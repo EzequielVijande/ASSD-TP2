@@ -17,9 +17,9 @@ N=2210
 window = MakeWindow(N)
 print("fs = ",f_s)
 t=np.linspace(0,len(data),num=len(data))
-tau=2*t
+tau=3*t
 #y= ph.PhVocoder(data,window,tau,int(N/2))
-y= o.OLA(data,window,tau)
+y= o.OLA(data,window,tau,0.1)
 y = y.astype('int16')
 t= t/f_s
 ax1=plt.subplot(2, 1, 1)
