@@ -50,4 +50,19 @@ def OLA(input,window,t_func,overlap=0.5):
             output[start_index_out+k] = grain[k]
             k= k+1
     #Normalizo el vector
-    return np.array(output)
+    sum_of_input_windows= np.zeros(len(output))
+    for i in range(0,number_of_slots):
+        k=0
+        start_index = math.floor( output_slots[i] - (grain_size/2.0) )
+        points_left = grain_size
+        if(start_index<0): #Parte de la ventana cae donde el input es nulo
+            points_left= grain_size + start_index
+            start_index=0
+            while (k<points_left)and(start_index+k <len(output)):
+                sum_of_input_windows[start_index+k] = sum_of_input_windows[start_index+k]+window[grain_size-points_left+k]
+                k=k+1
+        else:
+            while (k<points_left)and(start_index+k <len(output)):
+                sum_of_input_windows[start_index+k] = sum_of_input_windows[start_index+k]+window[k]
+                k=k+1
+    return np.divide(np.array(output),sum_of_input_windows)
