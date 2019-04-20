@@ -31,6 +31,9 @@
     <Compile Include="SampleEditer.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="SampleSynthesizer.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="SpectrumSeparator.py">
       <SubType>Code</SubType>
     </Compile>
