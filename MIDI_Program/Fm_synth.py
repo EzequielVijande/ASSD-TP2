@@ -34,20 +34,23 @@ class FmSynthesizer:
         self.evs_dict['Key Signature'] = None
         self.evs_dict['Sequencer Specific'] = None
 
+        self.x_out = []
+
     def synthesize(self, track: midi.Track):
+        self.x_out = self.x_out[:]
         for ev in track:
             if self.evs_dict[ev.name] is not None:
-                self.evs_dict[ev.name]()
+                self.evs_dict[ev.name](ev)
 
         self.generate_fm_wav()
 
-    def handle_note_on(self, ev:midi.NoteOnEvent):
+    def handle_note_on(self, ev: midi.NoteOnEvent):
         pitch = ev.get_pitch()
         vel = ev.get_velocity()
-        ev.length
         print('handled note on')
 
-    def handle_note_off(self):
+    def handle_note_off(self, ev: midi.NoteOffEvent):
+
         print('handled note off')
 
     def handle_eot(self):
@@ -57,6 +60,8 @@ class FmSynthesizer:
         pass
 
     def generate_fm_wav(self):
+
+
         pass
 
 # pruebas
