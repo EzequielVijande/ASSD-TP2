@@ -11,30 +11,24 @@ void print_vector(vector<complex<float>>& in);
 vector<complex<float>> create_test_case(int amount_of_complex);
 
 int main() {
-	/*
+	
 	vector<complex<float>> test_case;
 	for (int i = 0; i < 8; i++) {
 		test_case.push_back(i);
 	}
-	for (int i = 0; i < 8; i++) {
-		cout << (test_case.at(i)) ;
-	}
+	print_vector(test_case);
 	cout << endl;
 	fft(test_case, test_case);
-	for (int i = 0; i < 8; i++) {
-		cout << (test_case.at(i));
-	}
+	print_vector(test_case);
 	cout << endl;
 	ifft(test_case, test_case);
-	for (int i = 0; i < 8; i++) {
-		cout << (test_case.at(i));
-	}
+	print_vector(test_case);
 	cout << endl;
-	*/
+	
 	double p_n = 0;
 	for (int n = 256; n <= 4096; n=n*2) {
 		double test_time_n = 0;
-		for (int i = 0; i<100; i++) {
+		for (int i = 0; i<10000; i++) {
 			vector<complex<float>> test_case =create_test_case(n);
 			auto start = std::chrono::high_resolution_clock::now();
 			fft(test_case, test_case);

@@ -1,0 +1,22 @@
+A musical tone is a steady periodic sound. A musical tone is characterized by its duration, pitch, intensity (or loudness), and timbre (or quality).[1] 
+A musical tone is characterized by its duration, pitch, intensity (or loudness), and timbre (or quality).
+
+
+A simple tone, or pure tone, has a sinusoidal waveform. A complex tone is a combination of two or more pure tones that have a periodic pattern of repetition, unless specified otherwise.
+
+
+Pitch 
+
+	Pitch is a perceptual property of sounds that allows their ordering on a frequency-related scale,[1] or more commonly, pitch is the quality that makes it possible to judge sounds as "higher" and "lower" in the sense associated with musical melodies.[2]
+	Pitch can be determined only in sounds that have a frequency that is clear and stable enough to distinguish from noise.
+	Pitch may be quantified as a frequency, but pitch is not a purely objective physical property; it is a subjective psychoacoustical attribute of sound.
+Duration 
+	In music, duration is an amount of time or how long or short a note, phrase, section, or composition lasts. "Duration is the length of time a pitch, or tone, is sounded."
+	
+	Tempo
+		Tempo ("time" in Italian) is the speed or pace of a given piece. In classical music, tempo is typically indicated with an instruction at the start of a piece (often using conventional Italian terms) and is usually measured in beats per minute (or bpm).
+	Time signature	
+		The time signature (also known as meter signature,[1] metre signature,[2] or measure signature)[3] is a notational convention used in Western musical notation to specify how many beats (pulses) are contained in each measure (bar), and which note value is equivalent to a beat.
+		For instance, 2/4 means two quarter-note (crotchet) beats per bar, while 3/8 means three eighth-note (quaver) beats per bar.
+		
+	
