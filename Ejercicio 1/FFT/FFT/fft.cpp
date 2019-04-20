@@ -1,17 +1,16 @@
 #include "fft.h"
-
 vector<int>* bit_reversal(int log2_);
 
 //https://en.wikipedia.org/wiki/Cooley%E2%80%93Tukey_FFT_algorithm#Data_reordering,_bit_reversal,_and_in-place_algorithms
 
 void fft(vector<complex<float>>& in, vector<complex<float>>& out) {
 	int my_size = in.size();
-	vector<int>* running_sequence = bit_reversal(log2(my_size) + 0.01);
+	vector<int>* running_sequence = bit_reversal(log2(my_size));
 	vector<complex<float>> to_be_filled(my_size,0);
 	for (int i = 0; i < my_size; i++)
-		to_be_filled[running_sequence->at(i)] = in[i];
+		to_be_filled[(*running_sequence)[i]] = in[i];
 
-	for (int s = 1; s <= (int)(log2(my_size) + 0.01); s++) {
+	for (int s = 1; s <= (int)(log2(my_size)); s++) {
 		int m = pow(2, s);
 		complex<float> wm = exp(complex<float>(0, 2 * M_PI / m));
 		for (int k = 0; k < my_size; k += m) {
@@ -34,7 +33,7 @@ void ifft(vector<complex<float>>& in, vector<complex<float>>& out) {
 	vector<complex<float>> to_be_filled;
 	to_be_filled = vector<complex<float>>(my_size, (0, 0));
 	for (int i = 0; i < my_size; i++)
-		to_be_filled[running_sequence->at(i)] = in[i];
+		to_be_filled[(*running_sequence)[i]] = in[i];
 
 	for (int s = 1; s <= (int)(log2(my_size)); s++) {
 		int m = pow(2, s);
