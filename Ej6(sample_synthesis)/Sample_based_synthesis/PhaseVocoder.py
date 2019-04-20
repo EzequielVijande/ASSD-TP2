@@ -4,8 +4,12 @@ import math
 #conocido como Phase vocoder.Recibe el vector al que se le desea
 #cambiar su escala de tiempo, la funcion de escalamiento a utilizar,
 #la ventana y el espacio entre ventanas que se desea
-def PhVocoder(input,window,stretch_func,hop_size):
+def PhVocoder(input,window,stretch_func,hop_size_recieved):
     window_size= int(window.size)
+    if(hop_size_recieved>=window_size):
+        hop_size = window_size-1
+    else:
+        hop_size = hop_size_recieved
     output= np.zeros( int(stretch_func[-1]) )
     analysis_vector = np.zeros(  math.floor( len(input)/hop_size) )
     synth_vector= np.zeros( math.floor( len(output)/hop_size) ) #Creo el vector con las instancias de sintesis
@@ -64,8 +68,9 @@ def PhVocoder(input,window,stretch_func,hop_size):
     #normalizo amplitudes
     amp=0
     for i in range(0,window_size):
-        amp= amp + ( (window[i])*(window[i]) )
-    amp = amp/(2*hop_size)
+       amp= amp + ( (window[i])*(window[i]) )
+    amp = amp/(hop_size)
+
     return output/amp
     
 
@@ -106,7 +111,7 @@ def InterpolateSpectrum(spectrums,time,lower_instance_index,hop_size):
    if (lower_instance_index < (spectrums.shape[0]-1) ):
         return ( first_coef*spectrums[lower_instance_index+1]+second_coef*spectrums[lower_instance_index])
    else:
-       return spectrums[lower_instance_index]
+       return spectrums[-1]
 def CorrectPhase(result,spectrums,times):
     time_interval, freq_interval= result.shape
     for i in range(0,freq_interval):

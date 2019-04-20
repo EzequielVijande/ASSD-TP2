@@ -28,6 +28,9 @@
     <Compile Include="PhaseVocoder.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="SampleEditer.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="SpectrumSeparator.py">
       <SubType>Code</SubType>
     </Compile>
