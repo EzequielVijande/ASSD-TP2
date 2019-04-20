@@ -53,7 +53,7 @@ class FmSynthesizer:
 
         print('handled note off')
 
-    def handle_eot(self):
+    def handle_eot(self, ev: midi.EndOfTrackEvent):
         print('handled eot')
 
     def generate_fm_wav(self):
