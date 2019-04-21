@@ -42,6 +42,8 @@ class Synthesizer:
         self.last_ev_time = 0
         self.play_note_callback = None
         self.frame_rate = 44100
+        self.wav_manager = wav_gen.WaveManagement()
+
 
     def set_resolution(self, resolution):
         """set_resolution should be called every time the pattern to be synthesized is changed!"""
@@ -62,11 +64,11 @@ class Synthesizer:
                 self.evs_dict[ev.name](ev)
             print(len(self.x_out))
             if len(self.x_out) > 10**5:
-                wav_gen.generate_wav(self.x_out)
+                self.wav_manager.generate_wav(False, self.x_out)
                 self.x_out = []
         print('Salio')
         if len(self.x_out) > 0:
-            wav_gen.generate_wav(self.x_out)
+            self.wav_gen.generate_wav(True, self.x_out)
 
     def handle_note_on(self, ev: midi.NoteOnEvent):
         if ev.get_velocity() == 0:
