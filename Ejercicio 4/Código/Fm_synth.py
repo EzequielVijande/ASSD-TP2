@@ -12,9 +12,15 @@ class FmSynthesizer(synth.Synthesizer):
     def create_note_array(self, pitch, amount_of_ns: int):
         notes = []
         freq = 2**((pitch-69)/12)*440
+        phim = -math.pi / 2
+        phic = phim
+        fc = freq*3
+        fm = freq*4
+        I = []
         for i in range(amount_of_ns):
-            notes.append(math.sin(2*math.pi*freq*i/self.frame_rate))
-        print('len_notes: ' + str(len(notes)))
+            # notes.append(math.sin(2*math.pi*freq*i/self.frame_rate))
+            I.append(4)
+            notes.append(math.cos(2*math.pi*fc*i/self.frame_rate + I[i]*math.cos(2*math.pi*fm*i/self.frame_rate+phim)+phic))
         return notes
 
 

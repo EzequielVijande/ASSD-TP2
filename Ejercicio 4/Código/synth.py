@@ -35,14 +35,23 @@ class Synthesizer:
         self.evs_dict['Key Signature'] = None
         self.evs_dict['Sequencer Specific'] = None
 
+        # list of notes that are turned on after a NoteOnEvent and haven t been turned off by a NoteOffEvent
+        # or the corresponding NoteOnEvent yet.
         self.on_notes = []
+        # the initial bpm for the audio is set to 120 bpm by default. The tempo can be changed by a SetTempoEvent
         self.curr_bpm = 120
+        # resolution used to convert ticks to time
         self.curr_resolution = -1
+        # buffer in which the samples used to generate the .wav file will be stored
         self.x_out = []
+        # time in seconds of the last event
         self.last_ev_time = 0
-        self.create_notes_callback = None
-        self.frame_rate = 44100
         self.last_sent_n = 0
+        # callback used to generate a note array with the corresponding synthesis method
+        self.create_notes_callback = None
+        # rate by which the samples will be outputted.
+        self.frame_rate = 44100
+        # manager used to generate the .wav file
         self.wav_manager = wav_gen.WaveManagement()
 
 
@@ -60,15 +69,12 @@ class Synthesizer:
             i += 1
             segs_per_tick = 60 / self.curr_bpm / self.curr_resolution
             self.last_ev_time += ev.tick * segs_per_tick
-            print(ev.name + str(i))
             if self.evs_dict[ev.name] is not None:
                 self.evs_dict[ev.name](ev)
-            print(len(self.x_out))
-            if len(self.x_out) > 10**5:
-                self.last_sent_n += len(self.x_out)-1
-                self.wav_manager.generate_wav(False, self.x_out)
+            if len(self.x_out) > 10**5:             # arbitrarily chosen length in which the buffer should be cleared
+                self.last_sent_n += len(self.x_out)-1       #
+                self.wav_manager.generate_wav(False, self.x_out)    # generate part of the final .wav
                 self.x_out = []
-        print('Salio')
         if len(self.x_out) > 0:
             self.wav_manager.generate_wav(True, self.x_out)
 
@@ -83,8 +89,13 @@ class Synthesizer:
 
     def handle_eot(self, ev: midi.EndOfTrackEvent):
         # off all notes, then end track
-        # print('handled eot')
-        pass
+        off_time = ev.tick * 60 / self.curr_bpm / self.curr_resolution
+        off_ev = midi.NoteOnEvent()
+
+        for on_note in self.on_notes:
+            off_ev.set_pitch(on_note.get_pitch())
+            off_ev.set_velocity(0)
+            self.off_note(off_ev)
 
     def handle_set_tempo(self, ev: midi.SetTempoEvent):
         self.curr_bpm = ev.bpm
