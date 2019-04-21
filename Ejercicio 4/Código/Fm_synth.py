@@ -42,6 +42,7 @@ class Synthesizer:
         self.last_ev_time = 0
         self.play_note_callback = None
         self.frame_rate = 44100
+        self.last_sent_n = 0
         self.wav_manager = wav_gen.WaveManagement()
 
 
@@ -64,11 +65,12 @@ class Synthesizer:
                 self.evs_dict[ev.name](ev)
             print(len(self.x_out))
             if len(self.x_out) > 10**5:
+                self.last_sent_n += len(self.x_out)-1
                 self.wav_manager.generate_wav(False, self.x_out)
                 self.x_out = []
         print('Salio')
         if len(self.x_out) > 0:
-            self.wav_gen.generate_wav(True, self.x_out)
+            self.wav_manager.generate_wav(True, self.x_out)
 
     def handle_note_on(self, ev: midi.NoteOnEvent):
         if ev.get_velocity() == 0:
@@ -95,6 +97,7 @@ It may also be a NoteOnEvent, hence the generic 'Event' annotation"""
                 self.play_note_callback((on_ev, ex_time), (off_ev, self.last_ev_time))
                 self.on_notes.remove((on_ev, ex_time))
 
+
 class FmSynthesizer(Synthesizer):
     def __init__(self):
         self.set_play_note_callback(self.play_note)
@@ -104,22 +107,22 @@ class FmSynthesizer(Synthesizer):
         on_ev, on_time = on_tuple
         off_ev, off_time = off_tuple
         #print('note_played: ' + str(on_ev.get_pitch) + '.\n Played from ' + str(on_time) + 'microseg to ' + str(off_time) + ' microseg.')
-        beginning_n = int(on_time*self.frame_rate)
-        ending_n = int(off_time*self.frame_rate)+1
+        beginning_n = int(on_time*self.frame_rate) - self.last_sent_n
+        ending_n = int(off_time*self.frame_rate)+1 - self.last_sent_n
         notes = self.create_note_array(on_ev.get_pitch(), ending_n-beginning_n)
         self.sum_note_arrays(notes, beginning_n, ending_n)
 
     def sum_note_arrays(self, notes: list, beginning_n: int, ending_n: int):
-        if ending_n > len(self.x_out):
+        if len(self.x_out) < ending_n:
             self.x_out += [0]*(ending_n-len(self.x_out))
-        for i in range(beginning_n, ending_n):
-            self.x_out[i] += notes[i-beginning_n]
+        for i in range(ending_n-beginning_n):
+            self.x_out[i+beginning_n] += notes[i]
 
     def create_note_array(self, pitch, amount_of_ns: int):
         notes = []
         freq = random.randint(1, 101)*20
         for i in range(amount_of_ns):
-            notes.append(math.cos(2*math.pi*400*i/self.frame_rate))
+            notes.append(math.sin(2*math.pi*freq*i/self.frame_rate))
         print('len_notes: ' + str(len(notes)))
         return notes
 

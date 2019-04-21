@@ -20,7 +20,7 @@ class WaveManagement:
         # h : 2 bytes -> 2^15-1 =32767, maximum amplitude
         # i : 4 bytes
         for d in data:
-            translated_data.append(struct.pack('h', int(d/10*(2**15-1))))
+            translated_data.append(struct.pack('h', int(d*(2**15-1))))
 
         self.opened_file.writeframes(b''.join(translated_data))
         if finished:
