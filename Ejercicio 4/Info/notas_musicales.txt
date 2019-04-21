@@ -1,0 +1,55 @@
+In music, a note is the pitch and duration of a sound, and also its representation in musical notation (?, ?). A note can also represent a pitch class. Notes are the building blocks of much written music: discretizations of musical phenomena that facilitate performance, comprehension, and analysis.[1]
+
+Como tienen duración, las notas pueden ser representadas como funciones limitadas en tiempo y por lo tanto tendrán un espectro infinito (no estarán limitadas en frecuencia)!!!
+
+Two notes with fundamental frequencies in a ratio equal to any integer power of two (e.g., half, twice, or four times) are perceived as very similar. Because of that, all notes with these kinds of relations can be grouped under the same pitch class.
+In traditional music theory, most countries in the world use the solfège naming convention Do–Re–Mi–Fa–Sol–La–Si
+However, within the English-speaking and Dutch-speaking world, pitch classes are typically represented by the first seven letters of the Latin alphabet (A, B, C, D, E, F and G). A few European countries, including Germany, adopt an almost identical notation, in which H substitutes for B
+The eighth note, or octave, is given the same name as the first, but has double its frequency. The name octave is also used to indicate the span between a note and another with double frequency
+
+To differentiate two notes that have the same pitch class but fall into different octaves, the system of scientific pitch notation combines a letter name with an Arabic numeral designating a specific octave. For example, the now-standard tuning pitch for most Western music, 440 Hz, is named a' or A4.
+
+Scientific pitch notation
+	Scientific pitch notation (or SPN, also known as American standard pitch notation (ASPN) and international pitch notation (IPN))[1][unreliable source?] is a method of specifying musical pitch by combining a musical note name (with accidental if needed) and a number identifying the pitch's octave.
+	The notation makes use of the traditional tone names (A to G) which are followed by numbers showing which octave they are part of. 
+	The system begins at a frequency of 16.352 Hz, which is assigned the value C0.
+	The octave number increases by 1 upon an ascension from B to C. Thus, A0 refers to the first A above C0 and middle C (the small octave's C or simply c) is denoted as C4 in SPN.
+	Scientific pitch notation avoids possible confusion between various derivatives of Helmholtz notation which use similar symbols to refer to different notes
+	https://en.wikipedia.org/wiki/Scientific_pitch_notation for MIDI note number table.
+
+The fundamental frequency, often referred to simply as the fundamental, is defined as the lowest frequency of a periodic waveform. In music, the fundamental is the musical pitch of a note that is perceived as the lowest partial present.
+In some contexts, the fundamental is usually abbreviated as f0 (or FF), indicating the lowest frequency counting from zero.
+In other contexts, it is more common to abbreviate it as f1, the first harmonic.
+Since the fundamental is the lowest frequency and is also perceived as the loudest, the ear identifies it as the specific pitch of the musical tone
+The individual partials are not heard separately but are blended together by the ear into a single tone.[9]
+
+Letter names are modified by the accidentals. The sharp sign ? raises a note by a semitone or half-step, and a flat ? lowers it by the same amount. In modern tuning a half step has a frequency ratio of 12v2, approximately 1.059. The accidentals are written after the note name: so, for example, F? represents F-sharp, B? is B-flat, and C? is C natural (or C).
+
+An overtone is any frequency greater than the fundamental frequency of a sound. Using the model of Fourier analysis, the fundamental and the overtones together are called partials. Harmonics, or more precisely, harmonic partials, are partials whose frequencies are numerical integer multiples of the fundamental
+In simple cases, such as for most musical instruments, the frequencies of these tones are the same as (or close to) the harmonics
+
+In classical mechanics, anharmonicity is the deviation of a system from being a harmonic oscillator. An oscillator that is not oscillating in harmonic motion is known as an anharmonic oscillator where the system can be approximated to a harmonic oscillator and the anharmonicity can be calculated using perturbation theory
+Any Harmonic oscillator can be described by the universal oscillator equation
+In classical mechanics, a harmonic oscillator is a system that, when displaced from its equilibrium position, experiences a restoring force F proportional to the displacement x
+
+In music, inharmonicity is the degree to which the frequencies of overtones (also known as partials or partial tones) depart from whole multiples of the fundamental frequency (harmonic series).
+
+In modern musical notation and tuning, an enharmonic equivalent is a note, interval, or key signature that is equivalent to some other note, interval, or key signature but "spelled", or named differently. 
+
+
+The notes used in music can be more complex than musical tones, as they may include aperiodic aspects, such as attack transients, vibrato, and envelope modulation.
+
+
+Vibrato
+	Vibrato (Italian, from past participle of "vibrare", to vibrate) is a musical effect consisting of a regular, pulsating change of pitch. It is used to add expression to vocal and instrumental music. Vibrato is typically characterised in terms of two factors: the amount of pitch variation ("extent of vibrato") and the speed with which the pitch is varied ("rate of vibrato").
+Transient 
+	In acoustics and audio, a transient is a high amplitude, short-duration sound at the beginning of a waveform that occurs in phenomena such as musical sounds, noises or speech. It can sometimes contain a high degree of non-periodic components and a higher magnitude of high frequencies than the harmonic content of that sound.[citation needed] Transients do not necessarily directly depend on the frequency of the tone they initiate.[citation needed]
+Envelope
+	In sound and music, an envelope describes how a sound changes over time. Envelopes may relate to elements such as amplitude (volume), filters (frequencies), or pitch. For example, a piano key, when struck and held, creates a near-immediate initial sound which gradually decreases in volume to zero. Envelope generators are common features of synthesizers, samplers, and other electronic musical instruments.
+	Many synthesizers use an envelope generator to control how sounds change over time. An envelope may control elements such as amplitude (volume), a filter (frequencies), or pitch. The most common envelope is the ADSR (Attack, Decay, Sustain, Release) envelope:[84]
+
+	Attack time is the time taken for initial run-up of level from nil to peak, beginning when the key is first pressed.
+	Decay time is the time taken for the subsequent run down from the attack level to the designated sustain level.
+	Sustain level is the level during the main sequence of the sound's duration, until the key is released.
+	Release time is the time taken for the level to decay from the sustain level to zero after the key is released.
+	The "attack" and "decay" of a sound have a great effect on the instrument's sonic character.[85]
