@@ -97,7 +97,6 @@ It may also be a NoteOnEvent, hence the generic 'Event' annotation"""
                 self.play_note_callback((on_ev, ex_time), (off_ev, self.last_ev_time))
                 self.on_notes.remove((on_ev, ex_time))
 
-
 class FmSynthesizer(Synthesizer):
     def __init__(self):
         self.set_play_note_callback(self.play_note)
@@ -106,7 +105,6 @@ class FmSynthesizer(Synthesizer):
     def play_note(self, on_tuple, off_tuple):
         on_ev, on_time = on_tuple
         off_ev, off_time = off_tuple
-        #print('note_played: ' + str(on_ev.get_pitch) + '.\n Played from ' + str(on_time) + 'microseg to ' + str(off_time) + ' microseg.')
         beginning_n = int(on_time*self.frame_rate) - self.last_sent_n
         ending_n = int(off_time*self.frame_rate)+1 - self.last_sent_n
         notes = self.create_note_array(on_ev.get_pitch(), ending_n-beginning_n)
@@ -118,22 +116,21 @@ class FmSynthesizer(Synthesizer):
         for i in range(ending_n-beginning_n):
             self.x_out[i+beginning_n] += notes[i]
 
+# https://en.wikipedia.org/wiki/MIDI_tuning_standard#Frequency_values
     def create_note_array(self, pitch, amount_of_ns: int):
         notes = []
-        freq = random.randint(1, 101)*20
+        freq = 2**((pitch-69)/12)*440
         for i in range(amount_of_ns):
             notes.append(math.sin(2*math.pi*freq*i/self.frame_rate))
         print('len_notes: ' + str(len(notes)))
         return notes
 
-    #def pitch_2_freq(self,pitch):
-        #return freq
 
 # pruebas
 synth = FmSynthesizer()
 synth.set_play_note_callback(synth.play_note)
 pattern = midi.read_midifile(".\ArchivosMIDI\Super Mario 64 - Bob-Omb Battlefield.mid")
 synth.set_resolution(pattern.resolution)
-#for trk in pattern:
-    #synth.synthesize(trk)
+# for trk in pattern:
+#   synth.synthesize(trk)
 synth.synthesize(pattern[1])
