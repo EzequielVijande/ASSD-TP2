@@ -117,9 +117,11 @@ It may also be a NoteOnEvent, hence the generic 'Event' annotation"""
     def play_note(self, on_tuple, off_tuple):
         on_ev, on_time = on_tuple
         off_ev, off_time = off_tuple
+        beginning_n = on_time
+        ending_n = off_time
+        notes = self.create_notes_callback(on_ev.get_pitch(), ending_n-beginning_n,on_ev.get_velocity(),self.instrument)
         beginning_n = int(on_time*self.frame_rate) - self.last_sent_n
         ending_n = int(off_time*self.frame_rate)+1 - self.last_sent_n
-        notes = self.create_notes_callback(on_ev.get_pitch(), ending_n-beginning_n,on_ev.get_velocity(),self.instrument)
         self.sum_note_arrays(notes, beginning_n, ending_n)
 
     def sum_note_arrays(self, notes: list, beginning_n: int, ending_n: int):

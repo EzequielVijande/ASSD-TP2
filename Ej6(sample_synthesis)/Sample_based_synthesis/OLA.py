@@ -31,7 +31,7 @@ def OLA(input,window,t_func,overlap=0.5):
     #Copio los slots del input a su lugar correspondiente en el output
     center_of_window = math.floor(len(window)/2.0)
     grain= np.multiply( input[0:center_of_window], window[center_of_window:])
-    output[0:center_of_window]= grain
+    output[0:center_of_window]= grain[0:center_of_window]
     for j in range(1,number_of_slots):
         k=0
         grain= np.zeros(grain_size)
