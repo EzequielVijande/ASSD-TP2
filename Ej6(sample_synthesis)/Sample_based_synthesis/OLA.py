@@ -72,4 +72,6 @@ def OLA(input,window,t_func,overlap=0.5):
             while (k<points_left)and(start_index+k <len(output)):
                 sum_of_input_windows[start_index+k] = sum_of_input_windows[start_index+k]+window[k]
                 k=k+1
+    epsilon = 1e-10 * np.ones(sum_of_input_windows.size)
+    sum_of_input_windows =sum_of_input_windows+epsilon #Sumo un epsilon para evitar posible division por cero
     return np.divide(np.array(output),sum_of_input_windows)

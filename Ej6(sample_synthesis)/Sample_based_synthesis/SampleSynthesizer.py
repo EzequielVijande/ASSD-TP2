@@ -35,7 +35,7 @@ def MakeWindow(length,type='Hann'):
     else:
         return np.zeros(1)
 
-#Funcion que recibe el pitch, la duracion en segundos y la
+#Funcion que recibe el pitch, la duracion en muestras y la
 #intensidad
 class SampleSynthesizer(synth.Synthesizer):
     def __init__(self):
@@ -94,7 +94,7 @@ class SampleSynthesizer(synth.Synthesizer):
 
     def MakeNote(self,pitch,duration,intensity,instrument='guitar'):
         desired_fs = self.frame_rate
-        note = np.zeros(int(duration*desired_fs))
+        note = np.zeros(duration)
         if( instrument == 'guitar'):
             fmin = 82 #Frecuencia minima de un semitono de guitarra
             if( pitch < midi.E_2):
@@ -114,25 +114,27 @@ class SampleSynthesizer(synth.Synthesizer):
                 f_s, data= wavfile.read(piano_sample)
             pitch_corrected_data = ResampleArray(data,f_s,int(f_s/freq_factor),SameTimeLimit=False)
             resampled_data = ResampleArray(pitch_corrected_data,int(f_s/freq_factor),desired_fs)
-            if(duration>(1/fmin)):
+            if((duration/desired_fs)>(1/fmin)):
                 N= 2*int(desired_fs/fmin)
             else:
-                N= int(0.1*desired_fs*duration) #La duracion es menor que el periodo undamental minimo
-            t_h, harm, t_p, perc = spectr.GetPercussiveAndHarmonicSpectrum(resampled_data,frame_size = N,beta=2)
+                N= int(0.1*duration) #La duracion es menor que el periodo undamental minimo
+            #t_h, harm, t_p, perc = spectr.GetPercussiveAndHarmonicSpectrum(resampled_data,frame_size = N,beta=2)
+            t_h = (1.0/desired_fs)*np.linspace(0,duration)
             window = MakeWindow(N)
-            stretch_factor = (duration*desired_fs)/t_h[-1]
+            stretch_factor = (duration)/t_h[-1]
             stretch_func = stretch_factor*t_h
             #y_h= ph.PhVocoder(harm,window,stretch_func,int(0.1*N))
-            y_p= o.OLA(perc,window,stretch_func,0.1)
-            y_h= o.OLA(harm,window,stretch_func,0.1)
-            note = y_h + y_p
+            #y_p= o.OLA(perc,window,stretch_func,0.1)
+            note= o.OLA(resampled_data,window,stretch_func,0.1)
+            #note = y_h + y_p
             #Normalizo el vector
             note_max_pos = np.max(note)
             note_max_neg = np.min(note)
-            if( abs(note_max_pos) > abs(note_max_neg)):
-                note = note/abs(note_max_pos)
-            else:
-                note = note/abs(note_max_neg)
+            if( note_max_pos != 0)and( note_max_neg != 0):
+                if( abs(note_max_pos) > abs(note_max_neg)):
+                    note = note/abs(note_max_pos)
+                else:
+                    note = note/abs(note_max_neg)
 
         return note
     def SetInstrument(self,inst):

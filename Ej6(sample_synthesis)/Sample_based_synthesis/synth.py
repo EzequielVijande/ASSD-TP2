@@ -47,14 +47,16 @@ class Synthesizer:
         # time in seconds of the last event
         self.last_ev_time = 0
         self.last_sent_n = 0
+        self.last_sent_time = 0
         # callback used to generate a note array with the corresponding synthesis method
         self.create_notes_callback = None
         # rate by which the samples will be outputted.
         self.frame_rate = 44100
         # manager used to generate the .wav file
         self.wav_manager = wav_gen.WaveManagement()
-        # string que indica que instrumento representa el track actual
-        self.instrument = ""
+        self.avg_counter = 0
+        # instrumento con el cual se va a interpretar el track
+        self.instrument =''
 
     def set_resolution(self, resolution):
         """set_resolution should be called every time the pattern to be synthesized is changed!"""
@@ -71,18 +73,27 @@ class Synthesizer:
             segs_per_tick = 60 / self.curr_bpm / self.curr_resolution
             self.last_ev_time += ev.tick * segs_per_tick
             # print(ev.name + str(i))
-            if i == 269:                        # aca esta la falla en pattern 2!!
-                print('LLegue al error en pattern 2!!!')
             if self.evs_dict[ev.name] is not None:              # looks for the handler of the specific event
                 self.evs_dict[ev.name](ev)
-            # LA PROXIMA LINEA PARA MI ES LA QUE CAUSA EL ERROR CUANDO SE LLAMA A PATTERN[2]!!
-            # DEBERIA CHEQUEAR SI YA APAGUE TODAS LAS NOTAS POR APAGAR EN ESE INTERVALO ANTES DE LIMPIAR EL BUFFER!!
+
             if len(self.x_out) > 10**5:             # arbitrarily chosen length in which the buffer should be cleared
+                self.refresh_notes()
+                self.avg_counter = 0
                 self.last_sent_n += len(self.x_out)-1       #
                 self.wav_manager.generate_wav(False, self.x_out, file_name='Track1.wav') # generate part of the final .wav
                 self.x_out = []         # clears the buffer
+                self.avg_counter = 0
         if len(self.x_out) > 0:
             self.wav_manager.generate_wav(True, self.x_out, file_name='Track1.wav')
+
+    def refresh_notes(self):
+        back_up = self.on_notes[:]
+        self.off_all_notes()
+        self.last_sent_time += len(self.x_out) / self.frame_rate
+        for j in range(len(back_up)):
+            on_ev, on_time = back_up[j]
+            back_up[j] = (on_ev, self.last_sent_time)
+        self.on_notes = back_up
 
     def handle_note_on(self, ev: midi.NoteOnEvent):
         if ev.get_velocity() == 0:
@@ -95,18 +106,20 @@ class Synthesizer:
 
     def handle_eot(self, ev: midi.EndOfTrackEvent):
         # off all notes, then end track
-        self.last_ev_time = ev.tick * 60 / self.curr_bpm / self.curr_resolution
+        self.off_all_notes()
+
+    def off_all_notes(self):
         off_ev = midi.NoteOnEvent()
 
-        for on_note in self.on_notes:
-            off_ev.set_pitch(on_note.get_pitch())
+        for on_ev, on_time in self.on_notes:
+            off_ev.set_pitch(on_ev.get_pitch())
             off_ev.set_velocity(0)
             self.off_note(off_ev)
 
     def handle_set_tempo(self, ev: midi.SetTempoEvent):
         self.curr_bpm = ev.bpm
 
-    def off_note(self, off_ev: midi.Event):
+    def off_note(self, off_ev: midi.NoteEvent):
         """off_ev is not necessarily a NoteOffEvent
 It may also be a NoteOnEvent, hence the generic 'Event' annotation"""
         for on_ev, ex_time in self.on_notes:
@@ -117,16 +130,15 @@ It may also be a NoteOnEvent, hence the generic 'Event' annotation"""
     def play_note(self, on_tuple, off_tuple):
         on_ev, on_time = on_tuple
         off_ev, off_time = off_tuple
-        beginning_n = on_time
-        ending_n = off_time
-        notes = self.create_notes_callback(on_ev.get_pitch(), ending_n-beginning_n,on_ev.get_velocity(),self.instrument)
         beginning_n = int(on_time*self.frame_rate) - self.last_sent_n
         ending_n = int(off_time*self.frame_rate)+1 - self.last_sent_n
+        notes = self.create_notes_callback(on_ev.get_pitch(), ending_n-beginning_n,on_ev.get_velocity(),self.instrument)
         self.sum_note_arrays(notes, beginning_n, ending_n)
 
     def sum_note_arrays(self, notes: list, beginning_n: int, ending_n: int):
         """sums the new note to previous notes that are on the same time interval"""
         if len(self.x_out) < ending_n:
             self.x_out += [0]*(ending_n-len(self.x_out))
-        for i in range(ending_n-beginning_n):
-            self.x_out[i+beginning_n] += notes[i]
+        for i in range(ending_n-beginning_n-1):
+            self.x_out[i + beginning_n] = (self.x_out[i + beginning_n]*self.avg_counter + notes[i]) / (self.avg_counter+1)
+            self.avg_counter += 1
