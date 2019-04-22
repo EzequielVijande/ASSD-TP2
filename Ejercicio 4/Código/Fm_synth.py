@@ -18,7 +18,7 @@ class FmSynthesizer(synth.Synthesizer):
         fm = freq*4
         I = []
         for i in range(amount_of_ns):
-            # notes.append(math.sin(2*math.pi*freq*i/self.frame_rate))
+            # notes.append(math.sin(2*math.pi*freq*i/self.frame_rate)) ejemplo para los chicos!!!
             I.append(4)
             notes.append(math.cos(2*math.pi*fc*i/self.frame_rate + I[i]*math.cos(2*math.pi*fm*i/self.frame_rate+phim)+phic))
         return notes

@@ -54,7 +54,6 @@ class Synthesizer:
         # manager used to generate the .wav file
         self.wav_manager = wav_gen.WaveManagement()
 
-
     def set_resolution(self, resolution):
         """set_resolution should be called every time the pattern to be synthesized is changed!"""
         self.curr_resolution = resolution
@@ -69,14 +68,19 @@ class Synthesizer:
             i += 1
             segs_per_tick = 60 / self.curr_bpm / self.curr_resolution
             self.last_ev_time += ev.tick * segs_per_tick
-            if self.evs_dict[ev.name] is not None:
+            # print(ev.name + str(i))
+            if i == 269:                        # aca esta la falla en pattern 2!!
+                print('LLegue al error en pattern 2!!!')
+            if self.evs_dict[ev.name] is not None:              # looks for the handler of the specific event
                 self.evs_dict[ev.name](ev)
+            # LA PROXIMA LINEA PARA MI ES LA QUE CAUSA EL ERROR CUANDO SE LLAMA A PATTERN[2]!!
+            # DEBERIA CHEQUEAR SI YA APAGUE TODAS LAS NOTAS POR APAGAR EN ESE INTERVALO ANTES DE LIMPIAR EL BUFFER!!
             if len(self.x_out) > 10**5:             # arbitrarily chosen length in which the buffer should be cleared
                 self.last_sent_n += len(self.x_out)-1       #
-                self.wav_manager.generate_wav(False, self.x_out)    # generate part of the final .wav
-                self.x_out = []
+                self.wav_manager.generate_wav(False, self.x_out, file_name='Track1.wav') # generate part of the final .wav
+                self.x_out = []         # clears the buffer
         if len(self.x_out) > 0:
-            self.wav_manager.generate_wav(True, self.x_out)
+            self.wav_manager.generate_wav(True, self.x_out, file_name='Track1.wav')
 
     def handle_note_on(self, ev: midi.NoteOnEvent):
         if ev.get_velocity() == 0:
@@ -89,7 +93,7 @@ class Synthesizer:
 
     def handle_eot(self, ev: midi.EndOfTrackEvent):
         # off all notes, then end track
-        off_time = ev.tick * 60 / self.curr_bpm / self.curr_resolution
+        self.last_ev_time = ev.tick * 60 / self.curr_bpm / self.curr_resolution
         off_ev = midi.NoteOnEvent()
 
         for on_note in self.on_notes:
@@ -117,6 +121,7 @@ It may also be a NoteOnEvent, hence the generic 'Event' annotation"""
         self.sum_note_arrays(notes, beginning_n, ending_n)
 
     def sum_note_arrays(self, notes: list, beginning_n: int, ending_n: int):
+        """sums the new note to previous notes that are on the same time interval"""
         if len(self.x_out) < ending_n:
             self.x_out += [0]*(ending_n-len(self.x_out))
         for i in range(ending_n-beginning_n):
