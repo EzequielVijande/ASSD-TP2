@@ -8,19 +8,19 @@ class FmSynthesizer(synth.Synthesizer):
         self.set_create_notes_callback(self.create_note_array)
         super(FmSynthesizer, self).__init__()
 
-# https://en.wikipedia.org/wiki/MIDI_tuning_standard#Frequency_values
+    # https://en.wikipedia.org/wiki/MIDI_tuning_standard#Frequency_values
     def create_note_array(self, pitch, amount_of_ns: int):
         notes = []
-        freq = 2**((pitch-69)/12)*440
+        freq = 2 ** ((pitch - 69) / 12) * 440
         phim = -math.pi / 2
         phic = phim
-        fc = freq*3
-        fm = freq*4
+        fc = freq * 3
+        fm = freq * 4
         I = []
         for i in range(amount_of_ns):
-            # notes.append(math.sin(2*math.pi*freq*i/self.frame_rate)) ejemplo para los chicos!!!
             I.append(4)
-            notes.append(math.cos(2*math.pi*fc*i/self.frame_rate + I[i]*math.cos(2*math.pi*fm*i/self.frame_rate+phim)+phic))
+            notes.append(math.cos(2 * math.pi * fc * i / self.frame_rate + I[i] * math.cos(
+                2 * math.pi * fm * i / self.frame_rate + phim) + phic))
         return notes
 
 
@@ -28,7 +28,8 @@ class FmSynthesizer(synth.Synthesizer):
 synther = FmSynthesizer()
 synther.set_create_notes_callback(synther.create_note_array)
 pattern = midi.read_midifile(".\ArchivosMIDI\Super Mario 64 - Bob-Omb Battlefield.mid")
+# print(pattern)
 synther.set_resolution(pattern.resolution)
 # for trk in pattern:
 #   synth.synthesize(trk)
-synther.synthesize(pattern[1])
+synther.synthesize(pattern[2])
