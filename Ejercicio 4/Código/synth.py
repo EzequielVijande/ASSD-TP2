@@ -54,6 +54,7 @@ class Synthesizer:
         self.frame_rate = 44100
         # manager used to generate the .wav file
         self.wav_manager = wav_gen.WaveManagement()
+        self.avg_counter = 0
 
     def set_resolution(self, resolution):
         """set_resolution should be called every time the pattern to be synthesized is changed!"""
@@ -67,21 +68,19 @@ class Synthesizer:
         i = 0
         for ev in track:
             i += 1
-            print(i)
             segs_per_tick = 60 / self.curr_bpm / self.curr_resolution
             self.last_ev_time += ev.tick * segs_per_tick
             # print(ev.name + str(i))
-            if i == 269:                        # aca esta la falla en pattern 2!!
-                print('LLegue al error en pattern 2!!!')
             if self.evs_dict[ev.name] is not None:              # looks for the handler of the specific event
                 self.evs_dict[ev.name](ev)
-            # LA PROXIMA LINEA PARA MI ES LA QUE CAUSA EL ERROR CUANDO SE LLAMA A PATTERN[2]!!
-            # DEBERIA CHEQUEAR SI YA APAGUE TODAS LAS NOTAS POR APAGAR EN ESE INTERVALO ANTES DE LIMPIAR EL BUFFER!!
+
             if len(self.x_out) > 10**5:             # arbitrarily chosen length in which the buffer should be cleared
                 self.refresh_notes()
+                self.avg_counter = 0
                 self.last_sent_n += len(self.x_out)-1       #
                 self.wav_manager.generate_wav(False, self.x_out, file_name='Track1.wav') # generate part of the final .wav
                 self.x_out = []         # clears the buffer
+                self.avg_counter = 0
         if len(self.x_out) > 0:
             self.wav_manager.generate_wav(True, self.x_out, file_name='Track1.wav')
 
@@ -139,7 +138,5 @@ It may also be a NoteOnEvent, hence the generic 'Event' annotation"""
         if len(self.x_out) < ending_n:
             self.x_out += [0]*(ending_n-len(self.x_out))
         for i in range(ending_n-beginning_n):
-            if abs(self.x_out[i+beginning_n] + notes[i]) > 1:
-                self.x_out[i+beginning_n] = (self.x_out[i+beginning_n] + notes[i])/2
-            else:
-                self.x_out[i + beginning_n] += notes[i]
+            self.x_out[i + beginning_n] = (self.x_out[i + beginning_n]*self.avg_counter + notes[i]) / (self.avg_counter+1)
+            self.avg_counter += 1
