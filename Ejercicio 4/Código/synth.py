@@ -5,7 +5,7 @@ import math
 
 class Synthesizer:
 
-    def __init__(self):
+    def __init__(self, resolution):
         self.evs_dict = dict()
         self.evs_dict['Note On'] = self.handle_note_on
         self.evs_dict['Note Off'] = self.handle_note_off
@@ -41,7 +41,7 @@ class Synthesizer:
         # the initial bpm for the audio is set to 120 bpm by default. The tempo can be changed by a SetTempoEvent
         self.curr_bpm = 120
         # resolution used to convert ticks to time
-        self.curr_resolution = -1
+        self.curr_resolution = resolution
         # buffer in which the samples used to generate the .wav file will be stored
         self.x_out = []
         # time in seconds of the last event
@@ -55,19 +55,17 @@ class Synthesizer:
         # manager used to generate the .wav file
         self.wav_manager = wav_gen.WaveManagement()
         self.avg_counter = 0
-
-    def set_resolution(self, resolution):
-        """set_resolution should be called every time the pattern to be synthesized is changed!"""
-        self.curr_resolution = resolution
-
+        self.curr_instrument = -1
     def set_create_notes_callback(self, callback):
         self.create_notes_callback = callback
 
-    def synthesize(self, track: midi.Track):
+    def synthesize(self, track: midi.Track, instrument : int):
+        self.curr_instrument = instrument
         self.x_out = []
         i = 0
         for ev in track:
             i += 1
+            print(i)
             segs_per_tick = 60 / self.curr_bpm / self.curr_resolution
             self.last_ev_time += ev.tick * segs_per_tick
             # print(ev.name + str(i))
@@ -94,6 +92,7 @@ class Synthesizer:
         self.on_notes = back_up
 
     def handle_note_on(self, ev: midi.NoteOnEvent):
+
         if ev.get_velocity() == 0:
             self.off_note(ev)
         else:
@@ -138,5 +137,11 @@ It may also be a NoteOnEvent, hence the generic 'Event' annotation"""
         if len(self.x_out) < ending_n:
             self.x_out += [0]*(ending_n-len(self.x_out))
         for i in range(ending_n-beginning_n):
-            self.x_out[i + beginning_n] = (self.x_out[i + beginning_n]*self.avg_counter + notes[i]) / (self.avg_counter+1)
-            self.avg_counter += 1
+
+            if abs(self.x_out[i + beginning_n] + notes[i]) > 1:
+                self.x_out[i + beginning_n] = (self.x_out[i + beginning_n] + notes[i]) / 2
+            else:
+                self.x_out[i + beginning_n] += notes[i]
+        # for i in range(ending_n-beginning_n):
+        #    self.x_out[i + beginning_n] = (self.x_out[i + beginning_n]*self.avg_counter + notes[i]) / (self.avg_counter+1)
+        #    self.avg_counter += 1
