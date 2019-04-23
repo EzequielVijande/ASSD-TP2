@@ -37,6 +37,11 @@
     <Compile Include="SpectrumSeparator.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="synth.py" />
+    <Compile Include="wav_gen.py" />
+    <Compile Include="WSOLA.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

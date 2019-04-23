@@ -10,7 +10,7 @@ def OLA(input,window,t_func,overlap=0.5):
 
     grain_size= len(window)
     window_spacing = (1.0-overlap)*len(window)
-    max_output_time= int(t_func[-1])
+    max_output_time= math.ceil(t_func[-1])
     output_size = max_output_time
     output = np.zeros( output_size )
     number_of_slots = math.ceil(max_output_time/window_spacing)
@@ -31,7 +31,7 @@ def OLA(input,window,t_func,overlap=0.5):
     #Copio los slots del input a su lugar correspondiente en el output
     center_of_window = math.floor(len(window)/2.0)
     grain= np.multiply( input[0:center_of_window], window[center_of_window:])
-    output[0:center_of_window]= grain
+    output[0:center_of_window]= grain[0:center_of_window]
     for j in range(1,number_of_slots):
         k=0
         grain= np.zeros(grain_size)
@@ -72,4 +72,6 @@ def OLA(input,window,t_func,overlap=0.5):
             while (k<points_left)and(start_index+k <len(output)):
                 sum_of_input_windows[start_index+k] = sum_of_input_windows[start_index+k]+window[k]
                 k=k+1
+    epsilon = 1e-10 * np.ones(sum_of_input_windows.size)
+    sum_of_input_windows =sum_of_input_windows+epsilon #Sumo un epsilon para evitar posible division por cero
     return np.divide(np.array(output),sum_of_input_windows)
