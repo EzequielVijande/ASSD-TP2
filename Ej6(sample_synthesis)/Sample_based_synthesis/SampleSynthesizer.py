@@ -38,9 +38,9 @@ def MakeWindow(length,type='Hann'):
 #Funcion que recibe el pitch, la duracion en muestras y la
 #intensidad
 class SampleSynthesizer(synth.Synthesizer):
-    def __init__(self):
+    def __init__(self,resolution):
         self.set_create_notes_callback(self.MakeNote)
-        super(SampleSynthesizer, self).__init__()
+        super(SampleSynthesizer, self).__init__(resolution)
         self.set_create_notes_callback(self.MakeNote)
         #Genero los diccionarios con la muestra correspondiente a cda semitono
         #Para la guitara los valores son: (forte_sample,piano_sample,freq_factor)
@@ -113,24 +113,22 @@ class SampleSynthesizer(synth.Synthesizer):
             else: #cargo nota con velocidad baja
                 f_s, data= wavfile.read(piano_sample)
             pitch_corrected_data = ResampleArray(data,f_s,int(f_s/freq_factor),SameTimeLimit=False)
-            resampled_data = ResampleArray(pitch_corrected_data,int(f_s/freq_factor),desired_fs)
             if((duration/desired_fs)>(1/fmin)):
                 N= 2*int(desired_fs/fmin)
             else:
                 N= int(0.1*duration) #La duracion es menor que el periodo undamental minimo
-            #t_h, harm, t_p, perc = spectr.GetPercussiveAndHarmonicSpectrum(resampled_data,frame_size = N,beta=2)
-            t_h = (1.0/desired_fs)*np.linspace(0,duration)
+            #t_h, harm, t_p, perc = spectr.GetPercussiveAndHarmonicSpectrum(pitch_corrected_data,frame_size = N,beta=2)
+            t_h = np.linspace(0,duration,duration)
             window = MakeWindow(N)
             stretch_factor = (duration)/t_h[-1]
             stretch_func = stretch_factor*t_h
-            #y_h= ph.PhVocoder(harm,window,stretch_func,int(0.1*N))
-            #y_p= o.OLA(perc,window,stretch_func,0.1)
-            note= o.OLA(resampled_data,window,stretch_func,0.1)
+            note= ph.PhVocoder(pitch_corrected_data,window,stretch_func,int(0.1*N))
+            #note= o.OLA(pitch_corrected_data,window,stretch_func,0.1)
             #note = y_h + y_p
             #Normalizo el vector
             note_max_pos = np.max(note)
             note_max_neg = np.min(note)
-            if( note_max_pos != 0)and( note_max_neg != 0):
+            if( note_max_pos != 0)or( note_max_neg != 0):
                 if( abs(note_max_pos) > abs(note_max_neg)):
                     note = note/abs(note_max_pos)
                 else:

@@ -6,7 +6,7 @@ import math
 #la ventana y el espacio entre ventanas que se desea
 def PhVocoder(input,window,stretch_func,hop_size):
     window_size= int(window.size)
-    output= np.zeros( int(stretch_func[-1]) )
+    output= np.zeros( math.ceil(stretch_func[-1]) )
     analysis_vector = np.zeros(  math.floor( len(input)/hop_size) )
     synth_vector= np.zeros( math.floor( len(output)/hop_size) ) #Creo el vector con las instancias de sintesis
     #Inicializo las instancias de analisis y de sintesis
@@ -106,7 +106,7 @@ def InterpolateSpectrum(spectrums,time,lower_instance_index,hop_size):
    if (lower_instance_index < (spectrums.shape[0]-1) ):
         return ( first_coef*spectrums[lower_instance_index+1]+second_coef*spectrums[lower_instance_index])
    else:
-       return spectrums[lower_instance_index]
+       return spectrums[-1]
 def CorrectPhase(result,spectrums,times):
     time_interval, freq_interval= result.shape
     for i in range(0,freq_interval):

@@ -10,7 +10,7 @@ def OLA(input,window,t_func,overlap=0.5):
 
     grain_size= len(window)
     window_spacing = (1.0-overlap)*len(window)
-    max_output_time= int(t_func[-1])
+    max_output_time= math.ceil(t_func[-1])
     output_size = max_output_time
     output = np.zeros( output_size )
     number_of_slots = math.ceil(max_output_time/window_spacing)

@@ -6,12 +6,11 @@ import SampleSynthesizer as sam
 import midi
 
 
-synthesizer = sam.SampleSynthesizer()
-synthesizer.SetInstrument('guitar')
-
 pattern = midi.read_midifile(".\ArchivosMIDI\Aguado_12valses_Op1_No1.mid")
-synthesizer.set_resolution(pattern.resolution)
+synthesizer = sam.SampleSynthesizer(pattern.resolution)
 # for trk in pattern:
 #   synth.synthesize(trk)
-synthesizer.synthesize(pattern[0])
-
+synthesizer.synthesize(pattern[0],'guitar','Track0_Voc.wav')
+#note = synthesizer.MakeNote(pitch=57,intensity=68,duration=9923)
+#note = note.astype('int16')
+#wavfile.write('nota.wav',44100,note)
