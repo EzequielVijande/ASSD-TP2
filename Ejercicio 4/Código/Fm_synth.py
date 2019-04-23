@@ -19,7 +19,7 @@ class FmSynthesizer(synth.Synthesizer):
         I = []
         for i in range(amount_of_ns):
             I.append(4)
-            notes.append(math.cos(2 * math.pi * fc * i / self.frame_rate + I[i] * math.cos(
+            notes.append((velocity/127)*math.cos(2 * math.pi * fc * i / self.frame_rate + I[i] * math.cos(
                 2 * math.pi * fm * i / self.frame_rate + phim) + phic))
         return notes
 

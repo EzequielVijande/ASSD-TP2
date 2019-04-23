@@ -25,15 +25,15 @@ synths_trks_insts = [(synths[i], trks[i], insts[i]) for i in range(len(trks))]
 start = time.time()
 wavs = []
 j = 1
-#for s, t, i in synths_trks_insts:
-#    wavs.append(s.synthesize(t, i, 'Name' + str(j) + '.wav'))
-#    j += 1
+for s, t, i in synths_trks_insts:
+    wavs.append(s.synthesize(t, i, 'Name' + str(j) + '.wav'))
+    j += 1
 end = time.time()
 
 print('Tardo ' + str(int(end-start)) + ' segundos en sintetizar todo!')
 
-for j in range(1, 6):
-    wavs.append('Name' + str(j) + '.wav')
+#for j in range(1, 6):
+#    wavs.append('Name' + str(j) + '.wav')
 
 avg = 0
 final_wav = wave.open('Final.wav', 'wb')
@@ -59,5 +59,5 @@ for j in range(wave.open(wavs[0], 'rb').getnframes()):
                 print('Escribi')
 
 
-#end = time.time()
-#print('Tardo ' + str(int(end-start)) + ' segundos en sintetizar todo!')
+end = time.time()
+print('Tardo ' + str(int(end-start)) + ' segundos en sintetizar todo!')
