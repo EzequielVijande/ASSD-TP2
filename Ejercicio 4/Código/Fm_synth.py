@@ -9,7 +9,7 @@ class FmSynthesizer(synth.Synthesizer):
         super(FmSynthesizer, self).__init__(resolution)
 
     # https://en.wikipedia.org/wiki/MIDI_tuning_standard#Frequency_values
-    def create_note_array(self, pitch, amount_of_ns: int):
+    def create_note_array(self, pitch, amount_of_ns: int, velocity, instrument :int):
         notes = []
         freq = 2 ** ((pitch - 69) / 12) * 440
         phim = -math.pi / 2
@@ -25,10 +25,9 @@ class FmSynthesizer(synth.Synthesizer):
 
 
 # pruebas
+# pattern = midi.read_midifile(".\ArchivosMIDI\Super Mario 64 - Bob-Omb Battlefield.mid")
+# synther = FmSynthesizer(pattern.resolution)
+# synther.set_create_notes_callback(synther.create_note_array)
+# for j in range(1, len(pattern)):
+#    synther.synthesize(pattern[j], j, 'Track'+str(j)+'.wav')
 
-pattern = midi.read_midifile(".\ArchivosMIDI\Super Mario 64 - Bob-Omb Battlefield.mid")
-synther = FmSynthesizer(pattern.resolution)
-synther.set_create_notes_callback(synther.create_note_array)
-# for trk in pattern:
-#   synth.synthesize(trk)
-synther.synthesize(pattern[2],2)
