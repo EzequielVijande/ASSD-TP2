@@ -8,6 +8,7 @@ import math
 import midi
 import SpectrumSeparator as spectr
 import synth
+import WSOLA as w
 
 MIN_FORTE_INTENSITY = 63
 GUITAR_PATH = '.\Samples\Guitar'
@@ -91,50 +92,62 @@ class SampleSynthesizer(synth.Synthesizer):
             (midi.B_5,(GUITAR_PATH+"\C6_forte_trimmed.wav",GUITAR_PATH+"\C6_forte_trimmed.wav",1.059463094)),
             (midi.C_6,(GUITAR_PATH+"\C6_forte_trimmed.wav",GUITAR_PATH+"\C6_forte_trimmed.wav",1))
             ])
+        #Diccionario donde guardo las notas ya sintetizadas
+        self.note_dict = dict()
+        self.curr_instrument = ""
 
     def MakeNote(self,pitch,duration,intensity,instrument='guitar'):
-        desired_fs = self.frame_rate
         note = np.zeros(duration)
-        if( instrument == 'guitar'):
-            fmin = 82 #Frecuencia minima de un semitono de guitarra
-            if( pitch < midi.E_2):
-                forte_sample= GUITAR_PATH+"\E2_forte_trimmed.wav"
-                piano_sample= GUITAR_PATH+"\E2_piano_trimmed.wav"
-                freq_factor = 1
-            elif( pitch > midi.C_6):
-                forte_sample = GUITAR_PATH+"\C6_forte_trimmed.wav"
-                piano_sample = GUITAR_PATH+"\C6_piano_trimmed.wav"
-                freq_factor = 1
-            else:
-                forte_sample,piano_sample,freq_factor = self.guitar_dict[pitch]
-
-            if intensity >= MIN_FORTE_INTENSITY: #cargo nota con velocidad alta
-                f_s, data= wavfile.read(forte_sample)
-            else: #cargo nota con velocidad baja
-                f_s, data= wavfile.read(piano_sample)
-            pitch_corrected_data = ResampleArray(data,f_s,int(f_s/freq_factor),SameTimeLimit=False)
-            if((duration/desired_fs)>(1/fmin)):
-                N= 2*int(desired_fs/fmin)
-            else:
-                N= int(0.1*duration) #La duracion es menor que el periodo undamental minimo
-            #t_h, harm, t_p, perc = spectr.GetPercussiveAndHarmonicSpectrum(pitch_corrected_data,frame_size = N,beta=2)
-            t_h = np.linspace(0,duration,duration)
-            window = MakeWindow(N)
-            stretch_factor = (duration)/t_h[-1]
-            stretch_func = stretch_factor*t_h
-            #note= ph.PhVocoder(pitch_corrected_data,window,stretch_func,int(0.1*N))
-            note= o.OLA(pitch_corrected_data,window,stretch_func,0.1)
-            #note = y_h + y_p
-            #Normalizo el vector
-            note_max_pos = np.max(note)
-            note_max_neg = np.min(note)
-            if( note_max_pos != 0)or( note_max_neg != 0):
-                if( abs(note_max_pos) > abs(note_max_neg)):
-                    note = note/abs(note_max_pos)
+        if (self.curr_instrument != instrument): #reinicio el diccionario cuando se cambia de instrumento
+            self.note_dict.clear()
+        self.curr_instrument = instrument
+        value_type = str(type(self.note_dict.get((pitch,duration,intensity),1)))
+        if(value_type == "<class 'int'>"):
+            desired_fs = self.frame_rate
+            if( instrument == 'guitar'):
+                fmin = 82 #Frecuencia minima de un semitono de guitarra
+                if( pitch < midi.E_2):
+                    forte_sample= GUITAR_PATH+"\E2_forte_trimmed.wav"
+                    piano_sample= GUITAR_PATH+"\E2_piano_trimmed.wav"
+                    freq_factor = 1
+                elif( pitch > midi.C_6):
+                    forte_sample = GUITAR_PATH+"\C6_forte_trimmed.wav"
+                    piano_sample = GUITAR_PATH+"\C6_piano_trimmed.wav"
+                    freq_factor = 1
                 else:
-                    note = note/abs(note_max_neg)
+                    forte_sample,piano_sample,freq_factor = self.guitar_dict[pitch]
 
+                if intensity >= MIN_FORTE_INTENSITY: #cargo nota con velocidad alta
+                    f_s, data= wavfile.read(forte_sample)
+                else: #cargo nota con velocidad baja
+                    f_s, data= wavfile.read(piano_sample)
+                pitch_corrected_data = ResampleArray(data,f_s,int(f_s/freq_factor),SameTimeLimit=False)
+                if((duration/desired_fs)>(1/fmin)):
+                    N= 2*int(desired_fs/fmin)
+                else:
+                    N= int(0.1*duration) #La duracion es menor que el periodo undamental minimo
+                #t_h, harm, t_p, perc = spectr.GetPercussiveAndHarmonicSpectrum(pitch_corrected_data,frame_size = N,beta=2)
+                t_h = np.linspace(0,pitch_corrected_data.size,pitch_corrected_data.size)
+                window = MakeWindow(N)
+                stretch_factor = (duration)/t_h[-1]
+                stretch_func = stretch_factor*t_h
+                note= ph.PhVocoder(pitch_corrected_data,window,stretch_func,int(0.1*N))
+                #note = w.WSOLA(pitch_corrected_data,window,stretch_func,max_tolerance=25,overlap=0.1)
+                #note= o.OLA(pitch_corrected_data,window,stretch_func,0.1)
+                #note = y_h + y_p
+                #Normalizo el vector
+                note_max_pos = np.max(note)
+                note_max_neg = np.min(note)
+                if( note_max_pos != 0)or( note_max_neg != 0):
+                    if( abs(note_max_pos) > abs(note_max_neg)):
+                        note = note/abs(note_max_pos)
+                    else:
+                        note = note/abs(note_max_neg)
+                self.note_dict.setdefault( (pitch,duration,intensity),note)
+        else:
+            note = self.note_dict.get((pitch,duration,intensity))
         return note
+
     def SetInstrument(self,inst):
         self.instrument = inst
 

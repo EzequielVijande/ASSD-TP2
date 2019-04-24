@@ -1,6 +1,6 @@
 import numpy as np
 import math
-#Funcion que implementa el algoritmo OverLap and Add
+#Funcion que implementa el algoritmo Waveform Similarity OverLap and Add
 #recibe un vector con los valores de la senal, la funcion ventana
 #a utilizar, el overlap entre ventanas(factor que indica cuanto se
 # superponen, ej: 0.5 =50%). Devuelve el vector con los valores de la
@@ -62,15 +62,25 @@ def WSOLA(input,window,t_func,max_tolerance=50,overlap=0.5):
         ideal_frame = GetWindowedFrame(input,window,natural_prog_frame_center)
         lower_end = math.floor(input_slots[j]-(grain_size/2.0)-max_tolerance)
         upper_end = math.ceil(input_slots[j]+(grain_size/2.0)+max_tolerance)
+        min_offset = max_tolerance
+        max_offset = max_tolerance
         if(lower_end < 0):
-            lower_end=0
+            if( math.floor(input_slots[j]-(grain_size/2.0))<=0 ): #No es posible desplazar la ventana para la izquierda
+                min_offset=0
+            else:
+                min_offset= math.floor( input_slots[j]-(grain_size/2.0) ) #Es posible desplazar la ventana para la izquierda
+            lower_end=0                                                    #pero una cantidad menor que max_tolerance
         if(upper_end >= input.size):
-            upper_end = (input.size)-1
+            if( math.floor(input_slots[j]+(grain_size/2.0))>=input.size ): #No es posible desplazar la ventana para la derecha
+                max_offset=0
+            else:
+                max_offset = math.floor( input.size-1-input_slots[j]-(grain_size/2.0) )#se puede desplazar para la derecha una cantidad
+            upper_end = (input.size)-1                                                  #limitada
         next_frame = input[lower_end:upper_end]
         correlation = np.convolve(next_frame,ideal_frame)
-        relevant = correlation[0:2*max_tolerance] #Falta ver que hacer cuando el intevalo se me vaaaaa!!!!!!
-        max_correlation = np.max(relevant)
-        if(max_correlation < max_tolerance):
+        relevant = correlation[0:(min_offset+max_offset)] 
+        max_correlation = np.argmax(relevant)
+        if(max_correlation < min_offset):
             input_offsets[i] = -max_correlation
         else:
             input_offsets[i] = max_correlation
@@ -108,6 +118,7 @@ def GetWindowedFrame(input,window,center_index):
             result[window_size-points_left+k] = input[start_index+k]*window[window_size-points_left+k]
             k=k+1
     else:
-        while (k<points_left)and(start_index+k <len(output)):
+        while (k<points_left)and(start_index+k <len(input)):
             result[k] = input[start_index+k]*window[k]
             k=k+1
+    return result
