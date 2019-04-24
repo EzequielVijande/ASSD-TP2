@@ -2,6 +2,7 @@ import midi
 import wav_gen
 import math
 
+
 class TrackProcessor:
     def __init__(self, resolution):
         self.evs_dict = dict()

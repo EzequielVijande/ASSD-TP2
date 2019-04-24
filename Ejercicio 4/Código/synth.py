@@ -24,7 +24,7 @@ class Synthesizer:
     def synthesize(self, trk_info: TrackInfo, instrument: int, n_frames: int, first_time: bool):
         self.x_out.clear()
         self.avg_counter = 0
-        if not first_time:
+        if first_time:
             self.curr_track_notes = trk_info.get_all_notes_copy()
 
         if len(self.aux_buffer) > 0:                        # aux_buffer has some content to be sent
@@ -33,14 +33,14 @@ class Synthesizer:
 
         # in case the buffer had some content copied to the x_out vector,
         # i should check if the x_out vector has reached its limit before continuing
-        if len(self.x_out) > n_frames:
+        if len(self.x_out) < n_frames:
             for i in range(trk_info.get_total_notes()):
                 on_ev, on_time, duration = self.curr_track_notes[i]
                 # if the x_out vector has reached its maximum limit (the buffer has length >0)
                 # in the previous iteration
                 # and the new note starts after the last recorded time, then the iteration should stop
                 # and the x_out vector should be sent (the excess has already been copied in aux_buffer).
-                if on_time > self.last_sent_n / self.frame_rate and len(self.aux_buffer) > 0:
+                if on_time > (self.last_sent_n / self.frame_rate) and len(self.aux_buffer) > 0:
                     break
                 pitch = on_ev.get_pitch()
                 velocity = on_ev.get_velocity()
@@ -50,17 +50,20 @@ class Synthesizer:
                 # sum_note_arrays should average between notes played at the same time on the track!
                 self.sum_note_arrays(notes, beginning_n, ending_n)
 
-                # if the x_out vector has reached its limit!!
+                # the x_out vector has reached its limit!!
                 # the aux_buffer should be filled with all the notes playing but t
                 if len(self.x_out) > n_frames:
                     self.curr_track_notes.remove((on_ev, on_time, duration))
                     self.refresh_notes(trk_info)
                     self.avg_counter = 0
                     self.last_sent_n += len(self.x_out) - 1
-                    self.aux_buffer = self.x_out[n_frames+1:]
+                    self.aux_buffer = self.x_out[n_frames:]
+                    self.x_out = self.x_out[0:n_frames]
                 if len(self.aux_buffer) > 0:
                     try:
                         self.curr_track_notes.remove((on_ev, on_time, duration))
+                    except ValueError:
+                        pass
 
         return self.x_out
 
