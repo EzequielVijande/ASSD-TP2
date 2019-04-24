@@ -6,7 +6,7 @@ import control
 
 
 N = 200
-RL= .996*2
+RL= .996
 
 
 def create_noise(n):        #número random entre [-0.5;0.5]

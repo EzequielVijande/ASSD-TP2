@@ -1,4 +1,4 @@
-from random import random
+import random
 from array import array
 import wave
 import matplotlib.pyplot as plt
@@ -19,7 +19,7 @@ max_val = 32767
 def Generate(f, nsamples):
     N = SampleRate // f
 
-    buf = [random() - 0.5 for i in range(N)]
+    buf = [(2 * random.randint(0, 1) - 1)]
     samples = []
 
     bufSize = len(buf)
