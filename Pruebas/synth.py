@@ -149,12 +149,6 @@ It may also be a NoteOnEvent, hence the generic 'Event' annotation"""
         """sums the new note to previous notes that are on the same time interval"""
         if len(self.x_out) < ending_n:
             self.x_out += [0]*(ending_n-len(self.x_out))
-        #for i in range(ending_n-beginning_n):
-
-        #    if abs(self.x_out[i + beginning_n] + notes[i]) > 1:
-        #        self.x_out[i + beginning_n] = (self.x_out[i + beginning_n] + notes[i]) / 2
-        #    else:
-        #        self.x_out[i + beginning_n] += notes[i]
         avged = False
         for i in range(ending_n-beginning_n):
             if self.x_out[i + beginning_n] != 0:
