@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 
 def create_noise(fs, pitch):  # vector con 1 ó -1
     wavetable_size = fs // pitch
+    #random.uniform(-1, 1) for _ in range(wavetable_size)
     wavetable = np.array([2 * random.randint(0, 1) - 1])
     for i in range(wavetable_size):
         wavetable = np.append(wavetable, 2 * random.randint(0, 1) - 1)
@@ -50,7 +51,7 @@ fs = 20000
 for pitch in [20, 55, 110, 220, 440, 880, 1288]:
     sample = KarplusStrongString(fs, 2 * fs, pitch)
     # sample = KarplusStrongDrum(fs, 2 * fs, pitch)
-    display(Audio(sample, rate=fs))
+    Audio(sample, rate=fs)
 
 # pitch = 40
 # sample1 = KarplusStrongString(fs, 2 * fs, pitch)
