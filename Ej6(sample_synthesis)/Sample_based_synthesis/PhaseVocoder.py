@@ -7,13 +7,12 @@ import math
 def PhVocoder(input,window,stretch_func,hop_size):
     window_size= int(window.size)
     output= np.zeros( math.ceil(stretch_func[-1]) )
-    analysis_vector = np.zeros(  math.floor( len(input)/hop_size) )
-    synth_vector= np.zeros( math.floor( len(output)/hop_size) ) #Creo el vector con las instancias de sintesis
     #Inicializo las instancias de analisis y de sintesis
-    for i in range(0,analysis_vector.size):
-        analysis_vector[i]= i*hop_size
-    for i in range(0,synth_vector.size):
-        synth_vector[i]=i*hop_size
+    analysis_vector_size = math.floor( len(input)/hop_size)
+    synth_vector_size = math.floor( len(output)/hop_size)
+
+    analysis_vector = hop_size * np.arange(0,analysis_vector_size)  #Vector con las instancias de analisis
+    synth_vector = hop_size * np.arange(0,synth_vector_size)  #Vector con las instancias de sintesis
 
     spectrums = CalculateSpectrums(input,window,analysis_vector)
     number_of_freqs = (spectrums.shape)[1]
@@ -93,8 +92,7 @@ def CalculateSpectrums(input,window,instances):
                 windowed_input[k] = input[start_index+k]*window[k]
                 k=k+1
         #Le aplico la fft al segmento con la ventana aplicada
-        aux = ( np.fft.rfft(windowed_input) )
-        result[i] =  aux 
+        result[i] =  ( np.fft.rfft(windowed_input) )
 
     return result
 def InterpolateSpectrum(spectrums,time,lower_instance_index,hop_size):

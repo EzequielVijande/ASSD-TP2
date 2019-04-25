@@ -10,7 +10,7 @@ from scipy.io.wavfile import read
 from pydub import AudioSegment
 from pydub.playback import play
 
-pattern = midi.read_midifile(".\ArchivosMIDI\Super Mario 64 - Bob-Omb Battlefield.mid")
+pattern = midi.read_midifile(".\Super Mario 64 - Bob-Omb Battlefield.mid")
 trks = [pattern[i] for i in range(1, len(pattern))]
 synthe = FmSynthesizer(pattern.resolution)
 synthe.set_create_notes_callback(synthe.create_note_array)
@@ -23,9 +23,9 @@ synths_trks_insts = [(synths[i], trks[i], insts[i]) for i in range(len(trks))]
 start = time.time()
 wavs = []
 j = 1
-# for s, t, i in synths_trks_insts:
-#    wavs.append(s.synthesize(t, i, 'Name' + str(j) + '.wav'))
-#    j += 1
+for s, t, i in synths_trks_insts:
+    wavs.append(s.synthesize(t, i, 'Name' + str(j) + '.wav'))
+    j += 1
 end = time.time()
 
 print('Tardo ' + str(int(end-start)) + ' segundos en sintetizar todo!')
