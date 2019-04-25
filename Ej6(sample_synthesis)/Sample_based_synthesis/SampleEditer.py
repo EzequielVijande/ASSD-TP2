@@ -6,7 +6,7 @@ import math
 from SampleSynthesizer import ResampleArray
 
 desired_fs = 44100
-f_s, data= wavfile.read(".\Samples\Guitar\guitar_Gs5_very-long_forte_normal.wav")
+f_s, data= wavfile.read(".\Samples\Cor Anglais\english-horn_B3_15_forte_normal.wav")
 if(len(data.shape) > 1):
     data = data[:,0]
 if(f_s != desired_fs):
