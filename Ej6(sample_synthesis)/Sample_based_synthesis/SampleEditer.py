@@ -6,7 +6,7 @@ import math
 from SampleSynthesizer import ResampleArray
 
 desired_fs = 44100
-f_s, data= wavfile.read(".\Samples\Guitar\Gs5_forte_trimmed.wav")
+f_s, data= wavfile.read(".\Samples\Guitar\guitar_Gs5_very-long_forte_normal.wav")
 if(len(data.shape) > 1):
     data = data[:,0]
 if(f_s != desired_fs):
@@ -21,8 +21,8 @@ plt.ylabel("Original")
 
 ax2=plt.subplot(2, 1, 2)
 
-start_index = int(0.179024*desired_fs)
-sec_index = int((0.179024+0.209977)*desired_fs)
+start_index = int(0.179027*desired_fs)
+sec_index = int((2.12517)*desired_fs)
 output = np.zeros(sec_index-start_index)
 output = data[start_index:sec_index]
 t_out=np.linspace(0,len(output),num=len(output))/desired_fs
