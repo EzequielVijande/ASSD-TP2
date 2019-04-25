@@ -39,7 +39,7 @@ class Synthesizer:
         # or the corresponding NoteOnEvent yet.
         self.on_notes = []
         # the initial bpm for the audio is set to 120 bpm by default. The tempo can be changed by a SetTempoEvent
-        self.curr_bpm = 120
+        self.curr_bpm = 160
         # resolution used to convert ticks to time
         self.curr_resolution = resolution
         # buffer in which the samples used to generate the .wav file will be stored
@@ -58,11 +58,17 @@ class Synthesizer:
         self.curr_instrument = -1
         self.curr_track_name = ''
         self.aux_buffer_flag = False
-
+        self.track_index = 0
         self.aux_buffer_size = 0
 
     def set_create_notes_callback(self, callback):
         self.create_notes_callback = callback
+
+    def set_tempo(self, bpm):
+        self.curr_bpm = bpm
+
+    def get_tempo(self):
+        return self.curr_bpm
 
     def synthesize(self, track: midi.Track, instrument: int, first_time=False):
         if first_time:
@@ -72,15 +78,17 @@ class Synthesizer:
             self.last_sent_n = 0
             self.last_sent_time = 0
             self.on_notes = []
-            self.curr_bpm = 120
+            self.curr_bpm = 180
             self.curr_track_name = ''
             self.aux_buffer_flag = False
             self.aux_buffer_size = 0
+            self.track_index = 0
 
         self.curr_instrument = instrument
 
         i = 0
-        for ev in track:
+        for k in range(self.track_index, len(track)):
+            ev = track[k]
             i += 1
             segs_per_tick = 60 / self.curr_bpm / self.curr_resolution
             self.last_ev_time += ev.tick * segs_per_tick
@@ -88,16 +96,17 @@ class Synthesizer:
             if self.evs_dict[ev.name] is not None:              # looks for the handler of the specific event
                 self.evs_dict[ev.name](ev)
 
-            # if len(self.x_out) > 10**5:             # arbitrarily chosen length in which the buffer should be cleared
-            #    self.refresh_notes()
-            #    self.avg_counter = 0
-            #    returnable = self.x_out[0:10**5]
-            #    self.x_out = self.x_out[10**5-1:]
-            #    self.last_sent_n += len(returnable)-1
-            #    self.aux_buffer_flag = True
-            #    self.aux_buffer_size = len(self.x_out)
-            #    self.avg_counter = 0
-            #    return returnable, False
+            if len(self.x_out) > 10**5:             # arbitrarily chosen length in which the buffer should be cleared
+                self.refresh_notes()
+                self.avg_counter = 0
+                returnable = self.x_out[0:10**5]
+                self.x_out = self.x_out[10**5-1:]
+                self.last_sent_n += len(returnable)-1
+                self.aux_buffer_flag = True
+                self.aux_buffer_size = len(self.x_out)
+                self.avg_counter = 0
+                self.track_index = k+1
+                return returnable, False
 
         return self.x_out, True
 
@@ -159,9 +168,6 @@ It may also be a NoteOnEvent, hence the generic 'Event' annotation"""
     def sum_note_arrays(self, notes: list, beginning_n: int, ending_n: int):
         """sums the new note to previous notes that are on the same time interval"""
         aux_buffer = []
-        #if self.aux_buffer_flag:
-        #    aux_buffer = self.x_out[0:self.aux_buffer_size]
-        #    self.x_out = self.x_out[self.aux_buffer_size-1:]
 
         if len(self.x_out) < ending_n:
             self.x_out += [0]*(ending_n-len(self.x_out))
@@ -172,10 +178,6 @@ It may also be a NoteOnEvent, hence the generic 'Event' annotation"""
                 self.x_out[i + beginning_n] = (self.x_out[i + beginning_n]*self.avg_counter + notes[i]) / (self.avg_counter+1)
             else:
                 self.x_out[i + beginning_n] = (self.x_out[i + beginning_n] + notes[i])
-            # print(self.avg_counter)
         if avged:
             self.avg_counter += 1
 
-        #if self.aux_buffer_flag:
-        #    self.x_out = aux_buffer + self.x_out
-        #    aux_buffer.clear()
