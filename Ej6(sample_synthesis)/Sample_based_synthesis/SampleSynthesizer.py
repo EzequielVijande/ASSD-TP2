@@ -12,6 +12,7 @@ import WSOLA as w
 
 MIN_FORTE_INTENSITY = 63
 GUITAR_PATH = '.\Samples\Guitar'
+COR_ANGLAIS_PATH = '.\Samples\Cor Anglais'
 
 def ResampleArray(array,f_s_original,f_s_output,SameTimeLimit=True):
     input_points = array.size
@@ -44,7 +45,6 @@ class SampleSynthesizer(synth.Synthesizer):
         super(SampleSynthesizer, self).__init__(resolution)
         self.set_create_notes_callback(self.MakeNote)
         #Genero los diccionarios con la muestra correspondiente a cda semitono
-        #Para la guitara los valores son: (forte_sample,piano_sample,freq_factor)
         self.guitar_dict = dict([
             (midi.E_2,(GUITAR_PATH+"\E2_forte_trimmed.wav",GUITAR_PATH+"\E2_piano_trimmed.wav",1)),
             (midi.F_2,(GUITAR_PATH+"\E2_forte_trimmed.wav",GUITAR_PATH+"\E2_piano_trimmed.wav",0.9438743127)),
@@ -91,7 +91,42 @@ class SampleSynthesizer(synth.Synthesizer):
             (midi.As_5,(GUITAR_PATH+"\Gs5_forte_trimmed.wav",GUITAR_PATH+"\Gs5_forte_trimmed.wav",0.8908987181)),
             (midi.B_5,(GUITAR_PATH+"\C6_forte_trimmed.wav",GUITAR_PATH+"\C6_forte_trimmed.wav",1.059463094)),
             (midi.C_6,(GUITAR_PATH+"\C6_forte_trimmed.wav",GUITAR_PATH+"\C6_forte_trimmed.wav",1))
-            ])
+            ]) #Para la guitara los valores son: (forte_sample,piano_sample,freq_factor)
+        self.corn_dict = dict([
+            (midi.E_3, (COR_ANGLAIS_PATH+"\E3_15_fortissimo.wav",COR_ANGLAIS_PATH+"\E3_15_piano.wav",COR_ANGLAIS_PATH+"\E3_025_mezzo_forte.wav",COR_ANGLAIS_PATH+"\E3_025_piano.wav",1)),
+            (midi.F_3, (COR_ANGLAIS_PATH+"\E3_15_fortissimo.wav",COR_ANGLAIS_PATH+"\E3_15_piano.wav",COR_ANGLAIS_PATH+"\E3_025_mezzo_forte.wav",COR_ANGLAIS_PATH+"\E3_025_piano.wav",1.059463094)),
+            (midi.Fs_3, (COR_ANGLAIS_PATH+"\Gs3_15_forte.wav",COR_ANGLAIS_PATH+"\Gs3_15_piano.wav",COR_ANGLAIS_PATH+"\Gs3_025_forte.wav",COR_ANGLAIS_PATH+"\Gs3_025_piano.wav",0.8908987181)),
+            (midi.G_3, (COR_ANGLAIS_PATH+"\Gs3_15_forte.wav",COR_ANGLAIS_PATH+"\Gs3_15_piano.wav",COR_ANGLAIS_PATH+"\Gs3_025_forte.wav",COR_ANGLAIS_PATH+"\Gs3_025_piano.wav",0.9438743127)),
+            (midi.Gs_3, (COR_ANGLAIS_PATH+"\Gs3_15_forte.wav",COR_ANGLAIS_PATH+"\Gs3_15_piano.wav",COR_ANGLAIS_PATH+"\Gs3_025_forte.wav",COR_ANGLAIS_PATH+"\Gs3_025_piano.wav",1)),
+            (midi.A_3, (COR_ANGLAIS_PATH+"\Gs3_15_forte.wav",COR_ANGLAIS_PATH+"\Gs3_15_piano.wav",COR_ANGLAIS_PATH+"\Gs3_025_forte.wav",COR_ANGLAIS_PATH+"\Gs3_025_piano.wav",1.059463094)),
+            (midi.As_3, (COR_ANGLAIS_PATH+"\B3_15_forte.wav",COR_ANGLAIS_PATH+"\B3_15_mezzo-piano.wav",COR_ANGLAIS_PATH+"\B3_025_forte.wav",COR_ANGLAIS_PATH+"\B3_025_mezzo-piano.wav",0.9438743127)),
+            (midi.B_3, (COR_ANGLAIS_PATH+"\B3_15_forte.wav",COR_ANGLAIS_PATH+"\B3_15_mezzo-piano.wav",COR_ANGLAIS_PATH+"\B3_025_forte.wav",COR_ANGLAIS_PATH+"\B3_025_mezzo-piano.wav",1)),
+            (midi.C_4, (COR_ANGLAIS_PATH+"\B3_15_forte.wav",COR_ANGLAIS_PATH+"\B3_15_mezzo-piano.wav",COR_ANGLAIS_PATH+"\B3_025_forte.wav",COR_ANGLAIS_PATH+"\B3_025_mezzo-piano.wav",1.059463094)),
+            (midi.Cs_4, (COR_ANGLAIS_PATH+"\B3_15_forte.wav",COR_ANGLAIS_PATH+"\B3_15_mezzo-piano.wav",COR_ANGLAIS_PATH+"\B3_025_forte.wav",COR_ANGLAIS_PATH+"\B3_025_mezzo-piano.wav",1.122462048)),
+            (midi.D_4, (COR_ANGLAIS_PATH+"\E4_15_forte.wav",COR_ANGLAIS_PATH+"\E4_15_mezzo-piano.wav",COR_ANGLAIS_PATH+"\E4_025_forte.wav",COR_ANGLAIS_PATH+"\E4_025_mezzo-piano.wav",0.8908987181)),
+            (midi.Ds_4, (COR_ANGLAIS_PATH+"\E4_15_forte.wav",COR_ANGLAIS_PATH+"\E4_15_mezzo-piano.wav",COR_ANGLAIS_PATH+"\E4_025_forte.wav",COR_ANGLAIS_PATH+"\E4_025_mezzo-piano.wav",0.9438743127)),
+            (midi.E_4, (COR_ANGLAIS_PATH+"\E4_15_forte.wav",COR_ANGLAIS_PATH+"\E4_15_mezzo-piano.wav",COR_ANGLAIS_PATH+"\E4_025_forte.wav",COR_ANGLAIS_PATH+"\E4_025_mezzo-piano.wav",1)),
+            (midi.F_4, (COR_ANGLAIS_PATH+"\E4_15_forte.wav",COR_ANGLAIS_PATH+"\E4_15_mezzo-piano.wav",COR_ANGLAIS_PATH+"\E4_025_forte.wav",COR_ANGLAIS_PATH+"\E4_025_mezzo-piano.wav",1.059463094)),
+            (midi.Fs_4, (COR_ANGLAIS_PATH+"\Gs4_15_forte.wav",COR_ANGLAIS_PATH+"\Gs4_15_mezzo-piano.wav",COR_ANGLAIS_PATH+"\Gs4_025_forte.wav",COR_ANGLAIS_PATH+"\Gs4_025_mezzo-piano.wav",0.8908987181)),
+            (midi.G_4, (COR_ANGLAIS_PATH+"\Gs4_15_forte.wav",COR_ANGLAIS_PATH+"\Gs4_15_mezzo-piano.wav",COR_ANGLAIS_PATH+"\Gs4_025_forte.wav",COR_ANGLAIS_PATH+"\Gs4_025_mezzo-piano.wav",0.9438743127)),
+            (midi.Gs_4, (COR_ANGLAIS_PATH+"\Gs4_15_forte.wav",COR_ANGLAIS_PATH+"\Gs4_15_mezzo-piano.wav",COR_ANGLAIS_PATH+"\Gs4_025_forte.wav",COR_ANGLAIS_PATH+"\Gs4_025_mezzo-piano.wav",1)),
+            (midi.A_4, (COR_ANGLAIS_PATH+"\Gs4_15_forte.wav",COR_ANGLAIS_PATH+"\Gs4_15_mezzo-piano.wav",COR_ANGLAIS_PATH+"\Gs4_025_forte.wav",COR_ANGLAIS_PATH+"\Gs4_025_mezzo-piano.wav",1.059463094)),
+            (midi.As_4, (COR_ANGLAIS_PATH+"\B4_15_forte.wav",COR_ANGLAIS_PATH+"\B4_15_mezzo-piano.wav",COR_ANGLAIS_PATH+"\B4_025_forte.wav",COR_ANGLAIS_PATH+"\B4_025_mezzo-piano.wav",0.9438743127)),
+            (midi.B_4, (COR_ANGLAIS_PATH+"\B4_15_forte.wav",COR_ANGLAIS_PATH+"\B4_15_mezzo-piano.wav",COR_ANGLAIS_PATH+"\B4_025_forte.wav",COR_ANGLAIS_PATH+"\B4_025_mezzo-piano.wav",1)),
+            (midi.C_5, (COR_ANGLAIS_PATH+"\B4_15_forte.wav",COR_ANGLAIS_PATH+"\B4_15_mezzo-piano.wav",COR_ANGLAIS_PATH+"\B4_025_forte.wav",COR_ANGLAIS_PATH+"\B4_025_mezzo-piano.wav",1.059463094)),
+            (midi.Cs_5, (COR_ANGLAIS_PATH+"\B4_15_forte.wav",COR_ANGLAIS_PATH+"\B4_15_mezzo-piano.wav",COR_ANGLAIS_PATH+"\B4_025_forte.wav",COR_ANGLAIS_PATH+"\B4_025_mezzo-piano.wav",1.122462048)),
+            (midi.D_5, (COR_ANGLAIS_PATH+"\E5_15_forte.wav",COR_ANGLAIS_PATH+"\E5_15_mezzo-piano.wav",COR_ANGLAIS_PATH+"\E5_025_forte.wav",COR_ANGLAIS_PATH+"\E5_025_mezzo-piano.wav",0.8908987181)),
+            (midi.Ds_5, (COR_ANGLAIS_PATH+"\E5_15_forte.wav",COR_ANGLAIS_PATH+"\E5_15_mezzo-piano.wav",COR_ANGLAIS_PATH+"\E5_025_forte.wav",COR_ANGLAIS_PATH+"\E5_025_mezzo-piano.wav",0.9438743127)),
+            (midi.E_5, (COR_ANGLAIS_PATH+"\E5_15_forte.wav",COR_ANGLAIS_PATH+"\E5_15_mezzo-piano.wav",COR_ANGLAIS_PATH+"\E5_025_forte.wav",COR_ANGLAIS_PATH+"\E5_025_mezzo-piano.wav",1)),
+            (midi.F_5, (COR_ANGLAIS_PATH+"\E5_15_forte.wav",COR_ANGLAIS_PATH+"\E5_15_mezzo-piano.wav",COR_ANGLAIS_PATH+"\E5_025_forte.wav",COR_ANGLAIS_PATH+"\E5_025_mezzo-piano.wav",1.059463094)),
+            (midi.Fs_5, (COR_ANGLAIS_PATH+"\Gs5_15_forte.wav",COR_ANGLAIS_PATH+"\Gs5_15_mezzo-piano.wav",COR_ANGLAIS_PATH+"\Gs5_025_forte.wav",COR_ANGLAIS_PATH+"\Gs5_025_mezzo-piano.wav",0.8908987181)),
+            (midi.G_5, (COR_ANGLAIS_PATH+"\Gs5_15_forte.wav",COR_ANGLAIS_PATH+"\Gs5_15_mezzo-piano.wav",COR_ANGLAIS_PATH+"\Gs5_025_forte.wav",COR_ANGLAIS_PATH+"\Gs5_025_mezzo-piano.wav",0.9438743127)),
+            (midi.Gs_5, (COR_ANGLAIS_PATH+"\Gs5_15_forte.wav",COR_ANGLAIS_PATH+"\Gs5_15_mezzo-piano.wav",COR_ANGLAIS_PATH+"\Gs5_025_forte.wav",COR_ANGLAIS_PATH+"\Gs5_025_mezzo-piano.wav",1)),
+            (midi.A_5, (COR_ANGLAIS_PATH+"\Gs5_15_forte.wav",COR_ANGLAIS_PATH+"\Gs5_15_mezzo-piano.wav",COR_ANGLAIS_PATH+"\Gs5_025_forte.wav",COR_ANGLAIS_PATH+"\Gs5_025_mezzo-piano.wav",1.059463094)),
+            (midi.As_5, (COR_ANGLAIS_PATH+"\B5_1_forte.wav",COR_ANGLAIS_PATH+"\B5_1_mezzo-piano.wav",COR_ANGLAIS_PATH+"\B5_025_forte.wav",COR_ANGLAIS_PATH+"\B5_025_mezzo-piano.wav",0.9438743127)),
+            (midi.B_5, (COR_ANGLAIS_PATH+"\B5_1_forte.wav",COR_ANGLAIS_PATH+"\B5_1_mezzo-piano.wav",COR_ANGLAIS_PATH+"\B5_025_forte.wav",COR_ANGLAIS_PATH+"\B5_025_mezzo-piano.wav",1)),
+            (midi.C_6, (COR_ANGLAIS_PATH+"\B5_1_forte.wav",COR_ANGLAIS_PATH+"\B5_1_mezzo-piano.wav",COR_ANGLAIS_PATH+"\B5_025_forte.wav",COR_ANGLAIS_PATH+"\B5_025_mezzo-piano.wav",1.059463094))
+            ])     #Para el corn anglais los valores son: (forte_1.5,piano_1.5,forte_0.5,piano_0.5,freq_factor)
         #Diccionario donde guardo las notas ya sintetizadas
         self.note_dict = dict()
         self.curr_instrument = ""
@@ -135,15 +170,59 @@ class SampleSynthesizer(synth.Synthesizer):
                 #note = w.WSOLA(pitch_corrected_data,window,stretch_func,max_tolerance=25,overlap=0.1)
                 #note= o.OLA(pitch_corrected_data,window,stretch_func,0.1)
                 #note = y_h + y_p
-                #Normalizo el vector
-                note_max_pos = np.max(note)
-                note_max_neg = np.min(note)
-                if( note_max_pos != 0)or( note_max_neg != 0):
-                    if( abs(note_max_pos) > abs(note_max_neg)):
-                        note = note/abs(note_max_pos)
+                
+            elif( instrument == 'corn anglais'):
+                fmin = 165 #Frecuencia minima de un semitono de corn anglais
+                if( pitch < midi.E_3):
+                    if( duration > int(0.875*self.frame_rate)): #Uso las muestras de 1.5 seg para duraciones mayores a 0.875 seg
+                        forte_sample= COR_ANGLAIS_PATH+"\E3_15_fortissimo.wav"
+                        piano_sample= COR_ANGLAIS_PATH+"\E3_15_piano.wav"
                     else:
-                        note = note/abs(note_max_neg)
-                self.note_dict.setdefault( (pitch,duration,intensity),note)
+                        forte_sample= COR_ANGLAIS_PATH+"\E3_025_mezzo_forte.wav"
+                        piano_sample= COR_ANGLAIS_PATH+"\E3_025_piano.wav"
+                    freq_factor = 1
+                elif( pitch > midi.C_6):
+                    if( duration > int(0.625*self.frame_rate)):
+                        forte_sample = COR_ANGLAIS_PATH+"\B5_1_forte.wav"
+                        piano_sample = COR_ANGLAIS_PATH+"\B5_1_mezzo-piano.wav"
+                    else:
+                        forte_sample = COR_ANGLAIS_PATH+"\B5_025_forte.wav"
+                        COR_ANGLAIS_PATH+"\B5_025_mezzo-piano.wav"
+                    freq_factor = 1.059463094
+                else:
+                    forte_sample_1_5,piano_sample_1_5,forte_sample_0_25,piano_sample_0_25,freq_factor = self.corn_dict[pitch]
+                    if( duration > int(0.875*self.frame_rate) ):
+                        forte_sample = forte_sample_1_5
+                        piano_sample = piano_sample_1_5
+                    else:
+                        forte_sample = forte_sample_0_25
+                        piano_sample = piano_sample_0_25
+
+                if intensity >= MIN_FORTE_INTENSITY: #cargo nota con velocidad alta
+                    f_s, data= wavfile.read(forte_sample)
+                else: #cargo nota con velocidad baja
+                    f_s, data= wavfile.read(piano_sample)
+                pitch_corrected_data = ResampleArray(data,f_s,int(f_s/freq_factor),SameTimeLimit=False)
+                if((duration/desired_fs)>(1/fmin)):
+                    N= 2*int(desired_fs/fmin)
+                else:
+                    N= int(0.1*duration) #La duracion es menor que el periodo undamental minimo
+                t_h = np.linspace(0,pitch_corrected_data.size,pitch_corrected_data.size)
+                window = MakeWindow(N)
+                stretch_factor = (duration)/t_h[-1]
+                stretch_func = stretch_factor*t_h
+                note= ph.PhVocoder(pitch_corrected_data,window,stretch_func,int(0.1*N))
+
+            #Normalizo el vector
+            note_max_pos = np.max(note)
+            note_max_neg = np.min(note)
+            if( note_max_pos != 0)or( note_max_neg != 0):
+                if( abs(note_max_pos) > abs(note_max_neg)):
+                    note = note/abs(note_max_pos)
+                else:
+                    note = note/abs(note_max_neg)
+            self.note_dict.setdefault( (pitch,duration,intensity),note)
+            
         else:
             note = self.note_dict.get((pitch,duration,intensity))
         return note

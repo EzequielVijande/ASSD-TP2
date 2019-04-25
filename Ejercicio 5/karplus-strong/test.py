@@ -1,15 +1,11 @@
-import random
+from random import random
 from array import array
 import wave
-import matplotlib.pyplot as plt
-import numpy as np
-import math
 
 SampleRate = 44100
-DAMPING = 0.996
 
 notes = [391, 440, 489, 521, 586, 660, 734, 782]
-duration = [16, 4, 16, 4, 64, 16, 4, 8]
+duration = [16000, 4000, 16000, 4000, 64000, 16000, 4000, 8000]
 
 nchannels, swdth, frame_rate, nframes = 1, 2, 44100, 44100
 
@@ -19,21 +15,16 @@ max_val = 32767
 def Generate(f, nsamples):
     N = SampleRate // f
 
-    buf = [(2 * random.randint(0, 1) - 1)]
+    buf = [random() - 0.5 for i in range(N)]
     samples = []
 
     bufSize = len(buf)
 
     for i in range(nsamples):
         samples.append(buf[0])
-        avg = DAMPING * 0.5 * (buf[0] + buf[1])
+        avg = 0.997 * 0.5 * (buf[0] + buf[1])
         buf.append(avg)
         buf.pop(0)
-
-
-
-#    plt.plot(buf)
-#    plt.show()
 
     tempbuf = [int(x * max_val) for x in samples]
 
