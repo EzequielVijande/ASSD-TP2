@@ -16,7 +16,7 @@ class KSSynthesizer(synth.Synthesizer):
     # https://en.wikipedia.org/wiki/MIDI_tuning_standard#Frequency_values
     def create_note_array(self, pitch, amount_of_ns: int, velocity, instrument: int):
         # if instrument==1:
-        return self.string(pitch, amount_of_ns, velocity)
+        return self.drum(pitch, amount_of_ns, velocity)
         #     return notes
         #notes = self.drum(pitch, amount_of_ns, velocity)
         #return notes
@@ -29,10 +29,10 @@ class KSSynthesizer(synth.Synthesizer):
         current_note = 0
         previous_note = np.float(0)
         while len(notes) < amount_of_ns:
-            rand = np.random.binomial(1, 1 - 1 / ((1+velocity/127)*amount_of_ns))  # sale 1 con prob=1-1/s;; sale 0 con prob 1/s (sumo 1 al s para que sea > 1)
+            rand = np.random.binomial(1, 1 - 1 / (1+velocity/127))  # sale 1 con prob=1-1/s;; sale 0 con prob 1/s (sumo 1 al s para que sea > 1)
             if rand == 0:
                 wavetable[current_note] =  0.5 * (wavetable[current_note] + previous_note)  # promedio
-            notes.append(wavetable[current_note])  # el promedio o queda igual
+            notes.append(wavetable[current_note])  # el promedio (con prob 1/s) o queda igual (con prob 1-1/s)
             previous_note = notes[-1]  # ultimo elemento de la lista
             current_note += 1
             current_note = current_note % wavetable.size
@@ -50,6 +50,24 @@ class KSSynthesizer(synth.Synthesizer):
             sign = 2 * rand - 1  # si sale 1 queda 1; si sale 0, queda -1
             wavetable[current_note] = sign * 0.5 * (wavetable[current_note] + previous_note)  # promedio
             notes.append(wavetable[current_note])
+            previous_note = notes[-1]  # ultimo elemento de la lista
+            current_note += 1
+            current_note = current_note % wavetable.size
+        return np.array(notes)
+
+
+    def drumDecay(self, pitch, amount_of_ns: int, velocity):
+        b = .5  #drumlike sound
+        wavetable = np.ones(self.frame_rate // pitch)
+        notes = []
+        current_note = 0
+        previous_note = np.float(0)
+        while len(notes) < amount_of_ns:
+            rand = np.random.binomial(1, 1 - 1 / (1+velocity/127))  # sale 1 con prob=1-1/s;; sale 0 con prob 1/s (sumo 1 al s para que sea > 1)
+            sign = -1 + 2 * np.random.binomial(1, b)   # si sale 1 queda 1; si sale 0, queda -1
+            if rand == 0:
+                wavetable[current_note] = sign * 0.5 * (wavetable[current_note] + previous_note)  # promedio
+            notes.append(sign * wavetable[current_note])
             previous_note = notes[-1]  # ultimo elemento de la lista
             current_note += 1
             current_note = current_note % wavetable.size

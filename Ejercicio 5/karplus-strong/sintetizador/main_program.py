@@ -1,8 +1,8 @@
 from synth import Synthesizer
-from KS_synth import KSSynthesizer
 from Fm_synth import FmSynthesizer
-import midi
+from KS_synth import KSSynthesizer
 import time
+import midi
 import struct, math
 import wav_gen
 
@@ -56,7 +56,7 @@ if len(new_1) == 0:
 while not finished:
     for k in range(len(synths_trks_insts)):
         s, t, i = synths_trks_insts[k]
-        newer_data, finished = s.synthesize(t, i, j == 0)
+        newer_data, finished = s.synthesize(t, i, j == 0, 70000)
         # if len(newer_data) > 0:
         data = avg(prev_data=data, new_data=newer_data, avg_count=k)
     waver.generate_wav(finished, data, n_channels=1, sample_width=2, frame_rate=44100, file_name='Track'+str(j)+'.wav')
