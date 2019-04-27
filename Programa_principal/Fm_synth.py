@@ -10,7 +10,8 @@ class FmSynthesizer(synth.Synthesizer):
 
     # https://en.wikipedia.org/wiki/MIDI_tuning_standard#Frequency_values
     def create_note_array(self, pitch, amount_of_ns: int, velocity, instrument: int):
-
+        if amount_of_ns < 0:
+            print('duration negativa')
         freq = 2 ** ((pitch - 69) / 12) * 440
         notes = []
 
