@@ -1,79 +1,87 @@
 from synth import Synthesizer
 from Fm_synth import FmSynthesizer
+from KS_synth import KSSynthesizer
 import midi
 import time
-import wave, struct, math
+import struct, math
+import wav_gen
 
-# para la manera mas eficiente!
-import numpy as np
-from scipy.io.wavfile import read
-from pydub import AudioSegment
-from pydub.playback import play
 
-pattern = midi.read_midifile(".\Super Mario 64 - Bob-Omb Battlefield.mid")
-trks = [pattern[i] for i in range(1, len(pattern))]
-synthe = FmSynthesizer(pattern.resolution)
-synthe.set_create_notes_callback(synthe.create_note_array)
+def avg(prev_data, new_data, avg_count):
+    if len(prev_data) == 0:
+        prev_data = [0]*len(new_data)
+    elif avg_count == 0:
+        prev_data = [0]*len(new_data)
+    elif len(prev_data) != len(new_data):
+        print('Cuidado! Distintas dimensiones!')
+        print('len(prev_data)=' + str(len(prev_data)))
+        print('len(new_data)=' + str(len(new_data)))
+        if len(newer_data) > len(prev_data):
+            prev_data += [0]*(len(newer_data) - len(prev_data))
+        else:
+            new_data += [0]*(len(prev_data) - len(newer_data))
 
-synths = [synthe for i in range(1, len(pattern))]
-insts = [2 for i in range(1, len(pattern))]
+    for i in range(len(new_data)):
+        prev_data[i] = (prev_data[i]*avg_count+new_data[i])/(avg_count + 1)
 
-#     def synthesize(self, track: midi.Track, instrument: int, name: str):
+    return prev_data
+
+
+def not_meta_track(synth_trk_inst):
+    s, t, i = synth_trk_inst
+    for ev in t:
+        if ev.name == 'Note On':
+            return True
+    return False
+    # return len(s.synthesize(t, i, True, 1000)[0]) != 0
+
+
+waver = wav_gen.WaveManagement()
+pattern = midi.read_midifile(".\pirates.mid")
+# pattern = midi.read_midifile(".\Super Mario 64 - Bob-Omb Battlefield.mid")
+#print(pattern[0])
+trks = [pattern[i] for i in range(len(pattern))]
+
+synths = [KSSynthesizer(pattern.resolution) for i in range(len(pattern))]
+for s in synths:
+    s.set_create_notes_callback(s.create_note_array)
+
+insts = [2 for i in range(len(pattern))]
+
 synths_trks_insts = [(synths[i], trks[i], insts[i]) for i in range(len(trks))]
+
 start = time.time()
-wavs = []
-j = 1
-for s, t, i in synths_trks_insts:
-    wavs.append(s.synthesize(t, i, 'Name' + str(j) + '.wav'))
+
+finished = False
+data = []
+j = 0
+
+# for format 1 .mid files
+if synths[0].get_tempo_map(trks[0]) is not None:
+    # new_tempo_map should be None if the first meta track does not contain tempo information
+    new_tempo_map = synths[0].get_tempo_map(trks[0])
+    #print(new_tempo_map)
+    for k in range(1, len(synths_trks_insts)):
+        s, t, i = synths_trks_insts[k]
+        s.set_tempo_map(new_tempo_map)
+    synths_trks_insts = synths_trks_insts[1:]
+
+iterable_list = list(range(len(synths_trks_insts)))
+
+# The tracks that only contain MetaEvents will not be taken into account when filling the .wav !
+iterable_list[:] = [x for x in iterable_list if not_meta_track(synths_trks_insts[x])]
+
+
+while not finished:
+    for k in iterable_list:
+        s, t, i = synths_trks_insts[k]
+        newer_data, finished = s.synthesize(t, i, j == 0, 70000)
+        # print('j='+str(j)+'. Tempo map' + str(k) + str(s.tempo_map))
+        data = avg(prev_data=data, new_data=newer_data, avg_count=k)
+    waver.generate_wav(finished, data, n_channels=1, sample_width=2, frame_rate=44100, file_name='Track'+str(j)+'.wav')
     j += 1
+
 end = time.time()
 
 print('Tardo ' + str(int(end-start)) + ' segundos en sintetizar todo!')
 
-for j in range(1, 6):
-    wavs.append('Name' + str(j) + '.wav')
-
-avg = 0
-final_wav = wave.open('Final.wav', 'wb')
-final_wav.setnchannels(2)
-final_wav.setframerate(44100)
-final_wav.setsampwidth(2)
-start = time.time()
-
-mixed = None
-for i in range(len(wavs)):
-    rate, signal = read(wavs[i])
-    np.savetxt('test.txt', signal, delimiter=',')   # X is an array
-    wavedata = np.loadtxt("test.txt", comments="#", delimiter=",", unpack=False, dtype=np.int16)
-    audio_segment = AudioSegment(
-        wavedata.tobytes(),
-        frame_rate=44100,
-        sample_width=2,
-        channels=1
-    )
-    if i == 0:
-        mixed = audio_segment
-    else:
-        mixed = mixed.overlay(audio_segment)          #combine , superimpose audio files
-
-mixed.export("mixed.wav", format='wav') #export mixed  audio file
-
-end = time.time()
-print('Tardo ' + str(int(end-start)) + ' segundos en sintetizar todo!')
-
-
-# data = []
-# wav_files = []
-# for i in range(len(wavs)):
-#    wav_files.append(wave.open(wavs[i], 'rb'))
-# for j in range(wave.open(wavs[0], 'rb').getnframes()):
-#    for i in range(len(wavs)):
-#        avg += int(*struct.unpack('h', wav_files[i].readframes(1)))
-#        if i == len(wavs)-1:
-#            data.append(struct.pack('h', int(avg/len(wavs))))
-#            avg = 0
-#            print(len(data))
-#            if len(data) > 70000:
-#                final_wav.writeframes(b''.join(data))
-#                data = []
-#                print('Escribi')
