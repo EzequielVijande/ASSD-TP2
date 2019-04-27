@@ -37,7 +37,7 @@ def not_meta_track(synth_trk_inst):
 
 
 waver = wav_gen.WaveManagement()
-pattern = midi.read_midifile(".\jurassic.mid")
+pattern = midi.read_midifile(".\pirates.mid")
 # pattern = midi.read_midifile(".\Super Mario 64 - Bob-Omb Battlefield.mid")
 #print(pattern[0])
 trks = [pattern[i] for i in range(len(pattern))]

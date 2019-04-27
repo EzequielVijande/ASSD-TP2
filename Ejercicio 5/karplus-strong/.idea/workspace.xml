@@ -2,19 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="dfa919f1-b5d2-4674-b2c1-188835cc2d44" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/sintetizador/BoulevardofBrokenDreams.mid" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sintetizador/KS_synth.py" beforeDir="false" afterPath="$PROJECT_DIR$/sintetizador/KS_synth.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sintetizador/Movie_Themes_-_Mission_Impossible_-_by_Lalo_Schiffrin.mid" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sintetizador/Starwars.mid" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/sintetizador/Track0.wav" beforeDir="false" afterPath="$PROJECT_DIR$/sintetizador/Track0.wav" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sintetizador/cantina.mid" beforeDir="false" afterPath="$PROJECT_DIR$/sintetizador/cantina.mid" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sintetizador/drums.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sintetizador/kong.mid" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/sintetizador/main_program.py" beforeDir="false" afterPath="$PROJECT_DIR$/sintetizador/main_program.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sintetizador/mario drums.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sintetizador/mario strings.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sintetizador/string.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sintetizador/synth.py" beforeDir="false" afterPath="$PROJECT_DIR$/sintetizador/synth.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -27,8 +16,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/sintetizador/main_program.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="37" column="1" selection-start-line="37" selection-start-column="1" selection-end-line="37" selection-end-column="1" />
+            <state relative-caret-position="204">
+              <caret line="39" column="39" selection-start-line="39" selection-start-column="39" selection-end-line="39" selection-end-column="39" />
               <folding>
                 <element signature="e#0#29#0" expanded="true" />
               </folding>
@@ -333,7 +322,7 @@
     <entry file="file://$PROJECT_DIR$/sintetizador/synth.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="139">
-          <caret line="207" column="17" selection-start-line="207" selection-start-column="17" selection-end-line="207" selection-end-column="17" />
+          <caret line="207" column="23" selection-start-line="207" selection-start-column="18" selection-end-line="207" selection-end-column="23" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>
@@ -355,8 +344,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/sintetizador/main_program.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="37" column="1" selection-start-line="37" selection-start-column="1" selection-end-line="37" selection-end-column="1" />
+        <state relative-caret-position="204">
+          <caret line="39" column="39" selection-start-line="39" selection-start-column="39" selection-end-line="39" selection-end-column="39" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
           </folding>
