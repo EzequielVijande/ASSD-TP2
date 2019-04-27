@@ -1,0 +1,250 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+-Simulate the plucking of a guitar string.
+ When a guitar string is plucked, the string vibrates and creates sound.
+ The length of the string determines its fundamental frequency of vibration.
+ We model a guitar string by sampling its displacement (a real number between
+ -1/2 and +1/2) at N equally spaced points (in time), where N equals the
+ sampling rate (44,100) divided by the fundamental frequency (rounding the
+ quotient up to the nearest integer).
+\end_layout
+
+\begin_layout Standard
+-Plucking the string.
+ The excitation of the string can contain energy at any frequency.
+ We simulate the excitation with white noise: set each of the N displacements
+ to a random real number between -1/2 and +1/2.
+\end_layout
+
+\begin_layout Standard
+//plot del ruido
+\end_layout
+
+\begin_layout Standard
+-The resulting vibrations.
+ After the string is plucked, the string vibrates.
+ The pluck causes a displacement which spreads wave-like over time.
+ The Karplus-Strong algorithm simulates this vibration by maintaining a
+ ring buffer of the N samples: the algorithm repeatedly deletes the first
+ sample from the buffer and adds to the end of the buffer the average of
+ the first two samples, scaled by an energy decay factor of 0.994.
+\end_layout
+
+\begin_layout Standard
+//algo representativo del buffer?
+\end_layout
+
+\begin_layout Standard
+-The two primary components that make the Karplus-Strong algorithm work
+ are the ring buffer feedback mechanism and the averaging operation.
+\end_layout
+
+\begin_layout Standard
+———The ring buffer feedback mechanism.
+ The ring buffer models the medium (a string tied down at both ends) in
+ which the energy travels back and forth.
+ The length of the ring buffer determines the fundamental frequency of the
+ resulting sound.
+ Sonically, the feedback mechanism reinforces only the fundamental frequency
+ and its harmonics (frequencies at integer multiples of the fundamental).
+ The energy decay factor (.994 in this case) models the slight dissipation
+ in energy as the wave makes a roundtrip through the string.
+ 
+\end_layout
+
+\begin_layout Standard
+———The averaging operation.
+ The averaging operation serves as a gentle low-pass filter (which removes
+ higher frequencies while allowing lower frequencies to pass, hence the
+ name).
+ Because it is in the path of the feedback, this has the effect of gradually
+ attenuating the higher harmonics while keeping the lower ones, which correspond
+s closely with how a plucked guitar string sounds.
+ From a mathematical physics viewpoint, the Karplus-Strong algorithm approximate
+ly solves the 1D wave equation, which describes the transverse motion of
+ the string as a function of time.
+\end_layout
+
+\begin_layout Section
+version 2
+\end_layout
+
+\begin_layout Standard
+What is Happening 
+\end_layout
+
+\begin_layout Standard
+The Karplus-Strong algorithm can simulate the sound of a plucked string
+ by using a ring buffer of displacement values to simulate a string tied
+ down at both ends, similar to a guitar string.
+ Also known as a circular buffer, a ring buffer is a fixed-length (simply
+ an array of values) that wraps around itself.
+ In other words, when you reach the end of a buffer, the next element you
+ access will be the first element in the buffer.
+\end_layout
+
+\begin_layout Standard
+The length (N) of the ring buffer is related to the fundamental frequency
+ of vibration according to the equation N =S/f, where S is the sampling
+ rate and f is the frequency.
+\end_layout
+
+\begin_layout Standard
+In the beginning of the simulation, the buffer is filled with random values
+ in the ragne [-0.5, 0.5].
+ Think of this as the representation of the random displacement of a plucked
+ string as it vibrates.
+\end_layout
+
+\begin_layout Standard
+We'll use a samples buffer to store the intensity of the sound at any certain
+ time.
+ The length of this buffer and the sampling rate determine the length of
+ the sound clip.
+\end_layout
+
+\begin_layout Standard
+The Simulation The simulation proceeds until the sample buffer is loaded
+ up in a feedback-style.
+ Think of the samples buffer as a list: [t0, t1, t2, t3...].
+ To simulate a plucked string, fill a ring buffer with numbers that represent
+ the energy of the wave.
+ The sample buffer, which represents the final sound data, is created by
+ iterating through the ring buffer values.
+ We'll use an averaging scheme to update values in the ring ubffer.
+\end_layout
+
+\begin_layout Standard
+You would do the following for each step of the simulation:
+\end_layout
+
+\begin_layout Standard
+1-Store the value from the ring buffer in the samples buffer.
+ 
+\end_layout
+
+\begin_layout Standard
+2-Calculate the average of the first two elements in the ring buffer.
+ 
+\end_layout
+
+\begin_layout Standard
+3-Multiply this average value by an attenuation factor.
+ 
+\end_layout
+
+\begin_layout Standard
+4-Add (or append) this value to the end of the ring buffer.
+ 
+\end_layout
+
+\begin_layout Standard
+5-Remove the first element of the ring buffer.
+ This feedback-style format is designed to simulate the traveling energy
+ through a string that is vibrating.
+\end_layout
+
+\begin_layout Standard
+"The length of a vibrating string is inversely proportional to the fundamental
+ frequency" -physics.
+\end_layout
+
+\begin_layout Standard
+Because we want to create sounds of a particular frequency, we'll choose
+ a ring buffer length that is inversely proportional to that frequency.
+\end_layout
+
+\begin_layout Standard
+In step 1, above, the averaging that happens acts as the low-pass filter
+ that cuts off higher frequencies and allows lower frequencies through,
+ which eleminates higher harmonics (larger multiples of the fundamental
+ frequency) because we only want the fundamental frequency.
+ Finally, we'll use the attentuation factor to simulate the loss of energy
+ as the wave moves back and forth along the string.
+ This sample buffer we use in step 1 represents the amplitude of the created
+ sound over time.
+ To calculate the amplitude at any time, just update the ring buffer by
+ calculating the average of its first two elements and multiply that result
+ by an attenuation factor.
+ The result is then added (or appended) to the end of the ring buffer, and
+ the first element of the ring buffer is removed.
+\end_layout
+
+\end_body
+\end_document

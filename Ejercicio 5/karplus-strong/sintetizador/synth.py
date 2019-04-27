@@ -39,7 +39,7 @@ class Synthesizer:
         # or the corresponding NoteOnEvent yet.
         self.on_notes = []
         # the initial bpm for the audio is set to 120 bpm by default. The tempo can be changed by a SetTempoEvent
-        self.curr_bpm = 180
+        self.curr_bpm = 120
         # resolution used to convert ticks to time
         self.curr_resolution = resolution
         # buffer in which the samples used to generate the .wav file will be stored
@@ -60,17 +60,15 @@ class Synthesizer:
         self.aux_buffer_flag = False
         self.track_index = 0
         self.aux_buffer_size = 0
+        self.set_tempo_ev = False
+        self.tempo_map = None
 
     def set_create_notes_callback(self, callback):
         self.create_notes_callback = callback
 
-    def set_tempo(self, bpm):
-        self.curr_bpm = bpm
-
-    def get_tempo(self):
-        return self.curr_bpm
-
     def synthesize(self, track: midi.Track, instrument: int, first_time: bool=False, n_frames: int=100000):
+        # print('synth tempo_map'+ str(self.tempo_map))
+        # print(self.curr_bpm)
         if first_time:
             self.x_out = []
             self.avg_counter = 0
@@ -78,11 +76,12 @@ class Synthesizer:
             self.last_sent_n = 0
             self.last_sent_time = 0
             self.on_notes = []
-            self.curr_bpm = 180
+            self.curr_bpm = 120
             self.curr_track_name = ''
             self.aux_buffer_flag = False
             self.aux_buffer_size = 0
             self.track_index = 0
+            self.set_tempo_ev = False
 
         self.curr_instrument = instrument
 
@@ -92,7 +91,8 @@ class Synthesizer:
             i += 1
             segs_per_tick = 60 / self.curr_bpm / self.curr_resolution
             self.last_ev_time += ev.tick * segs_per_tick
-            # print(ev.name + str(i))
+
+            self.update_tempo_if_tempo_map()
             if self.evs_dict[ev.name] is not None:              # looks for the handler of the specific event
                 self.evs_dict[ev.name](ev)
 
@@ -108,6 +108,8 @@ class Synthesizer:
                 self.track_index = k+1
                 return returnable, False
 
+        # the deletion of the tempo_map should come after fully synthesizing the track
+        self.tempo_map = None
         return self.x_out, True
 
     def refresh_notes(self):
@@ -146,8 +148,7 @@ class Synthesizer:
             self.off_note(off_ev)
 
     def handle_set_tempo(self, ev: midi.SetTempoEvent):
-        self.curr_bpm = ev.bpm
-        print('Tempo seteado')
+        self.curr_bpm = ev.get_bpm()
 
     def off_note(self, off_ev: midi.NoteEvent):
         """off_ev is not necessarily a NoteOffEvent
@@ -167,7 +168,6 @@ It may also be a NoteOnEvent, hence the generic 'Event' annotation"""
 
     def sum_note_arrays(self, notes: list, beginning_n: int, ending_n: int):
         """sums the new note to previous notes that are on the same time interval"""
-        aux_buffer = []
 
         if len(self.x_out) < ending_n:
             self.x_out += [0]*(ending_n-len(self.x_out))
@@ -181,3 +181,34 @@ It may also be a NoteOnEvent, hence the generic 'Event' annotation"""
         if avged:
             self.avg_counter += 1
 
+    def set_tempo_map(self, tempo_map):
+        self.tempo_map = tempo_map[:]
+
+    def get_tempo_map(self, track: midi.Track):
+        last_ev_time = 0
+        curr_bpm = 120
+        self.tempo_map = []
+        for ev in track:
+            segs_per_tick = 60 / curr_bpm / self.curr_resolution
+            last_ev_time += ev.tick * segs_per_tick
+            if ev.name == 'Set Tempo':
+                curr_bpm = ev.get_bpm()
+                self.tempo_map.append((last_ev_time, curr_bpm))
+        # no set Tempo events found in this file !
+        if len(self.tempo_map) == 0:
+            self.tempo_map = None
+
+        return self.tempo_map
+
+    def update_tempo_if_tempo_map(self):
+        if self.tempo_map is not None:
+            if len(self.tempo_map) > 0:
+                set_time, bpm = self.tempo_map[0]
+                # print('set_time = ' + str(set_time))
+                # print('last_ev_time = ' + str(self.last_ev_time))
+                if set_time == 0:
+                    self.curr_bpm = bpm
+                    self.tempo_map = self.tempo_map[1:]
+                elif set_time <= self.last_ev_time:
+                    self.curr_bpm = bpm
+                    self.tempo_map = self.tempo_map[1:]
