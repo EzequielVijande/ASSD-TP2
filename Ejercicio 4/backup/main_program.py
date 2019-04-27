@@ -26,9 +26,19 @@ def avg(prev_data, new_data, avg_count):
     return prev_data
 
 
+def not_meta_track(synth_trk_inst):
+    s, t, i = synth_trk_inst
+    for ev in t:
+        if ev.name == 'Note On':
+            return True
+    return False
+    # return len(s.synthesize(t, i, True, 1000)[0]) != 0
+
+
 waver = wav_gen.WaveManagement()
 pattern = midi.read_midifile(".\jurassic.mid")
-print(pattern)
+# pattern = midi.read_midifile(".\Super Mario 64 - Bob-Omb Battlefield.mid")
+print(pattern[0])
 trks = [pattern[i] for i in range(len(pattern))]
 
 synths = [FmSynthesizer(pattern.resolution) for i in range(len(pattern))]
@@ -45,19 +55,27 @@ finished = False
 data = []
 j = 0
 
-new_1, finished_1 = synths[0].synthesize(trks[0], insts[0], j == 0)
-
-if len(new_1) == 0:
+# for format 1 .mid files
+if synths[0].get_tempo_map(trks[0]) is not None:
+    # new_tempo_map should be None if the first meta track does not contain tempo information
+    new_tempo_map = synths[0].get_tempo_map(trks[0])
+    print(new_tempo_map)
     for k in range(1, len(synths_trks_insts)):
         s, t, i = synths_trks_insts[k]
-        s.set_tempo(synths[0].get_tempo())
+        s.set_tempo_map(new_tempo_map)
     synths_trks_insts = synths_trks_insts[1:]
 
+iterable_list = list(range(len(synths_trks_insts)))
+
+# The tracks that only contain MetaEvents will not be taken into account when filling the .wav !
+iterable_list[:] = [x for x in iterable_list if not_meta_track(synths_trks_insts[x])]
+
+
 while not finished:
-    for k in range(len(synths_trks_insts)):
+    for k in iterable_list:
         s, t, i = synths_trks_insts[k]
         newer_data, finished = s.synthesize(t, i, j == 0, 70000)
-        # if len(newer_data) > 0:
+        # print('j='+str(j)+'. Tempo map' + str(k) + str(s.tempo_map))
         data = avg(prev_data=data, new_data=newer_data, avg_count=k)
     waver.generate_wav(finished, data, n_channels=1, sample_width=2, frame_rate=44100, file_name='Track'+str(j)+'.wav')
     j += 1
@@ -65,3 +83,4 @@ while not finished:
 end = time.time()
 
 print('Tardo ' + str(int(end-start)) + ' segundos en sintetizar todo!')
+
