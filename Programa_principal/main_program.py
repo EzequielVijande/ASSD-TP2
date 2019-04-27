@@ -27,7 +27,7 @@ def avg(prev_data, new_data, avg_count):
 
 
 waver = wav_gen.WaveManagement()
-pattern = midi.read_midifile(".\pirates.mid")
+pattern = midi.read_midifile(".\Super Mario 64 - Bob-Omb Battlefield.mid")
 trks = [pattern[i] for i in range(len(pattern))]
 
 synths = [FmSynthesizer(pattern.resolution) for i in range(len(pattern))]
@@ -55,7 +55,7 @@ if len(new_1) == 0:
 while not finished:
     for k in range(len(synths_trks_insts)):
         s, t, i = synths_trks_insts[k]
-        newer_data, finished = s.synthesize(t, i, j == 0)
+        newer_data, finished = s.synthesize(t, i, j == 0, 70000)
         # if len(newer_data) > 0:
         data = avg(prev_data=data, new_data=newer_data, avg_count=k)
     waver.generate_wav(finished, data, n_channels=1, sample_width=2, frame_rate=44100, file_name='Track'+str(j)+'.wav')
