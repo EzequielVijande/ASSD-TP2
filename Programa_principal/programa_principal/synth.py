@@ -113,8 +113,6 @@ class Synthesizer:
 
         # the deletion of the tempo_map should come after fully synthesizing the track
         self.tempo_map = None
-        if(len(self.x_out)<n_frames):
-            self.x_out.append([0]*(n_frames-len(self.xout)))
         return self.x_out, True
 
     def handle_track_name(self, ev: midi.TrackNameEvent):
