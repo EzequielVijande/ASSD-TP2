@@ -2,6 +2,12 @@ import midi
 import wav_gen
 import math
 
+#Strings que indican el instrumento
+GUITAR = "guitar"
+CORN_ANGLAIS = "corn anglais"
+VIOLIN = "violin"
+SAXO = "saxophone"
+TRUMPET = "trumpet"
 
 class Synthesizer:
 
@@ -47,7 +53,6 @@ class Synthesizer:
         # time in seconds of the last event
         self.last_ev_time = 0
         self.last_sent_n = 0
-        self.last_sent_time = 0
         # callback used to generate a note array with the corresponding synthesis method
         self.create_notes_callback = None
         # rate by which the samples will be outputted.
@@ -55,7 +60,7 @@ class Synthesizer:
         # manager used to generate the .wav file
         self.wav_manager = wav_gen.WaveManagement()
         self.avg_counter = 0
-        self.curr_instrument = -1
+        self.curr_instrument = ''
         self.curr_track_name = ''
         self.aux_buffer_flag = False
         self.track_index = 0
@@ -66,7 +71,7 @@ class Synthesizer:
     def set_create_notes_callback(self, callback):
         self.create_notes_callback = callback
 
-    def synthesize(self, track: midi.Track, instrument: int, first_time: bool=False, n_frames: int=100000):
+    def synthesize(self, track: midi.Track, instrument: str, first_time: bool=False, n_frames: int=100000):
         # print('synth tempo_map'+ str(self.tempo_map))
         # print(self.curr_bpm)
         if first_time:
@@ -74,7 +79,6 @@ class Synthesizer:
             self.avg_counter = 0
             self.last_ev_time = 0
             self.last_sent_n = 0
-            self.last_sent_time = 0
             self.on_notes = []
             self.curr_bpm = 120
             self.curr_track_name = ''
@@ -96,8 +100,7 @@ class Synthesizer:
             if self.evs_dict[ev.name] is not None:              # looks for the handler of the specific event
                 self.evs_dict[ev.name](ev)
 
-            if len(self.x_out) > n_frames:             # arbitrarily chosen length in which the buffer should be cleared
-                self.refresh_notes()
+            if (len(self.x_out) > n_frames)and(len(self.on_notes)==0):               # arbitrarily chosen length in which the buffer should be cleared
                 self.avg_counter = 0
                 returnable = self.x_out[0:n_frames]
                 self.x_out = self.x_out[n_frames-1:]
@@ -110,16 +113,9 @@ class Synthesizer:
 
         # the deletion of the tempo_map should come after fully synthesizing the track
         self.tempo_map = None
+        if(len(self.x_out)<n_frames):
+            self.x_out.append([0]*(n_frames-len(self.xout)))
         return self.x_out, True
-
-    def refresh_notes(self):
-        back_up = self.on_notes[:]
-        self.off_all_notes()
-        self.last_sent_time += len(self.x_out) / self.frame_rate
-        for j in range(len(back_up)):
-            on_ev, on_time = back_up[j]
-            back_up[j] = (on_ev, self.last_sent_time)
-        self.on_notes = back_up
 
     def handle_track_name(self, ev: midi.TrackNameEvent):
         if self.curr_track_name != '':
@@ -161,10 +157,13 @@ It may also be a NoteOnEvent, hence the generic 'Event' annotation"""
     def play_note(self, on_tuple, off_tuple):
         on_ev, on_time = on_tuple
         off_ev, off_time = off_tuple
-        beginning_n = int(on_time*self.frame_rate) - self.last_sent_n
-        ending_n = int(off_time*self.frame_rate)+1 - self.last_sent_n
-        notes = self.create_notes_callback(on_ev.get_pitch(), ending_n-beginning_n, on_ev.get_velocity(), self.curr_instrument)
-        self.sum_note_arrays(notes, beginning_n, ending_n)
+        on_ev_tick = on_ev.tick
+        off_ev_tick = off_ev.tick
+        if(on_ev_tick < off_ev_tick): #Ignora el evento si las duraciones no tiene sentido
+            beginning_n = int(on_time*self.frame_rate) - self.last_sent_n
+            ending_n = int(off_time*self.frame_rate)+1 - self.last_sent_n
+            notes = self.create_notes_callback(on_ev.get_pitch(), ending_n-beginning_n, on_ev.get_velocity(), self.curr_instrument)
+            self.sum_note_arrays(notes, beginning_n, ending_n)
 
     def sum_note_arrays(self, notes: list, beginning_n: int, ending_n: int):
         """sums the new note to previous notes that are on the same time interval"""

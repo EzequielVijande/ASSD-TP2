@@ -4,7 +4,8 @@ import midi
 import time
 import struct, math
 import wav_gen
-
+import SampleSynthesizer as sammy
+import synth
 
 def avg(prev_data, new_data, avg_count):
     if len(prev_data) == 0:
@@ -36,16 +37,15 @@ def not_meta_track(synth_trk_inst):
 
 
 waver = wav_gen.WaveManagement()
-pattern = midi.read_midifile(".\jurassic.mid")
+pattern = midi.read_midifile(".\ArchivosMIDI\Super Mario 64 - Bob-Omb Battlefield.mid")
 # pattern = midi.read_midifile(".\Super Mario 64 - Bob-Omb Battlefield.mid")
-print(pattern[0])
 trks = [pattern[i] for i in range(len(pattern))]
 
-synths = [FmSynthesizer(pattern.resolution) for i in range(len(pattern))]
+synths = [sammy.SampleSynthesizer(pattern.resolution) for i in range(len(pattern))]
 for s in synths:
-    s.set_create_notes_callback(s.create_note_array)
+    s.set_create_notes_callback(s.create_notes_callback)
 
-insts = [2 for i in range(len(pattern))]
+insts = [synth.CORN_ANGLAIS]*len(trks)
 
 synths_trks_insts = [(synths[i], trks[i], insts[i]) for i in range(len(trks))]
 
