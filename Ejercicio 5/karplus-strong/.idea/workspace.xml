@@ -2,8 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="dfa919f1-b5d2-4674-b2c1-188835cc2d44" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sintetizador/KS_synth.py" beforeDir="false" afterPath="$PROJECT_DIR$/sintetizador/KS_synth.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sintetizador/Track0.wav" beforeDir="false" afterPath="$PROJECT_DIR$/sintetizador/Track0.wav" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sintetizador/main_program.py" beforeDir="false" afterPath="$PROJECT_DIR$/sintetizador/main_program.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sintetizador/a probar/BoulevardofBrokenDreams.mid" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sintetizador/a probar/Movie_Themes_-_Mission_Impossible_-_by_Lalo_Schiffrin.mid" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sintetizador/a probar/Starwars.mid" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sintetizador/a probar/cantina.mid" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sintetizador/a probar/kong.mid" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sintetizador/a probar/standbyme.mid" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sintetizador/cali.mid" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sintetizador/cantina.mid" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sintetizador/century.mid" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sintetizador/drum sin decay.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sintetizador/drums con decay.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sintetizador/jurassic 120 creo.wav" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -13,11 +26,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sintetizador/main_program.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="39" column="39" selection-start-line="39" selection-start-column="39" selection-end-line="39" selection-end-column="39" />
+            <state relative-caret-position="-18">
+              <caret line="77" column="38" selection-start-line="77" selection-start-column="38" selection-end-line="77" selection-end-column="38" />
               <folding>
                 <element signature="e#0#29#0" expanded="true" />
               </folding>
@@ -26,14 +39,33 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sintetizador/synth.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-7">
+              <caret line="68" column="8" selection-start-line="68" selection-start-column="8" selection-end-line="68" selection-end-column="8" />
+              <folding>
+                <element signature="e#0#11#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/site-packages/midi/events.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-7">
+              <caret line="119" selection-start-line="119" selection-end-line="119" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/sintetizador/KS_synth.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="156">
-              <caret line="18" column="26" selection-start-line="18" selection-start-column="26" selection-end-line="18" selection-end-column="26" />
+            <state relative-caret-position="130">
+              <caret line="15" selection-start-line="15" selection-end-line="15" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
-                <element signature="e#1648#2327#0" />
-                <element signature="e#2291#3196#0" />
                 <element signature="e#2360#2735#0" />
               </folding>
             </state>
@@ -53,9 +85,11 @@
     <findStrings>
       <find>previous_value</find>
       <find>fm</find>
+      <find>velocity</find>
       <find>print</find>
     </findStrings>
     <replaceStrings>
+      <replace>intensity</replace>
       <replace>previous_note</replace>
     </replaceStrings>
   </component>
@@ -70,9 +104,9 @@
         <option value="$PROJECT_DIR$/ks.py" />
         <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch.py" />
         <option value="$PROJECT_DIR$/freqplot.py" />
+        <option value="$PROJECT_DIR$/sintetizador/main_program.py" />
         <option value="$PROJECT_DIR$/sintetizador/synth.py" />
         <option value="$PROJECT_DIR$/sintetizador/KS_synth.py" />
-        <option value="$PROJECT_DIR$/sintetizador/main_program.py" />
       </list>
     </option>
   </component>
@@ -118,7 +152,7 @@
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="Python" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -207,6 +241,7 @@
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24932976" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Messages" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3281471" />
       <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49932975" visible="true" weight="0.37906647" />
@@ -214,7 +249,7 @@
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32956153" />
       <window_info anchor="bottom" id="Terminal" order="8" />
       <window_info anchor="bottom" id="Python Console" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50067025" side_tool="true" weight="0.37906647" />
@@ -242,6 +277,42 @@
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
     </layout-to-restore>
   </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ORDER">
+      <list>
+        <option value="0" />
+        <option value="2" />
+        <option value="3" />
+        <option value="1" />
+      </list>
+    </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="RECENTLY_FILTERED_USER_GROUPS">
+                <collection />
+              </option>
+              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+                <collection />
+              </option>
+              <option name="COLUMN_ORDER">
+                <list>
+                  <option value="0" />
+                  <option value="1" />
+                  <option value="2" />
+                  <option value="3" />
+                </list>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/sintetizador/__init__.py">
       <provider selected="true" editor-type-id="text-editor" />
@@ -255,13 +326,6 @@
             <element signature="e#460#943#0" />
             <element signature="e#1020#1631#0" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/codecs.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="125">
-          <caret line="320" selection-start-line="320" selection-end-line="320" />
         </state>
       </provider>
     </entry>
@@ -319,10 +383,34 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/codecs.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="125">
+          <caret line="332" selection-start-line="332" selection-end-line="332" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/site-packages/midi/events.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-7">
+          <caret line="119" selection-start-line="119" selection-end-line="119" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sintetizador/main_program.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-18">
+          <caret line="77" column="38" selection-start-line="77" selection-start-column="38" selection-end-line="77" selection-end-column="38" />
+          <folding>
+            <element signature="e#0#29#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/sintetizador/synth.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="139">
-          <caret line="207" column="23" selection-start-line="207" selection-start-column="18" selection-end-line="207" selection-end-column="23" />
+        <state relative-caret-position="-7">
+          <caret line="68" column="8" selection-start-line="68" selection-start-column="8" selection-end-line="68" selection-end-column="8" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>
@@ -331,23 +419,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/sintetizador/KS_synth.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="156">
-          <caret line="18" column="26" selection-start-line="18" selection-start-column="26" selection-end-line="18" selection-end-column="26" />
+        <state relative-caret-position="130">
+          <caret line="15" selection-start-line="15" selection-end-line="15" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
-            <element signature="e#1648#2327#0" />
-            <element signature="e#2291#3196#0" />
             <element signature="e#2360#2735#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sintetizador/main_program.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="39" column="39" selection-start-line="39" selection-start-column="39" selection-end-line="39" selection-end-column="39" />
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
           </folding>
         </state>
       </provider>
