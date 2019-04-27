@@ -27,7 +27,8 @@ def avg(prev_data, new_data, avg_count):
 
 
 waver = wav_gen.WaveManagement()
-pattern = midi.read_midifile(".\pirates.mid")
+pattern = midi.read_midifile(".\jurassic.mid")
+print(pattern)
 trks = [pattern[i] for i in range(len(pattern))]
 
 synths = [FmSynthesizer(pattern.resolution) for i in range(len(pattern))]
