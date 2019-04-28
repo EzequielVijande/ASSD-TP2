@@ -20,7 +20,7 @@ def WSOLA(input,window,t_func,max_tolerance=50,overlap=0.5):
         output_slots[i] = i*window_spacing
 
     input_slots= np.zeros( number_of_slots ) #Vector con las coordenadas centrales de los intervalos(grains) del input
-    input_offsets = np.zeros( number_of_slots) #Vector con el offset de cada ventana
+    input_offset = 0
     j=0
     tau=0
     for i in range(1,number_of_slots):
@@ -36,7 +36,7 @@ def WSOLA(input,window,t_func,max_tolerance=50,overlap=0.5):
     for j in range(1,number_of_slots):
         k=0
         grain= np.zeros(grain_size)
-        start_index_inp = math.floor(input_slots[j] + input_offsets[j-1] - (grain_size/2.0))
+        start_index_inp = math.floor(input_slots[j] + input_offset - (grain_size/2.0))
         points_left = grain_size
         start_index_out= math.floor(output_slots[j] - (grain_size/2.0))
         end_of_grain = math.floor(input_slots[j] + (grain_size/2.0))
@@ -58,8 +58,8 @@ def WSOLA(input,window,t_func,max_tolerance=50,overlap=0.5):
                 output[start_index_out+k] = grain[k]
                 k= k+1
         #Calculo el proximo offset
-        natural_prog_frame_center = input_slots[j-1]+input_offsets[j-1]+window_spacing
-        ideal_frame = GetWindowedFrame(input,window,natural_prog_frame_center)
+        natural_prog_frame_center = input_slots[j-1]+input_offset+window_spacing
+        ideal_frame = GetWindowedFrame(input,np.ones(grain_size),natural_prog_frame_center)
         lower_end = math.floor(input_slots[j]-(grain_size/2.0)-max_tolerance)
         upper_end = math.ceil(input_slots[j]+(grain_size/2.0)+max_tolerance)
         min_offset = max_tolerance
@@ -75,15 +75,11 @@ def WSOLA(input,window,t_func,max_tolerance=50,overlap=0.5):
                 max_offset=0
             else:
                 max_offset = math.floor( input.size-1-input_slots[j]-(grain_size/2.0) )#se puede desplazar para la derecha una cantidad
-            upper_end = (input.size)-1                                                  #limitada
+            upper_end = (input.size)                                                  #limitada
         next_frame = input[lower_end:upper_end]
-        correlation = np.convolve(next_frame,ideal_frame)
-        relevant = correlation[0:(min_offset+max_offset)] 
-        max_correlation = np.argmax(relevant)
-        if(max_correlation < min_offset):
-            input_offsets[i] = -max_correlation
-        else:
-            input_offsets[i] = max_correlation
+        correlation = np.correlate(next_frame,ideal_frame)
+        max_correlation = np.argmax(correlation)
+        input_offset = max_correlation - max_tolerance
     #Normalizo el vector
     sum_of_input_windows= np.zeros(len(output))
     for i in range(0,number_of_slots):

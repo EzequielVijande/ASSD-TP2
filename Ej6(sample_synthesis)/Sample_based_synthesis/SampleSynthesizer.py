@@ -294,7 +294,9 @@ class SampleSynthesizer(synth.Synthesizer):
                 window = MakeWindow(N)
                 stretch_factor = (duration)/t_h[-1]
                 stretch_func = stretch_factor*t_h
-                note= ph.PhVocoder(pitch_corrected_data,window,stretch_func,int(0.1*N))
+                #note = ph.PhVocoder(pitch_corrected_data,window,stretch_func,math.ceil(0.1*N))
+                note= w.WSOLA(pitch_corrected_data,window,stretch_func,math.ceil(N/2),0.01)
+                #note= o.OLA(pitch_corrected_data,window,stretch_func,0.2)
 
             #Normalizo el vector
             note_max_pos = np.max(note)
