@@ -14,7 +14,7 @@ MIN_FORTE_INTENSITY = 63
 GUITAR_PATH = '.\\Samples\\Guitar'
 COR_ANGLAIS_PATH = '.\\Samples\\Cor Anglais'
 DRUMS_PATH = '.\\Samples\\Drums'
-TRUMPET_PATH = ''
+TRUMPET_PATH = '.\\Samples\\Trumpet'
 
 def ResampleArray(array,f_s_original,f_s_output,SameTimeLimit=True):
     input_points = array.size
@@ -129,6 +129,57 @@ class SampleSynthesizer(synth.Synthesizer):
             (midi.B_5, (COR_ANGLAIS_PATH+"\B5_1_forte.wav",COR_ANGLAIS_PATH+"\B5_1_mezzo-piano.wav",COR_ANGLAIS_PATH+"\B5_025_forte.wav",COR_ANGLAIS_PATH+"\B5_025_mezzo-piano.wav",1)),
             (midi.C_6, (COR_ANGLAIS_PATH+"\B5_1_forte.wav",COR_ANGLAIS_PATH+"\B5_1_mezzo-piano.wav",COR_ANGLAIS_PATH+"\B5_025_forte.wav",COR_ANGLAIS_PATH+"\B5_025_mezzo-piano.wav",1.059463094))
             ])     #Para el corn anglais los valores son: (forte_1.5,piano_1.5,forte_0.5,piano_0.5,freq_factor)
+        self.trumpet_dict = dict([
+            ( midi.E_2, (TRUMPET_PATH+"//E2_25_pianissimo_normal.wav",TRUMPET_PATH+"//E2_25_pianissimo_normal.wav",TRUMPET_PATH+"//E2_25_pianissimo_normal.wav",TRUMPET_PATH+"//E2_25_pianissimo_normal.wav",TRUMPET_PATH+"//E2_25_pianissimo_normal.wav",TRUMPET_PATH+"//E2_25_pianissimo_normal.wav",1) ),
+            ( midi.F_2, (TRUMPET_PATH+"//E2_25_pianissimo_normal.wav",TRUMPET_PATH+"//E2_25_pianissimo_normal.wav",TRUMPET_PATH+"//E2_25_pianissimo_normal.wav",TRUMPET_PATH+"//E2_25_pianissimo_normal.wav",TRUMPET_PATH+"//E2_25_pianissimo_normal.wav",TRUMPET_PATH+"//E2_25_pianissimo_normal.wav",1.059463094) ),
+            ( midi.Fs_2, (TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",0.8908987181) ),
+            ( midi.G_2, (TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",0.9438743127) ),
+            ( midi.Gs_2, (TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",1) ),
+            ( midi.A_2, (TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",1.059463094) ),
+            ( midi.As_2, (TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",1.122462048) ),
+            ( midi.B_2, (TRUMPET_PATH+"//Cs3_15_pianissimo_normal.wav",TRUMPET_PATH+"//Cs3_15_pianissimo_normal.wav",TRUMPET_PATH+"//Cs3_15_pianissimo_normal.wav",TRUMPET_PATH+"//Cs3_15_pianissimo_normal.wav",TRUMPET_PATH+"//Cs3_15_pianissimo_normal.wav",TRUMPET_PATH+"//Cs3_15_pianissimo_normal.wav",0.8908987181) ),
+            ( midi.C_3, (TRUMPET_PATH+"//E3_15_forte.wav",TRUMPET_PATH+"//E3_15_pianissimo.wav",TRUMPET_PATH+"//E3_1_forte.wav",TRUMPET_PATH+"//E3_1_pianissimo.wav",TRUMPET_PATH+"//E3_025_mezzo-forte.wav",TRUMPET_PATH+"//E3_025_pianissimo.wav",0.793700526) ),
+            ( midi.Cs_3, (TRUMPET_PATH+"//E3_15_forte.wav",TRUMPET_PATH+"//E3_15_pianissimo.wav",TRUMPET_PATH+"//E3_1_forte.wav",TRUMPET_PATH+"//E3_1_pianissimo.wav",TRUMPET_PATH+"//E3_025_mezzo-forte.wav",TRUMPET_PATH+"//E3_025_pianissimo.wav",0.8408964153) ),
+            ( midi.D_3, (TRUMPET_PATH+"//E3_15_forte.wav",TRUMPET_PATH+"//E3_15_pianissimo.wav",TRUMPET_PATH+"//E3_1_forte.wav",TRUMPET_PATH+"//E3_1_pianissimo.wav",TRUMPET_PATH+"//E3_025_mezzo-forte.wav",TRUMPET_PATH+"//E3_025_pianissimo.wav",0.8908987181) ),
+            ( midi.Ds_3, (TRUMPET_PATH+"//E3_15_forte.wav",TRUMPET_PATH+"//E3_15_pianissimo.wav",TRUMPET_PATH+"//E3_1_forte.wav",TRUMPET_PATH+"//E3_1_pianissimo.wav",TRUMPET_PATH+"//E3_025_mezzo-forte.wav",TRUMPET_PATH+"//E3_025_pianissimo.wav",0.9438743127) ),
+            ( midi.E_3, (TRUMPET_PATH+"//E3_15_forte.wav",TRUMPET_PATH+"//E3_15_pianissimo.wav",TRUMPET_PATH+"//E3_1_forte.wav",TRUMPET_PATH+"//E3_1_pianissimo.wav",TRUMPET_PATH+"//E3_025_mezzo-forte.wav",TRUMPET_PATH+"//E3_025_pianissimo.wav",1) ),
+            ( midi.F_3, (TRUMPET_PATH+"//E3_15_forte.wav",TRUMPET_PATH+"//E3_15_pianissimo.wav",TRUMPET_PATH+"//E3_1_forte.wav",TRUMPET_PATH+"//E3_1_pianissimo.wav",TRUMPET_PATH+"//E3_025_mezzo-forte.wav",TRUMPET_PATH+"//E3_025_pianissimo.wav",1.059463094) ),
+            ( midi.Fs_3, (TRUMPET_PATH+"//Gs3_15_forte.wav",TRUMPET_PATH+"//Gs3_15_pianissimo.wav",TRUMPET_PATH+"//Gs3_1_forte.wav",TRUMPET_PATH+"//Gs3_1_pianissimo.wav",TRUMPET_PATH+"//Gs3_025_forte.wav",TRUMPET_PATH+"//Gs3_025_pianissimo.wav",0.8908987181) ),
+            ( midi.G_3, (TRUMPET_PATH+"//Gs3_15_forte.wav",TRUMPET_PATH+"//Gs3_15_pianissimo.wav",TRUMPET_PATH+"//Gs3_1_forte.wav",TRUMPET_PATH+"//Gs3_1_pianissimo.wav",TRUMPET_PATH+"//Gs3_025_forte.wav",TRUMPET_PATH+"//Gs3_025_pianissimo.wav",0.9438743127) ),
+            ( midi.Gs_3, (TRUMPET_PATH+"//Gs3_15_forte.wav",TRUMPET_PATH+"//Gs3_15_pianissimo.wav",TRUMPET_PATH+"//Gs3_1_forte.wav",TRUMPET_PATH+"//Gs3_1_pianissimo.wav",TRUMPET_PATH+"//Gs3_025_forte.wav",TRUMPET_PATH+"//Gs3_025_pianissimo.wav",1) ),
+            ( midi.A_3, (TRUMPET_PATH+"//Gs3_15_forte.wav",TRUMPET_PATH+"//Gs3_15_pianissimo.wav",TRUMPET_PATH+"//Gs3_1_forte.wav",TRUMPET_PATH+"//Gs3_1_pianissimo.wav",TRUMPET_PATH+"//Gs3_025_forte.wav",TRUMPET_PATH+"//Gs3_025_pianissimo.wav",1.059463094) ),
+            ( midi.As_3, (TRUMPET_PATH+"//Gs3_15_forte.wav",TRUMPET_PATH+"//Gs3_15_pianissimo.wav",TRUMPET_PATH+"//Gs3_1_forte.wav",TRUMPET_PATH+"//Gs3_1_pianissimo.wav",TRUMPET_PATH+"//Gs3_025_forte.wav",TRUMPET_PATH+"//Gs3_025_pianissimo.wav",1.122462048) ),
+            ( midi.B_3, (TRUMPET_PATH+"//C4_15_pianissimo.wav",TRUMPET_PATH+"//C4_15_pianissimo.wav",TRUMPET_PATH+"//C4_1_forte.wav",TRUMPET_PATH+"//C4_1_pianissimo.wav",TRUMPET_PATH+"//C4_025_forte.wav",TRUMPET_PATH+"//C4_025_pianissimo.wav",0.9438743127) ),
+            ( midi.C_4, (TRUMPET_PATH+"//C4_15_pianissimo.wav",TRUMPET_PATH+"//C4_15_pianissimo.wav",TRUMPET_PATH+"//C4_1_forte.wav",TRUMPET_PATH+"//C4_1_pianissimo.wav",TRUMPET_PATH+"//C4_025_forte.wav",TRUMPET_PATH+"//C4_025_pianissimo.wav",1) ),
+            ( midi.Cs_4, (TRUMPET_PATH+"//C4_15_pianissimo.wav",TRUMPET_PATH+"//C4_15_pianissimo.wav",TRUMPET_PATH+"//C4_1_forte.wav",TRUMPET_PATH+"//C4_1_pianissimo.wav",TRUMPET_PATH+"//C4_025_forte.wav",TRUMPET_PATH+"//C4_025_pianissimo.wav",1.122462048) ),
+            ( midi.D_4, (TRUMPET_PATH+"//E4_15_forte.wav",TRUMPET_PATH+"//E4_15_pianissimo.wav",TRUMPET_PATH+"//E4_1_forte.wav",TRUMPET_PATH+"//E4_1_pianissimo.wav",TRUMPET_PATH+"//E4_025_forte.wav",TRUMPET_PATH+"//E4_025_pianissimo.wav",0.8908987181) ),
+            ( midi.Ds_4, (TRUMPET_PATH+"//E4_15_forte.wav",TRUMPET_PATH+"//E4_15_pianissimo.wav",TRUMPET_PATH+"//E4_1_forte.wav",TRUMPET_PATH+"//E4_1_pianissimo.wav",TRUMPET_PATH+"//E4_025_forte.wav",TRUMPET_PATH+"//E4_025_pianissimo.wav",0.9438743127) ),
+            ( midi.E_4, (TRUMPET_PATH+"//E4_15_forte.wav",TRUMPET_PATH+"//E4_15_pianissimo.wav",TRUMPET_PATH+"//E4_1_forte.wav",TRUMPET_PATH+"//E4_1_pianissimo.wav",TRUMPET_PATH+"//E4_025_forte.wav",TRUMPET_PATH+"//E4_025_pianissimo.wav",1) ),
+            ( midi.F_4, (TRUMPET_PATH+"//E4_15_forte.wav",TRUMPET_PATH+"//E4_15_pianissimo.wav",TRUMPET_PATH+"//E4_1_forte.wav",TRUMPET_PATH+"//E4_1_pianissimo.wav",TRUMPET_PATH+"//E4_025_forte.wav",TRUMPET_PATH+"//E4_025_pianissimo.wav",1.122462048) ),
+            ( midi.Fs_4, (TRUMPET_PATH+"//Gs4_15_fortissimo.wav",TRUMPET_PATH+"//Gs4_15_pianissimo.wav",TRUMPET_PATH+"//Gs4_1_forte.wav",TRUMPET_PATH+"//Gs4_1_pianissimo.wav",TRUMPET_PATH+"//Gs4_025_forte.wav",TRUMPET_PATH+"//Gs4_025_pianissimo.wav",0.8908987181) ),
+            ( midi.G_4, (TRUMPET_PATH+"//Gs4_15_fortissimo.wav",TRUMPET_PATH+"//Gs4_15_pianissimo.wav",TRUMPET_PATH+"//Gs4_1_forte.wav",TRUMPET_PATH+"//Gs4_1_pianissimo.wav",TRUMPET_PATH+"//Gs4_025_forte.wav",TRUMPET_PATH+"//Gs4_025_pianissimo.wav",0.9438743127) ),
+            ( midi.Gs_4, (TRUMPET_PATH+"//Gs4_15_fortissimo.wav",TRUMPET_PATH+"//Gs4_15_pianissimo.wav",TRUMPET_PATH+"//Gs4_1_forte.wav",TRUMPET_PATH+"//Gs4_1_pianissimo.wav",TRUMPET_PATH+"//Gs4_025_forte.wav",TRUMPET_PATH+"//Gs4_025_pianissimo.wav",1) ),
+            ( midi.A_4, (TRUMPET_PATH+"//Gs4_15_fortissimo.wav",TRUMPET_PATH+"//Gs4_15_pianissimo.wav",TRUMPET_PATH+"//Gs4_1_forte.wav",TRUMPET_PATH+"//Gs4_1_pianissimo.wav",TRUMPET_PATH+"//Gs4_025_forte.wav",TRUMPET_PATH+"//Gs4_025_pianissimo.wav",1.059463094) ),
+            ( midi.As_4, (TRUMPET_PATH+"//C5_15_forte.wav",TRUMPET_PATH+"//C5_15_pianissimo.wav",TRUMPET_PATH+"//C5_1_forte.wav",TRUMPET_PATH+"//C5_1_pianissimo.wav",TRUMPET_PATH+"//C5_025_forte.wav",TRUMPET_PATH+"//C5_025_pianissimo.wav",0.8908987181) ),
+            ( midi.B_4, (TRUMPET_PATH+"//C5_15_forte.wav",TRUMPET_PATH+"//C5_15_pianissimo.wav",TRUMPET_PATH+"//C5_1_forte.wav",TRUMPET_PATH+"//C5_1_pianissimo.wav",TRUMPET_PATH+"//C5_025_forte.wav",TRUMPET_PATH+"//C5_025_pianissimo.wav",0.9438743127) ),
+            ( midi.C_5, (TRUMPET_PATH+"//C5_15_forte.wav",TRUMPET_PATH+"//C5_15_pianissimo.wav",TRUMPET_PATH+"//C5_1_forte.wav",TRUMPET_PATH+"//C5_1_pianissimo.wav",TRUMPET_PATH+"//C5_025_forte.wav",TRUMPET_PATH+"//C5_025_pianissimo.wav",1) ),
+            ( midi.Cs_5, (TRUMPET_PATH+"//C5_15_forte.wav",TRUMPET_PATH+"//C5_15_pianissimo.wav",TRUMPET_PATH+"//C5_1_forte.wav",TRUMPET_PATH+"//C5_1_pianissimo.wav",TRUMPET_PATH+"//C5_025_forte.wav",TRUMPET_PATH+"//C5_025_pianissimo.wav",1.059463094) ),
+            ( midi.D_5, (TRUMPET_PATH+"//E5_15_forte.wav",TRUMPET_PATH+"//E5_15_pianissimo.wav",TRUMPET_PATH+"//E5_1_forte.wav",TRUMPET_PATH+"//E5_1_pianissimo.wav",TRUMPET_PATH+"//E5_025_forte.wav",TRUMPET_PATH+"//E5_025_pianissimo.wav",0.8908987181) ),
+            ( midi.Ds_5, (TRUMPET_PATH+"//E5_15_forte.wav",TRUMPET_PATH+"//E5_15_pianissimo.wav",TRUMPET_PATH+"//E5_1_forte.wav",TRUMPET_PATH+"//E5_1_pianissimo.wav",TRUMPET_PATH+"//E5_025_forte.wav",TRUMPET_PATH+"//E5_025_pianissimo.wav",0.9438743127) ),
+            ( midi.E_5, (TRUMPET_PATH+"//E5_15_forte.wav",TRUMPET_PATH+"//E5_15_pianissimo.wav",TRUMPET_PATH+"//E5_1_forte.wav",TRUMPET_PATH+"//E5_1_pianissimo.wav",TRUMPET_PATH+"//E5_025_forte.wav",TRUMPET_PATH+"//E5_025_pianissimo.wav",1) ),
+            ( midi.F_5, (TRUMPET_PATH+"//E5_15_forte.wav",TRUMPET_PATH+"//E5_15_pianissimo.wav",TRUMPET_PATH+"//E5_1_forte.wav",TRUMPET_PATH+"//E5_1_pianissimo.wav",TRUMPET_PATH+"//E5_025_forte.wav",TRUMPET_PATH+"//E5_025_pianissimo.wav",1.059463094) ),
+            ( midi.Fs_5, (TRUMPET_PATH+"//Gs5_15_forte.wav",TRUMPET_PATH+"//Gs5_15_pianissimo.wav",TRUMPET_PATH+"//Gs5_1_forte.wav",TRUMPET_PATH+"//Gs5_1_pianissimo.wav",TRUMPET_PATH+"//Gs5_025_forte.wav",TRUMPET_PATH+"//Gs5_025_pianissimo.wav",0.8908987181) ),
+            ( midi.G_5, (TRUMPET_PATH+"//Gs5_15_forte.wav",TRUMPET_PATH+"//Gs5_15_pianissimo.wav",TRUMPET_PATH+"//Gs5_1_forte.wav",TRUMPET_PATH+"//Gs5_1_pianissimo.wav",TRUMPET_PATH+"//Gs5_025_forte.wav",TRUMPET_PATH+"//Gs5_025_pianissimo.wav",0.9438743127) ),
+            ( midi.Gs_5, (TRUMPET_PATH+"//Gs5_15_forte.wav",TRUMPET_PATH+"//Gs5_15_pianissimo.wav",TRUMPET_PATH+"//Gs5_1_forte.wav",TRUMPET_PATH+"//Gs5_1_pianissimo.wav",TRUMPET_PATH+"//Gs5_025_forte.wav",TRUMPET_PATH+"//Gs5_025_pianissimo.wav",1) ),
+            ( midi.A_5, (TRUMPET_PATH+"//Gs5_15_forte.wav",TRUMPET_PATH+"//Gs5_15_pianissimo.wav",TRUMPET_PATH+"//Gs5_1_forte.wav",TRUMPET_PATH+"//Gs5_1_pianissimo.wav",TRUMPET_PATH+"//Gs5_025_forte.wav",TRUMPET_PATH+"//Gs5_025_pianissimo.wav",1.059463094) ),
+            ( midi.As_5, (TRUMPET_PATH+"//C6_15_forte.wav",TRUMPET_PATH+"//C6_15_pianissimo.wav",TRUMPET_PATH+"//C6_1_forte.wav",TRUMPET_PATH+"//C6_1_pianissimo.wav",TRUMPET_PATH+"//C6_025_forte.wav",TRUMPET_PATH+"//C6_025_mezzo-forte.wav",0.8908987181) ),
+            ( midi.B_5, (TRUMPET_PATH+"//C6_15_forte.wav",TRUMPET_PATH+"//C6_15_pianissimo.wav",TRUMPET_PATH+"//C6_1_forte.wav",TRUMPET_PATH+"//C6_1_pianissimo.wav",TRUMPET_PATH+"//C6_025_forte.wav",TRUMPET_PATH+"//C6_025_mezzo-forte.wav",0.9438743127) ),
+            ( midi.C_6, (TRUMPET_PATH+"//C6_15_forte.wav",TRUMPET_PATH+"//C6_15_pianissimo.wav",TRUMPET_PATH+"//C6_1_forte.wav",TRUMPET_PATH+"//C6_1_pianissimo.wav",TRUMPET_PATH+"//C6_025_forte.wav",TRUMPET_PATH+"//C6_025_mezzo-forte.wav",1) ),
+            ( midi.Cs_6, (TRUMPET_PATH+"//C6_15_forte.wav",TRUMPET_PATH+"//C6_15_pianissimo.wav",TRUMPET_PATH+"//C6_1_forte.wav",TRUMPET_PATH+"//C6_1_pianissimo.wav",TRUMPET_PATH+"//C6_025_forte.wav",TRUMPET_PATH+"//C6_025_mezzo-forte.wav",1.059463094) ),
+            ( midi.D_6, (TRUMPET_PATH+"//C6_15_forte.wav",TRUMPET_PATH+"//C6_15_pianissimo.wav",TRUMPET_PATH+"//C6_1_forte.wav",TRUMPET_PATH+"//C6_1_pianissimo.wav",TRUMPET_PATH+"//C6_025_forte.wav",TRUMPET_PATH+"//C6_025_mezzo-forte.wav",1.122462048) ),
+            ( midi.Ds_6, (TRUMPET_PATH+"//C6_15_forte.wav",TRUMPET_PATH+"//C6_15_pianissimo.wav",TRUMPET_PATH+"//C6_1_forte.wav",TRUMPET_PATH+"//C6_1_pianissimo.wav",TRUMPET_PATH+"//C6_025_forte.wav",TRUMPET_PATH+"//C6_025_mezzo-forte.wav",1.189207115) ),
+            ( midi.E_6, (TRUMPET_PATH+"//E6_15_forte.wav",TRUMPET_PATH+"//E6_15_forte.wav",TRUMPET_PATH+"//E6_1_forte.wav",TRUMPET_PATH+"//E6_1_forte.wav",TRUMPET_PATH+"//E6_025_forte.wav",TRUMPET_PATH+"//E6_025_forte.wav",1) )
+            ])  ##Para la trompeta los valores son: (forte_1.5,pianissimo_1.5,forte_1,pianissimo_1,,forte_0.25,pianissimo_0.25,freq_factor)
         #Diccionario donde guardo las notas ya sintetizadas
         self.note_dict = dict()
         self.curr_instrument = ""
@@ -198,6 +249,38 @@ class SampleSynthesizer(synth.Synthesizer):
                             forte_sample = forte_sample_0_25
                             piano_sample = piano_sample_0_25
 
+                    if intensity >= MIN_FORTE_INTENSITY: #cargo nota con velocidad alta
+                        f_s, data= wavfile.read(forte_sample)
+                    else: #cargo nota con velocidad baja
+                        f_s, data= wavfile.read(piano_sample)
+                elif( instrument == 'trumpet'):
+                    fmin = 82 #Frecuencia minima de un semitono de trompeta
+                    if( pitch < midi.E_2):
+                        forte_sample = TRUMPET_PATH+"//E2_25_pianissimo_normal.wav"
+                        piano_sample = TRUMPET_PATH+"//E2_25_pianissimo_normal.wav"
+                        freq_factor = 1
+                    elif( pitch > midi.E_6):
+                        if( duration < int(0.625*self.frame_rate)):
+                            forte_sample = (self.trumpet_dict[ midi.E_6])[4]
+                            piano_sample = (self.trumpet_dict[ midi.E_6])[5]
+                        elif( duration < int(1.25*self.frame_rate) ):
+                            forte_sample = (self.trumpet_dict[ midi.E_6])[2]
+                            piano_sample = (self.trumpet_dict[ midi.E_6])[3]
+                        else:
+                            forte_sample = (self.trumpet_dict[ midi.E_6])[0]
+                            piano_sample = (self.trumpet_dict[ midi.E_6])[1]
+                        freq_factor = (self.trumpet_dict[ midi.E_6])[6]
+                    else:
+                        forte_sample_1_5,piano_sample_1_5,forte_sample_1,piano_sample_1,forte_sample_0_25,piano_sample_0_25,freq_factor = self.trumpet_dict[pitch]
+                        if( duration < int(0.625*self.frame_rate) ):
+                            forte_sample = forte_sample_0_25
+                            piano_sample = piano_sample_0_25
+                        elif( duration < int(1.25*self.frame_rate) ):
+                            forte_sample = forte_sample_1
+                            piano_sample = piano_sample_1
+                        else:
+                            forte_sample = forte_sample_1_5
+                            piano_sample = piano_sample_1_5
                     if intensity >= MIN_FORTE_INTENSITY: #cargo nota con velocidad alta
                         f_s, data= wavfile.read(forte_sample)
                     else: #cargo nota con velocidad baja
