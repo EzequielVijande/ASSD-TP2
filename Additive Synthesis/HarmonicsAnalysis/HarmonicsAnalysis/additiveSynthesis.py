@@ -2,6 +2,7 @@ import numpy as np
 from scipy.io import wavfile
 import matplotlib.pyplot as plt
 import random
+from pathlib import Path
 
 # Asume duracion total igual al largo de la envolvente
 # Suma armonicos con su envolvente correspondiente
@@ -12,25 +13,27 @@ def additiveSynthesis(frequencies,envelope, fs, desnorm = True):
     signals = [] # arreglo con arreglos de cada senoidal de frecuencia armonica
     synthFunction = [] # arreglo final
     maxLength = 0
+    normalizer = 0
     for i in range(0,len(envelope)): # busco envolvente mas larga
         if maxLength < len(envelope[i]):
             maxLength = len(envelope[i])
     for i in range(0,len(envelope)):
         if maxLength > len(envelope[i]):
-            zeroArray = np.zeros(maxLength - len(envelope[i]))
+            zeroArray = np.zeros(maxLength - len(envelope[i])) #
             envelope[i] = np.concatenate([envelope[i], zeroArray])
     t = len(envelope[0])/fs # duracion de la nota
     samples = np.arange(len(envelope[0])) / fs
     for i in range(0,len(frequencies)):
         auxSignal = np.sin(2*np.pi*frequencies[i]*samples) # creo señal
         auxSignal = np.multiply(auxSignal,envelope[i]) # aplico la envolvente
+        normalizer = normalizer + np.amax(envelope[i]) # agrego amplitud maxima al coef de normalizacion
         signals.append(auxSignal)
     for i in range(0,len(signals[0])):
         auxValue = 0
         for j in range(0,len(signals)):
             auxValue = auxValue + signals[j][i]
         synthFunction.append(auxValue)
-    synthFunction = [i*(1/len(frequencies)) for i in synthFunction] # normalizo en (-1,1)
+    synthFunction = [i*(1/normalizer) for i in synthFunction] # normalizo en (-1,1)
     if desnorm:
         synthFunction = [i*32767 for i in synthFunction] # desnormalizo a formato wav int16
         synthFunction = np.int16(synthFunction)
