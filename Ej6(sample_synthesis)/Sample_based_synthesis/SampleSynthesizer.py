@@ -11,9 +11,9 @@ import synth
 import WSOLA as w
 
 MIN_FORTE_INTENSITY = 63
-GUITAR_PATH = '.\Samples\Guitar'
-COR_ANGLAIS_PATH = '.\Samples\Cor Anglais'
-DRUMS_PATH = '.\Samples\Drums'
+GUITAR_PATH = '.\\Samples\\Guitar'
+COR_ANGLAIS_PATH = '.\\Samples\\Cor Anglais'
+DRUMS_PATH = '.\\Samples\\Drums'
 
 def ResampleArray(array,f_s_original,f_s_output,SameTimeLimit=True):
     input_points = array.size
@@ -141,15 +141,16 @@ class SampleSynthesizer(synth.Synthesizer):
         if(value_type == "<class 'int'>"):
             desired_fs = self.frame_rate
             if( instrument == 'drums'):
-                if(duration < 50):
+                if(duration < 1000):
                     N= math.ceil(duration/2)
                 else:
-                    N=50
-                t_h = np.linspace(0,duration,duration)
+                    N=1000
+                f_s, data= wavfile.read( self.GetDrumsData(duration,intensity) )
+                t_h = np.linspace(0,data.size,data.size)
                 window = MakeWindow(N)
                 stretch_factor = (duration)/t_h[-1]
                 stretch_func = stretch_factor*t_h
-                note= o.OLA(data,window,stretch_func,0.1)
+                note= o.OLA(data,window,stretch_func,0.01)
             else:
                 if( instrument == 'guitar'):
                     fmin = 82 #Frecuencia minima de un semitono de guitarra
@@ -227,4 +228,28 @@ class SampleSynthesizer(synth.Synthesizer):
 
     def SetInstrument(self,inst):
         self.instrument = inst
-
+    def GetDrumsData(self,duration,intensity):
+        duration_in_time = duration/self.frame_rate
+        sample=""
+        if duration_in_time <=0.625:
+            if intensity <= MIN_FORTE_INTENSITY:
+                sample = DRUMS_PATH + "\\025_mezzo-forte_mallet.wav"
+            else:
+                sample = DRUMS_PATH + "\\025_forte_mallet.wav"
+        elif duration_in_time <= 1.25:
+            if intensity <= int(MIN_FORTE_INTENSITY/2):
+                sample = DRUMS_PATH + "\\1_pianissimo_struck-singly.wav"
+            elif intensity <= MIN_FORTE_INTENSITY:
+                sample = DRUMS_PATH + "\\1_mezzo-piano_struck-singly.wav"
+            else:
+                sample = DRUMS_PATH + "\\1_fortissimo_struck-singly.wav"
+        elif duration_in_time <= 4.25:
+            if intensity <= MIN_FORTE_INTENSITY:
+                sample = DRUMS_PATH + "\\15_pianissimo_rhythm.wav"
+            else:
+                sample = DRUMS_PATH + "\\15_mezzo-piano_rhythm.wav"
+        elif duration_in_time <= 11:
+            sample = DRUMS_PATH + ".\\7_mezzo-forte.wav"
+        else:
+            sample = DRUMS_PATH + ".\\150_mezzo-piano_rhythm"
+        return sample
