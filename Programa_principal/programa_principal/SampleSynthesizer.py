@@ -11,8 +11,10 @@ import synth
 import WSOLA as w
 
 MIN_FORTE_INTENSITY = 63
-GUITAR_PATH = '.\Samples\Guitar'
-COR_ANGLAIS_PATH = '.\Samples\Cor Anglais'
+GUITAR_PATH = '.\\Samples\\Guitar'
+COR_ANGLAIS_PATH = '.\\Samples\\Cor Anglais'
+DRUMS_PATH = '.\\Samples\\Drums'
+TRUMPET_PATH = ''
 
 def ResampleArray(array,f_s_original,f_s_output,SameTimeLimit=True):
     input_points = array.size
@@ -131,7 +133,7 @@ class SampleSynthesizer(synth.Synthesizer):
         self.note_dict = dict()
         self.curr_instrument = ""
 
-    def MakeNote(self,pitch,duration,intensity,instrument=synth.GUITAR):
+    def MakeNote(self,pitch,duration,intensity,instrument='guitar'):
         note = np.zeros(duration)
         if (self.curr_instrument != instrument): #reinicio el diccionario cuando se cambia de instrumento
             self.note_dict.clear()
@@ -139,69 +141,67 @@ class SampleSynthesizer(synth.Synthesizer):
         value_type = str(type(self.note_dict.get((pitch,duration,intensity),1)))
         if(value_type == "<class 'int'>"):
             desired_fs = self.frame_rate
-            if( instrument == synth.GUITAR):
-                fmin = 82 #Frecuencia minima de un semitono de guitarra
-                if( pitch < midi.E_2):
-                    forte_sample= GUITAR_PATH+"\E2_forte_trimmed.wav"
-                    piano_sample= GUITAR_PATH+"\E2_piano_trimmed.wav"
-                    freq_factor = 1
-                elif( pitch > midi.C_6):
-                    forte_sample = GUITAR_PATH+"\C6_forte_trimmed.wav"
-                    piano_sample = GUITAR_PATH+"\C6_piano_trimmed.wav"
-                    freq_factor = 1
+            if( instrument == synth.DRUMS):
+                if(duration < 1000):
+                    N= math.ceil(duration/2)
                 else:
-                    forte_sample,piano_sample,freq_factor = self.guitar_dict[pitch]
-
-                if intensity >= MIN_FORTE_INTENSITY: #cargo nota con velocidad alta
-                    f_s, data= wavfile.read(forte_sample)
-                else: #cargo nota con velocidad baja
-                    f_s, data= wavfile.read(piano_sample)
-                pitch_corrected_data = ResampleArray(data,f_s,int(f_s/freq_factor),SameTimeLimit=False)
-                if((duration/desired_fs)>(1/fmin)):
-                    N= 2*int(desired_fs/fmin)
-                else:
-                    N= math.ceil(0.1*duration) #La duracion es menor que el periodo fundamental minimo
-                #t_h, harm, t_p, perc = spectr.GetPercussiveAndHarmonicSpectrum(pitch_corrected_data,frame_size = N,beta=2)
-                t_h = np.linspace(0,pitch_corrected_data.size,pitch_corrected_data.size)
+                    N=1000
+                f_s, data= wavfile.read( self.GetDrumsData(duration,intensity) )
+                t_h = np.linspace(0,data.size,data.size)
                 window = MakeWindow(N)
                 stretch_factor = (duration)/t_h[-1]
                 stretch_func = stretch_factor*t_h
-                note= ph.PhVocoder(pitch_corrected_data,window,stretch_func,math.ceil(0.1*N))
-                #note = w.WSOLA(pitch_corrected_data,window,stretch_func,max_tolerance=25,overlap=0.1)
-                #note= o.OLA(pitch_corrected_data,window,stretch_func,0.1)
-                #note = y_h + y_p
-                
-            elif( instrument == synth.CORN_ANGLAIS):
-                fmin = 165 #Frecuencia minima de un semitono de corn anglais
-                if( pitch < midi.E_3):
-                    if( duration > int(0.875*self.frame_rate)): #Uso las muestras de 1.5 seg para duraciones mayores a 0.875 seg
-                        forte_sample= COR_ANGLAIS_PATH+"\E3_15_fortissimo.wav"
-                        piano_sample= COR_ANGLAIS_PATH+"\E3_15_piano.wav"
+                note= o.OLA(data,window,stretch_func,0.01)
+            else:
+                if( instrument == synth.GUITAR):
+                    fmin = 82 #Frecuencia minima de un semitono de guitarra
+                    if( pitch < midi.E_2):
+                        forte_sample= GUITAR_PATH+"\E2_forte_trimmed.wav"
+                        piano_sample= GUITAR_PATH+"\E2_piano_trimmed.wav"
+                        freq_factor = 1
+                    elif( pitch > midi.C_6):
+                        forte_sample = GUITAR_PATH+"\C6_forte_trimmed.wav"
+                        piano_sample = GUITAR_PATH+"\C6_piano_trimmed.wav"
+                        freq_factor = 1
                     else:
-                        forte_sample= COR_ANGLAIS_PATH+"\E3_025_mezzo_forte.wav"
-                        piano_sample= COR_ANGLAIS_PATH+"\E3_025_piano.wav"
-                    freq_factor = 1
-                elif( pitch > midi.C_6):
-                    if( duration > int(0.625*self.frame_rate)):
-                        forte_sample = COR_ANGLAIS_PATH+"\B5_1_forte.wav"
-                        piano_sample = COR_ANGLAIS_PATH+"\B5_1_mezzo-piano.wav"
-                    else:
-                        forte_sample = COR_ANGLAIS_PATH+"\B5_025_forte.wav"
-                        piano_sample = COR_ANGLAIS_PATH+"\B5_025_mezzo-piano.wav"
-                    freq_factor = 1.059463094
-                else:
-                    forte_sample_1_5,piano_sample_1_5,forte_sample_0_25,piano_sample_0_25,freq_factor = self.corn_dict[pitch]
-                    if( duration > int(0.875*self.frame_rate) ):
-                        forte_sample = forte_sample_1_5
-                        piano_sample = piano_sample_1_5
-                    else:
-                        forte_sample = forte_sample_0_25
-                        piano_sample = piano_sample_0_25
+                        forte_sample,piano_sample,freq_factor = self.guitar_dict[pitch]
 
-                if intensity >= MIN_FORTE_INTENSITY: #cargo nota con velocidad alta
-                    f_s, data= wavfile.read(forte_sample)
-                else: #cargo nota con velocidad baja
-                    f_s, data= wavfile.read(piano_sample)
+                    if intensity >= MIN_FORTE_INTENSITY: #cargo nota con velocidad alta
+                        f_s, data= wavfile.read(forte_sample)
+                    else: #cargo nota con velocidad baja
+                        f_s, data= wavfile.read(piano_sample)
+                
+                elif( instrument == synth.CORN_ANGLAIS):
+                    fmin = 165 #Frecuencia minima de un semitono de corn anglais
+                    if( pitch < midi.E_3):
+                        if( duration > int(0.875*self.frame_rate)): #Uso las muestras de 1.5 seg para duraciones mayores a 0.875 seg
+                            forte_sample= COR_ANGLAIS_PATH+"\E3_15_fortissimo.wav"
+                            piano_sample= COR_ANGLAIS_PATH+"\E3_15_piano.wav"
+                        else:
+                            forte_sample= COR_ANGLAIS_PATH+"\E3_025_mezzo_forte.wav"
+                            piano_sample= COR_ANGLAIS_PATH+"\E3_025_piano.wav"
+                        freq_factor = 1
+                    elif( pitch > midi.C_6):
+                        if( duration > int(0.625*self.frame_rate)):
+                            forte_sample = COR_ANGLAIS_PATH+"\B5_1_forte.wav"
+                            piano_sample = COR_ANGLAIS_PATH+"\B5_1_mezzo-piano.wav"
+                        else:
+                            forte_sample = COR_ANGLAIS_PATH+"\B5_025_forte.wav"
+                            COR_ANGLAIS_PATH+"\B5_025_mezzo-piano.wav"
+                        freq_factor = 1.059463094
+                    else:
+                        forte_sample_1_5,piano_sample_1_5,forte_sample_0_25,piano_sample_0_25,freq_factor = self.corn_dict[pitch]
+                        if( duration > int(0.875*self.frame_rate) ):
+                            forte_sample = forte_sample_1_5
+                            piano_sample = piano_sample_1_5
+                        else:
+                            forte_sample = forte_sample_0_25
+                            piano_sample = piano_sample_0_25
+
+                    if intensity >= MIN_FORTE_INTENSITY: #cargo nota con velocidad alta
+                        f_s, data= wavfile.read(forte_sample)
+                    else: #cargo nota con velocidad baja
+                        f_s, data= wavfile.read(piano_sample)
                 pitch_corrected_data = ResampleArray(data,f_s,int(f_s/freq_factor),SameTimeLimit=False)
                 if((duration/desired_fs)>(1/fmin)):
                     N= 2*int(desired_fs/fmin)
@@ -229,4 +229,28 @@ class SampleSynthesizer(synth.Synthesizer):
 
     def SetInstrument(self,inst):
         self.instrument = inst
-
+    def GetDrumsData(self,duration,intensity):
+        duration_in_time = duration/self.frame_rate
+        sample=""
+        if duration_in_time <=0.625:
+            if intensity <= MIN_FORTE_INTENSITY:
+                sample = DRUMS_PATH + "\\025_mezzo-forte_mallet.wav"
+            else:
+                sample = DRUMS_PATH + "\\025_forte_mallet.wav"
+        elif duration_in_time <= 1.25:
+            if intensity <= int(MIN_FORTE_INTENSITY/2):
+                sample = DRUMS_PATH + "\\1_pianissimo_struck-singly.wav"
+            elif intensity <= MIN_FORTE_INTENSITY:
+                sample = DRUMS_PATH + "\\1_mezzo-piano_struck-singly.wav"
+            else:
+                sample = DRUMS_PATH + "\\1_fortissimo_struck-singly.wav"
+        elif duration_in_time <= 4.25:
+            if intensity <= MIN_FORTE_INTENSITY:
+                sample = DRUMS_PATH + "\\15_pianissimo_rhythm.wav"
+            else:
+                sample = DRUMS_PATH + "\\15_mezzo-piano_rhythm.wav"
+        elif duration_in_time <= 11:
+            sample = DRUMS_PATH + ".\\7_mezzo-forte.wav"
+        else:
+            sample = DRUMS_PATH + ".\\150_mezzo-piano_rhythm"
+        return sample

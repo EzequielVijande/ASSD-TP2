@@ -14,6 +14,7 @@ MIN_FORTE_INTENSITY = 63
 GUITAR_PATH = '.\\Samples\\Guitar'
 COR_ANGLAIS_PATH = '.\\Samples\\Cor Anglais'
 DRUMS_PATH = '.\\Samples\\Drums'
+TRUMPET_PATH = ''
 
 def ResampleArray(array,f_s_original,f_s_output,SameTimeLimit=True):
     input_points = array.size
