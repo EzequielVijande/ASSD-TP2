@@ -3,7 +3,7 @@ import spectralAnalysis as sa
 import additiveSynthesis as addsyn
 from pathlib import Path
 
-def realEnvelopeSynthesis(fileNameOrigin,fileNameDestination,npg):
+def realEnvelopeSynthesis(fileNameOrigin,fileNameDestination,txtName,npg):
     data_folder = Path("all-samples/")
     file_to_open = data_folder / fileNameOrigin
     fs, signalTime, signalData, fftF, fftData, stftF, stftT, stftData, nMax = sa.wavSpectralAnalysis(file_to_open)
@@ -37,10 +37,10 @@ def realEnvelopeSynthesis(fileNameOrigin,fileNameDestination,npg):
 
 
 def main():
-    realEnvelopeSynthesis("trumpet_A4_15_forte_normal.wav","reTrumpet128.wav",128)
-    realEnvelopeSynthesis("violin_A4_15_fortissimo_arco-normal.wav","reViolin128.wav",128)
-    realEnvelopeSynthesis("saxophone_B3_1_fortissimo_normal.wav","reSaxo128.wav",128)
-    realEnvelopeSynthesis("8403__speedy__clean-g-str-pluck.wav","reGuitar128.wav",128)
+    #realEnvelopeSynthesis("trumpet_A4_15_forte_normal.wav","reTrumpet128.wav",128)
+    realEnvelopeSynthesis("violin_A4_15_fortissimo_arco-normal.wav","reViolin512.wav","violin.txt",512)
+    realEnvelopeSynthesis("saxophone_B3_1_fortissimo_normal.wav","reSaxo256.wav","saxo.txt",256)
+    #realEnvelopeSynthesis("8403__speedy__clean-g-str-pluck.wav","reGuitar128.wav",128)
 
 
 if __name__== "__main__":

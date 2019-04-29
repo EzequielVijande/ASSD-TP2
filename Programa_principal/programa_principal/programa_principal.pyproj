@@ -21,11 +21,15 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="additiveSynthesis.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Fm_synth.py" />
     <Compile Include="main_program.py" />
     <Compile Include="OLA.py" />
     <Compile Include="PhaseVocoder.py" />
     <Compile Include="SampleSynthesizer.py" />
+    <Compile Include="spectralAnalysis.py" />
     <Compile Include="SpectrumSeparator.py" />
     <Compile Include="synth.py" />
     <Compile Include="wav_gen.py" />
