@@ -11,8 +11,10 @@ import synth
 import WSOLA as w
 
 MIN_FORTE_INTENSITY = 63
-GUITAR_PATH = '.\Samples\Guitar'
-COR_ANGLAIS_PATH = '.\Samples\Cor Anglais'
+GUITAR_PATH = '.\\Samples\\Guitar'
+COR_ANGLAIS_PATH = '.\\Samples\\Cor Anglais'
+DRUMS_PATH = '.\\Samples\\Drums'
+TRUMPET_PATH = '.\\Samples\\Trumpet'
 
 def ResampleArray(array,f_s_original,f_s_output,SameTimeLimit=True):
     input_points = array.size
@@ -127,6 +129,57 @@ class SampleSynthesizer(synth.Synthesizer):
             (midi.B_5, (COR_ANGLAIS_PATH+"\B5_1_forte.wav",COR_ANGLAIS_PATH+"\B5_1_mezzo-piano.wav",COR_ANGLAIS_PATH+"\B5_025_forte.wav",COR_ANGLAIS_PATH+"\B5_025_mezzo-piano.wav",1)),
             (midi.C_6, (COR_ANGLAIS_PATH+"\B5_1_forte.wav",COR_ANGLAIS_PATH+"\B5_1_mezzo-piano.wav",COR_ANGLAIS_PATH+"\B5_025_forte.wav",COR_ANGLAIS_PATH+"\B5_025_mezzo-piano.wav",1.059463094))
             ])     #Para el corn anglais los valores son: (forte_1.5,piano_1.5,forte_0.5,piano_0.5,freq_factor)
+        self.trumpet_dict = dict([
+            ( midi.E_2, (TRUMPET_PATH+"//E2_25_pianissimo_normal.wav",TRUMPET_PATH+"//E2_25_pianissimo_normal.wav",TRUMPET_PATH+"//E2_25_pianissimo_normal.wav",TRUMPET_PATH+"//E2_25_pianissimo_normal.wav",TRUMPET_PATH+"//E2_25_pianissimo_normal.wav",TRUMPET_PATH+"//E2_25_pianissimo_normal.wav",1) ),
+            ( midi.F_2, (TRUMPET_PATH+"//E2_25_pianissimo_normal.wav",TRUMPET_PATH+"//E2_25_pianissimo_normal.wav",TRUMPET_PATH+"//E2_25_pianissimo_normal.wav",TRUMPET_PATH+"//E2_25_pianissimo_normal.wav",TRUMPET_PATH+"//E2_25_pianissimo_normal.wav",TRUMPET_PATH+"//E2_25_pianissimo_normal.wav",1.059463094) ),
+            ( midi.Fs_2, (TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",0.8908987181) ),
+            ( midi.G_2, (TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",0.9438743127) ),
+            ( midi.Gs_2, (TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",1) ),
+            ( midi.A_2, (TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",1.059463094) ),
+            ( midi.As_2, (TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",1.122462048) ),
+            ( midi.B_2, (TRUMPET_PATH+"//Cs3_15_pianissimo_normal.wav",TRUMPET_PATH+"//Cs3_15_pianissimo_normal.wav",TRUMPET_PATH+"//Cs3_15_pianissimo_normal.wav",TRUMPET_PATH+"//Cs3_15_pianissimo_normal.wav",TRUMPET_PATH+"//Cs3_15_pianissimo_normal.wav",TRUMPET_PATH+"//Cs3_15_pianissimo_normal.wav",0.8908987181) ),
+            ( midi.C_3, (TRUMPET_PATH+"//E3_15_forte.wav",TRUMPET_PATH+"//E3_15_pianissimo.wav",TRUMPET_PATH+"//E3_1_forte.wav",TRUMPET_PATH+"//E3_1_pianissimo.wav",TRUMPET_PATH+"//E3_025_mezzo-forte.wav",TRUMPET_PATH+"//E3_025_pianissimo.wav",0.793700526) ),
+            ( midi.Cs_3, (TRUMPET_PATH+"//E3_15_forte.wav",TRUMPET_PATH+"//E3_15_pianissimo.wav",TRUMPET_PATH+"//E3_1_forte.wav",TRUMPET_PATH+"//E3_1_pianissimo.wav",TRUMPET_PATH+"//E3_025_mezzo-forte.wav",TRUMPET_PATH+"//E3_025_pianissimo.wav",0.8408964153) ),
+            ( midi.D_3, (TRUMPET_PATH+"//E3_15_forte.wav",TRUMPET_PATH+"//E3_15_pianissimo.wav",TRUMPET_PATH+"//E3_1_forte.wav",TRUMPET_PATH+"//E3_1_pianissimo.wav",TRUMPET_PATH+"//E3_025_mezzo-forte.wav",TRUMPET_PATH+"//E3_025_pianissimo.wav",0.8908987181) ),
+            ( midi.Ds_3, (TRUMPET_PATH+"//E3_15_forte.wav",TRUMPET_PATH+"//E3_15_pianissimo.wav",TRUMPET_PATH+"//E3_1_forte.wav",TRUMPET_PATH+"//E3_1_pianissimo.wav",TRUMPET_PATH+"//E3_025_mezzo-forte.wav",TRUMPET_PATH+"//E3_025_pianissimo.wav",0.9438743127) ),
+            ( midi.E_3, (TRUMPET_PATH+"//E3_15_forte.wav",TRUMPET_PATH+"//E3_15_pianissimo.wav",TRUMPET_PATH+"//E3_1_forte.wav",TRUMPET_PATH+"//E3_1_pianissimo.wav",TRUMPET_PATH+"//E3_025_mezzo-forte.wav",TRUMPET_PATH+"//E3_025_pianissimo.wav",1) ),
+            ( midi.F_3, (TRUMPET_PATH+"//E3_15_forte.wav",TRUMPET_PATH+"//E3_15_pianissimo.wav",TRUMPET_PATH+"//E3_1_forte.wav",TRUMPET_PATH+"//E3_1_pianissimo.wav",TRUMPET_PATH+"//E3_025_mezzo-forte.wav",TRUMPET_PATH+"//E3_025_pianissimo.wav",1.059463094) ),
+            ( midi.Fs_3, (TRUMPET_PATH+"//Gs3_15_forte.wav",TRUMPET_PATH+"//Gs3_15_pianissimo.wav",TRUMPET_PATH+"//Gs3_1_forte.wav",TRUMPET_PATH+"//Gs3_1_pianissimo.wav",TRUMPET_PATH+"//Gs3_025_forte.wav",TRUMPET_PATH+"//Gs3_025_pianissimo.wav",0.8908987181) ),
+            ( midi.G_3, (TRUMPET_PATH+"//Gs3_15_forte.wav",TRUMPET_PATH+"//Gs3_15_pianissimo.wav",TRUMPET_PATH+"//Gs3_1_forte.wav",TRUMPET_PATH+"//Gs3_1_pianissimo.wav",TRUMPET_PATH+"//Gs3_025_forte.wav",TRUMPET_PATH+"//Gs3_025_pianissimo.wav",0.9438743127) ),
+            ( midi.Gs_3, (TRUMPET_PATH+"//Gs3_15_forte.wav",TRUMPET_PATH+"//Gs3_15_pianissimo.wav",TRUMPET_PATH+"//Gs3_1_forte.wav",TRUMPET_PATH+"//Gs3_1_pianissimo.wav",TRUMPET_PATH+"//Gs3_025_forte.wav",TRUMPET_PATH+"//Gs3_025_pianissimo.wav",1) ),
+            ( midi.A_3, (TRUMPET_PATH+"//Gs3_15_forte.wav",TRUMPET_PATH+"//Gs3_15_pianissimo.wav",TRUMPET_PATH+"//Gs3_1_forte.wav",TRUMPET_PATH+"//Gs3_1_pianissimo.wav",TRUMPET_PATH+"//Gs3_025_forte.wav",TRUMPET_PATH+"//Gs3_025_pianissimo.wav",1.059463094) ),
+            ( midi.As_3, (TRUMPET_PATH+"//Gs3_15_forte.wav",TRUMPET_PATH+"//Gs3_15_pianissimo.wav",TRUMPET_PATH+"//Gs3_1_forte.wav",TRUMPET_PATH+"//Gs3_1_pianissimo.wav",TRUMPET_PATH+"//Gs3_025_forte.wav",TRUMPET_PATH+"//Gs3_025_pianissimo.wav",1.122462048) ),
+            ( midi.B_3, (TRUMPET_PATH+"//C4_15_pianissimo.wav",TRUMPET_PATH+"//C4_15_pianissimo.wav",TRUMPET_PATH+"//C4_1_forte.wav",TRUMPET_PATH+"//C4_1_pianissimo.wav",TRUMPET_PATH+"//C4_025_forte.wav",TRUMPET_PATH+"//C4_025_pianissimo.wav",0.9438743127) ),
+            ( midi.C_4, (TRUMPET_PATH+"//C4_15_pianissimo.wav",TRUMPET_PATH+"//C4_15_pianissimo.wav",TRUMPET_PATH+"//C4_1_forte.wav",TRUMPET_PATH+"//C4_1_pianissimo.wav",TRUMPET_PATH+"//C4_025_forte.wav",TRUMPET_PATH+"//C4_025_pianissimo.wav",1) ),
+            ( midi.Cs_4, (TRUMPET_PATH+"//C4_15_pianissimo.wav",TRUMPET_PATH+"//C4_15_pianissimo.wav",TRUMPET_PATH+"//C4_1_forte.wav",TRUMPET_PATH+"//C4_1_pianissimo.wav",TRUMPET_PATH+"//C4_025_forte.wav",TRUMPET_PATH+"//C4_025_pianissimo.wav",1.122462048) ),
+            ( midi.D_4, (TRUMPET_PATH+"//E4_15_forte.wav",TRUMPET_PATH+"//E4_15_pianissimo.wav",TRUMPET_PATH+"//E4_1_forte.wav",TRUMPET_PATH+"//E4_1_pianissimo.wav",TRUMPET_PATH+"//E4_025_forte.wav",TRUMPET_PATH+"//E4_025_pianissimo.wav",0.8908987181) ),
+            ( midi.Ds_4, (TRUMPET_PATH+"//E4_15_forte.wav",TRUMPET_PATH+"//E4_15_pianissimo.wav",TRUMPET_PATH+"//E4_1_forte.wav",TRUMPET_PATH+"//E4_1_pianissimo.wav",TRUMPET_PATH+"//E4_025_forte.wav",TRUMPET_PATH+"//E4_025_pianissimo.wav",0.9438743127) ),
+            ( midi.E_4, (TRUMPET_PATH+"//E4_15_forte.wav",TRUMPET_PATH+"//E4_15_pianissimo.wav",TRUMPET_PATH+"//E4_1_forte.wav",TRUMPET_PATH+"//E4_1_pianissimo.wav",TRUMPET_PATH+"//E4_025_forte.wav",TRUMPET_PATH+"//E4_025_pianissimo.wav",1) ),
+            ( midi.F_4, (TRUMPET_PATH+"//E4_15_forte.wav",TRUMPET_PATH+"//E4_15_pianissimo.wav",TRUMPET_PATH+"//E4_1_forte.wav",TRUMPET_PATH+"//E4_1_pianissimo.wav",TRUMPET_PATH+"//E4_025_forte.wav",TRUMPET_PATH+"//E4_025_pianissimo.wav",1.122462048) ),
+            ( midi.Fs_4, (TRUMPET_PATH+"//Gs4_15_fortissimo.wav",TRUMPET_PATH+"//Gs4_15_pianissimo.wav",TRUMPET_PATH+"//Gs4_1_forte.wav",TRUMPET_PATH+"//Gs4_1_pianissimo.wav",TRUMPET_PATH+"//Gs4_025_forte.wav",TRUMPET_PATH+"//Gs4_025_pianissimo.wav",0.8908987181) ),
+            ( midi.G_4, (TRUMPET_PATH+"//Gs4_15_fortissimo.wav",TRUMPET_PATH+"//Gs4_15_pianissimo.wav",TRUMPET_PATH+"//Gs4_1_forte.wav",TRUMPET_PATH+"//Gs4_1_pianissimo.wav",TRUMPET_PATH+"//Gs4_025_forte.wav",TRUMPET_PATH+"//Gs4_025_pianissimo.wav",0.9438743127) ),
+            ( midi.Gs_4, (TRUMPET_PATH+"//Gs4_15_fortissimo.wav",TRUMPET_PATH+"//Gs4_15_pianissimo.wav",TRUMPET_PATH+"//Gs4_1_forte.wav",TRUMPET_PATH+"//Gs4_1_pianissimo.wav",TRUMPET_PATH+"//Gs4_025_forte.wav",TRUMPET_PATH+"//Gs4_025_pianissimo.wav",1) ),
+            ( midi.A_4, (TRUMPET_PATH+"//Gs4_15_fortissimo.wav",TRUMPET_PATH+"//Gs4_15_pianissimo.wav",TRUMPET_PATH+"//Gs4_1_forte.wav",TRUMPET_PATH+"//Gs4_1_pianissimo.wav",TRUMPET_PATH+"//Gs4_025_forte.wav",TRUMPET_PATH+"//Gs4_025_pianissimo.wav",1.059463094) ),
+            ( midi.As_4, (TRUMPET_PATH+"//C5_15_forte.wav",TRUMPET_PATH+"//C5_15_pianissimo.wav",TRUMPET_PATH+"//C5_1_forte.wav",TRUMPET_PATH+"//C5_1_pianissimo.wav",TRUMPET_PATH+"//C5_025_forte.wav",TRUMPET_PATH+"//C5_025_pianissimo.wav",0.8908987181) ),
+            ( midi.B_4, (TRUMPET_PATH+"//C5_15_forte.wav",TRUMPET_PATH+"//C5_15_pianissimo.wav",TRUMPET_PATH+"//C5_1_forte.wav",TRUMPET_PATH+"//C5_1_pianissimo.wav",TRUMPET_PATH+"//C5_025_forte.wav",TRUMPET_PATH+"//C5_025_pianissimo.wav",0.9438743127) ),
+            ( midi.C_5, (TRUMPET_PATH+"//C5_15_forte.wav",TRUMPET_PATH+"//C5_15_pianissimo.wav",TRUMPET_PATH+"//C5_1_forte.wav",TRUMPET_PATH+"//C5_1_pianissimo.wav",TRUMPET_PATH+"//C5_025_forte.wav",TRUMPET_PATH+"//C5_025_pianissimo.wav",1) ),
+            ( midi.Cs_5, (TRUMPET_PATH+"//C5_15_forte.wav",TRUMPET_PATH+"//C5_15_pianissimo.wav",TRUMPET_PATH+"//C5_1_forte.wav",TRUMPET_PATH+"//C5_1_pianissimo.wav",TRUMPET_PATH+"//C5_025_forte.wav",TRUMPET_PATH+"//C5_025_pianissimo.wav",1.059463094) ),
+            ( midi.D_5, (TRUMPET_PATH+"//E5_15_forte.wav",TRUMPET_PATH+"//E5_15_pianissimo.wav",TRUMPET_PATH+"//E5_1_forte.wav",TRUMPET_PATH+"//E5_1_pianissimo.wav",TRUMPET_PATH+"//E5_025_forte.wav",TRUMPET_PATH+"//E5_025_pianissimo.wav",0.8908987181) ),
+            ( midi.Ds_5, (TRUMPET_PATH+"//E5_15_forte.wav",TRUMPET_PATH+"//E5_15_pianissimo.wav",TRUMPET_PATH+"//E5_1_forte.wav",TRUMPET_PATH+"//E5_1_pianissimo.wav",TRUMPET_PATH+"//E5_025_forte.wav",TRUMPET_PATH+"//E5_025_pianissimo.wav",0.9438743127) ),
+            ( midi.E_5, (TRUMPET_PATH+"//E5_15_forte.wav",TRUMPET_PATH+"//E5_15_pianissimo.wav",TRUMPET_PATH+"//E5_1_forte.wav",TRUMPET_PATH+"//E5_1_pianissimo.wav",TRUMPET_PATH+"//E5_025_forte.wav",TRUMPET_PATH+"//E5_025_pianissimo.wav",1) ),
+            ( midi.F_5, (TRUMPET_PATH+"//E5_15_forte.wav",TRUMPET_PATH+"//E5_15_pianissimo.wav",TRUMPET_PATH+"//E5_1_forte.wav",TRUMPET_PATH+"//E5_1_pianissimo.wav",TRUMPET_PATH+"//E5_025_forte.wav",TRUMPET_PATH+"//E5_025_pianissimo.wav",1.059463094) ),
+            ( midi.Fs_5, (TRUMPET_PATH+"//Gs5_15_forte.wav",TRUMPET_PATH+"//Gs5_15_pianissimo.wav",TRUMPET_PATH+"//Gs5_1_forte.wav",TRUMPET_PATH+"//Gs5_1_pianissimo.wav",TRUMPET_PATH+"//Gs5_025_forte.wav",TRUMPET_PATH+"//Gs5_025_pianissimo.wav",0.8908987181) ),
+            ( midi.G_5, (TRUMPET_PATH+"//Gs5_15_forte.wav",TRUMPET_PATH+"//Gs5_15_pianissimo.wav",TRUMPET_PATH+"//Gs5_1_forte.wav",TRUMPET_PATH+"//Gs5_1_pianissimo.wav",TRUMPET_PATH+"//Gs5_025_forte.wav",TRUMPET_PATH+"//Gs5_025_pianissimo.wav",0.9438743127) ),
+            ( midi.Gs_5, (TRUMPET_PATH+"//Gs5_15_forte.wav",TRUMPET_PATH+"//Gs5_15_pianissimo.wav",TRUMPET_PATH+"//Gs5_1_forte.wav",TRUMPET_PATH+"//Gs5_1_pianissimo.wav",TRUMPET_PATH+"//Gs5_025_forte.wav",TRUMPET_PATH+"//Gs5_025_pianissimo.wav",1) ),
+            ( midi.A_5, (TRUMPET_PATH+"//Gs5_15_forte.wav",TRUMPET_PATH+"//Gs5_15_pianissimo.wav",TRUMPET_PATH+"//Gs5_1_forte.wav",TRUMPET_PATH+"//Gs5_1_pianissimo.wav",TRUMPET_PATH+"//Gs5_025_forte.wav",TRUMPET_PATH+"//Gs5_025_pianissimo.wav",1.059463094) ),
+            ( midi.As_5, (TRUMPET_PATH+"//C6_15_forte.wav",TRUMPET_PATH+"//C6_15_pianissimo.wav",TRUMPET_PATH+"//C6_1_forte.wav",TRUMPET_PATH+"//C6_1_pianissimo.wav",TRUMPET_PATH+"//C6_025_forte.wav",TRUMPET_PATH+"//C6_025_mezzo-forte.wav",0.8908987181) ),
+            ( midi.B_5, (TRUMPET_PATH+"//C6_15_forte.wav",TRUMPET_PATH+"//C6_15_pianissimo.wav",TRUMPET_PATH+"//C6_1_forte.wav",TRUMPET_PATH+"//C6_1_pianissimo.wav",TRUMPET_PATH+"//C6_025_forte.wav",TRUMPET_PATH+"//C6_025_mezzo-forte.wav",0.9438743127) ),
+            ( midi.C_6, (TRUMPET_PATH+"//C6_15_forte.wav",TRUMPET_PATH+"//C6_15_pianissimo.wav",TRUMPET_PATH+"//C6_1_forte.wav",TRUMPET_PATH+"//C6_1_pianissimo.wav",TRUMPET_PATH+"//C6_025_forte.wav",TRUMPET_PATH+"//C6_025_mezzo-forte.wav",1) ),
+            ( midi.Cs_6, (TRUMPET_PATH+"//C6_15_forte.wav",TRUMPET_PATH+"//C6_15_pianissimo.wav",TRUMPET_PATH+"//C6_1_forte.wav",TRUMPET_PATH+"//C6_1_pianissimo.wav",TRUMPET_PATH+"//C6_025_forte.wav",TRUMPET_PATH+"//C6_025_mezzo-forte.wav",1.059463094) ),
+            ( midi.D_6, (TRUMPET_PATH+"//C6_15_forte.wav",TRUMPET_PATH+"//C6_15_pianissimo.wav",TRUMPET_PATH+"//C6_1_forte.wav",TRUMPET_PATH+"//C6_1_pianissimo.wav",TRUMPET_PATH+"//C6_025_forte.wav",TRUMPET_PATH+"//C6_025_mezzo-forte.wav",1.122462048) ),
+            ( midi.Ds_6, (TRUMPET_PATH+"//C6_15_forte.wav",TRUMPET_PATH+"//C6_15_pianissimo.wav",TRUMPET_PATH+"//C6_1_forte.wav",TRUMPET_PATH+"//C6_1_pianissimo.wav",TRUMPET_PATH+"//C6_025_forte.wav",TRUMPET_PATH+"//C6_025_mezzo-forte.wav",1.189207115) ),
+            ( midi.E_6, (TRUMPET_PATH+"//E6_15_forte.wav",TRUMPET_PATH+"//E6_15_forte.wav",TRUMPET_PATH+"//E6_1_forte.wav",TRUMPET_PATH+"//E6_1_forte.wav",TRUMPET_PATH+"//E6_025_forte.wav",TRUMPET_PATH+"//E6_025_forte.wav",1) )
+            ])  ##Para la trompeta los valores son: (forte_1.5,pianissimo_1.5,forte_1,pianissimo_1,,forte_0.25,pianissimo_0.25,freq_factor)
         #Diccionario donde guardo las notas ya sintetizadas
         self.note_dict = dict()
         self.curr_instrument = ""
@@ -139,69 +192,99 @@ class SampleSynthesizer(synth.Synthesizer):
         value_type = str(type(self.note_dict.get((pitch,duration,intensity),1)))
         if(value_type == "<class 'int'>"):
             desired_fs = self.frame_rate
-            if( instrument == 'guitar'):
-                fmin = 82 #Frecuencia minima de un semitono de guitarra
-                if( pitch < midi.E_2):
-                    forte_sample= GUITAR_PATH+"\E2_forte_trimmed.wav"
-                    piano_sample= GUITAR_PATH+"\E2_piano_trimmed.wav"
-                    freq_factor = 1
-                elif( pitch > midi.C_6):
-                    forte_sample = GUITAR_PATH+"\C6_forte_trimmed.wav"
-                    piano_sample = GUITAR_PATH+"\C6_piano_trimmed.wav"
-                    freq_factor = 1
+            if( instrument == 'drums'):
+                if(duration < 1000):
+                    N= math.ceil(duration/2)
                 else:
-                    forte_sample,piano_sample,freq_factor = self.guitar_dict[pitch]
-
-                if intensity >= MIN_FORTE_INTENSITY: #cargo nota con velocidad alta
-                    f_s, data= wavfile.read(forte_sample)
-                else: #cargo nota con velocidad baja
-                    f_s, data= wavfile.read(piano_sample)
-                pitch_corrected_data = ResampleArray(data,f_s,int(f_s/freq_factor),SameTimeLimit=False)
-                if((duration/desired_fs)>(1/fmin)):
-                    N= 2*int(desired_fs/fmin)
-                else:
-                    N= int(0.1*duration) #La duracion es menor que el periodo undamental minimo
-                #t_h, harm, t_p, perc = spectr.GetPercussiveAndHarmonicSpectrum(pitch_corrected_data,frame_size = N,beta=2)
-                t_h = np.linspace(0,pitch_corrected_data.size,pitch_corrected_data.size)
+                    N=1000
+                f_s, data= wavfile.read( self.GetDrumsData(duration,intensity) )
+                t_h = np.linspace(0,data.size,data.size)
                 window = MakeWindow(N)
                 stretch_factor = (duration)/t_h[-1]
                 stretch_func = stretch_factor*t_h
-                note= ph.PhVocoder(pitch_corrected_data,window,stretch_func,int(0.1*N))
-                #note = w.WSOLA(pitch_corrected_data,window,stretch_func,max_tolerance=25,overlap=0.1)
-                #note= o.OLA(pitch_corrected_data,window,stretch_func,0.1)
-                #note = y_h + y_p
+                note= o.OLA(data,window,stretch_func,0.01)
+            else:
+                if( instrument == 'guitar'):
+                    fmin = 82 #Frecuencia minima de un semitono de guitarra
+                    if( pitch < midi.E_2):
+                        forte_sample= GUITAR_PATH+"\E2_forte_trimmed.wav"
+                        piano_sample= GUITAR_PATH+"\E2_piano_trimmed.wav"
+                        freq_factor = 1
+                    elif( pitch > midi.C_6):
+                        forte_sample = GUITAR_PATH+"\C6_forte_trimmed.wav"
+                        piano_sample = GUITAR_PATH+"\C6_piano_trimmed.wav"
+                        freq_factor = 1
+                    else:
+                        forte_sample,piano_sample,freq_factor = self.guitar_dict[pitch]
+
+                    if intensity >= MIN_FORTE_INTENSITY: #cargo nota con velocidad alta
+                        f_s, data= wavfile.read(forte_sample)
+                    else: #cargo nota con velocidad baja
+                        f_s, data= wavfile.read(piano_sample)
                 
-            elif( instrument == 'corn anglais'):
-                fmin = 165 #Frecuencia minima de un semitono de corn anglais
-                if( pitch < midi.E_3):
-                    if( duration > int(0.875*self.frame_rate)): #Uso las muestras de 1.5 seg para duraciones mayores a 0.875 seg
-                        forte_sample= COR_ANGLAIS_PATH+"\E3_15_fortissimo.wav"
-                        piano_sample= COR_ANGLAIS_PATH+"\E3_15_piano.wav"
+                elif( instrument == 'corn anglais'):
+                    fmin = 165 #Frecuencia minima de un semitono de corn anglais
+                    if( pitch < midi.E_3):
+                        if( duration > int(0.875*self.frame_rate)): #Uso las muestras de 1.5 seg para duraciones mayores a 0.875 seg
+                            forte_sample= COR_ANGLAIS_PATH+"\E3_15_fortissimo.wav"
+                            piano_sample= COR_ANGLAIS_PATH+"\E3_15_piano.wav"
+                        else:
+                            forte_sample= COR_ANGLAIS_PATH+"\E3_025_mezzo_forte.wav"
+                            piano_sample= COR_ANGLAIS_PATH+"\E3_025_piano.wav"
+                        freq_factor = 1
+                    elif( pitch > midi.C_6):
+                        if( duration > int(0.625*self.frame_rate)):
+                            forte_sample = COR_ANGLAIS_PATH+"\B5_1_forte.wav"
+                            piano_sample = COR_ANGLAIS_PATH+"\B5_1_mezzo-piano.wav"
+                        else:
+                            forte_sample = COR_ANGLAIS_PATH+"\B5_025_forte.wav"
+                            COR_ANGLAIS_PATH+"\B5_025_mezzo-piano.wav"
+                        freq_factor = 1.059463094
                     else:
-                        forte_sample= COR_ANGLAIS_PATH+"\E3_025_mezzo_forte.wav"
-                        piano_sample= COR_ANGLAIS_PATH+"\E3_025_piano.wav"
-                    freq_factor = 1
-                elif( pitch > midi.C_6):
-                    if( duration > int(0.625*self.frame_rate)):
-                        forte_sample = COR_ANGLAIS_PATH+"\B5_1_forte.wav"
-                        piano_sample = COR_ANGLAIS_PATH+"\B5_1_mezzo-piano.wav"
-                    else:
-                        forte_sample = COR_ANGLAIS_PATH+"\B5_025_forte.wav"
-                        COR_ANGLAIS_PATH+"\B5_025_mezzo-piano.wav"
-                    freq_factor = 1.059463094
-                else:
-                    forte_sample_1_5,piano_sample_1_5,forte_sample_0_25,piano_sample_0_25,freq_factor = self.corn_dict[pitch]
-                    if( duration > int(0.875*self.frame_rate) ):
-                        forte_sample = forte_sample_1_5
-                        piano_sample = piano_sample_1_5
-                    else:
-                        forte_sample = forte_sample_0_25
-                        piano_sample = piano_sample_0_25
+                        forte_sample_1_5,piano_sample_1_5,forte_sample_0_25,piano_sample_0_25,freq_factor = self.corn_dict[pitch]
+                        if( duration > int(0.875*self.frame_rate) ):
+                            forte_sample = forte_sample_1_5
+                            piano_sample = piano_sample_1_5
+                        else:
+                            forte_sample = forte_sample_0_25
+                            piano_sample = piano_sample_0_25
 
-                if intensity >= MIN_FORTE_INTENSITY: #cargo nota con velocidad alta
-                    f_s, data= wavfile.read(forte_sample)
-                else: #cargo nota con velocidad baja
-                    f_s, data= wavfile.read(piano_sample)
+                    if intensity >= MIN_FORTE_INTENSITY: #cargo nota con velocidad alta
+                        f_s, data= wavfile.read(forte_sample)
+                    else: #cargo nota con velocidad baja
+                        f_s, data= wavfile.read(piano_sample)
+                elif( instrument == 'trumpet'):
+                    fmin = 82 #Frecuencia minima de un semitono de trompeta
+                    if( pitch < midi.E_2):
+                        forte_sample = TRUMPET_PATH+"//E2_25_pianissimo_normal.wav"
+                        piano_sample = TRUMPET_PATH+"//E2_25_pianissimo_normal.wav"
+                        freq_factor = 1
+                    elif( pitch > midi.E_6):
+                        if( duration < int(0.625*self.frame_rate)):
+                            forte_sample = (self.trumpet_dict[ midi.E_6])[4]
+                            piano_sample = (self.trumpet_dict[ midi.E_6])[5]
+                        elif( duration < int(1.25*self.frame_rate) ):
+                            forte_sample = (self.trumpet_dict[ midi.E_6])[2]
+                            piano_sample = (self.trumpet_dict[ midi.E_6])[3]
+                        else:
+                            forte_sample = (self.trumpet_dict[ midi.E_6])[0]
+                            piano_sample = (self.trumpet_dict[ midi.E_6])[1]
+                        freq_factor = (self.trumpet_dict[ midi.E_6])[6]
+                    else:
+                        forte_sample_1_5,piano_sample_1_5,forte_sample_1,piano_sample_1,forte_sample_0_25,piano_sample_0_25,freq_factor = self.trumpet_dict[pitch]
+                        if( duration < int(0.625*self.frame_rate) ):
+                            forte_sample = forte_sample_0_25
+                            piano_sample = piano_sample_0_25
+                        elif( duration < int(1.25*self.frame_rate) ):
+                            forte_sample = forte_sample_1
+                            piano_sample = piano_sample_1
+                        else:
+                            forte_sample = forte_sample_1_5
+                            piano_sample = piano_sample_1_5
+                    if intensity >= MIN_FORTE_INTENSITY: #cargo nota con velocidad alta
+                        f_s, data= wavfile.read(forte_sample)
+                    else: #cargo nota con velocidad baja
+                        f_s, data= wavfile.read(piano_sample)
                 pitch_corrected_data = ResampleArray(data,f_s,int(f_s/freq_factor),SameTimeLimit=False)
                 if((duration/desired_fs)>(1/fmin)):
                     N= 2*int(desired_fs/fmin)
@@ -211,7 +294,9 @@ class SampleSynthesizer(synth.Synthesizer):
                 window = MakeWindow(N)
                 stretch_factor = (duration)/t_h[-1]
                 stretch_func = stretch_factor*t_h
-                note= ph.PhVocoder(pitch_corrected_data,window,stretch_func,int(0.1*N))
+                #note = ph.PhVocoder(pitch_corrected_data,window,stretch_func,math.ceil(0.1*N))
+                note= w.WSOLA(pitch_corrected_data,window,stretch_func,math.ceil(N/2),0.01)
+                #note= o.OLA(pitch_corrected_data,window,stretch_func,0.2)
 
             #Normalizo el vector
             note_max_pos = np.max(note)
@@ -229,4 +314,28 @@ class SampleSynthesizer(synth.Synthesizer):
 
     def SetInstrument(self,inst):
         self.instrument = inst
-
+    def GetDrumsData(self,duration,intensity):
+        duration_in_time = duration/self.frame_rate
+        sample=""
+        if duration_in_time <=0.625:
+            if intensity <= MIN_FORTE_INTENSITY:
+                sample = DRUMS_PATH + "\\025_mezzo-forte_mallet.wav"
+            else:
+                sample = DRUMS_PATH + "\\025_forte_mallet.wav"
+        elif duration_in_time <= 1.25:
+            if intensity <= int(MIN_FORTE_INTENSITY/2):
+                sample = DRUMS_PATH + "\\1_pianissimo_struck-singly.wav"
+            elif intensity <= MIN_FORTE_INTENSITY:
+                sample = DRUMS_PATH + "\\1_mezzo-piano_struck-singly.wav"
+            else:
+                sample = DRUMS_PATH + "\\1_fortissimo_struck-singly.wav"
+        elif duration_in_time <= 4.25:
+            if intensity <= MIN_FORTE_INTENSITY:
+                sample = DRUMS_PATH + "\\15_pianissimo_rhythm.wav"
+            else:
+                sample = DRUMS_PATH + "\\15_mezzo-piano_rhythm.wav"
+        elif duration_in_time <= 11:
+            sample = DRUMS_PATH + ".\\7_mezzo-forte.wav"
+        else:
+            sample = DRUMS_PATH + ".\\150_mezzo-piano_rhythm"
+        return sample

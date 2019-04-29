@@ -37,7 +37,7 @@ def not_meta_track(synth_trk_inst):
 
 
 waver = wav_gen.WaveManagement()
-pattern = midi.read_midifile(".\ArchivosMIDI\pirates.mid")
+pattern = midi.read_midifile(".\ArchivosMIDI\jurassic.mid")
 # pattern = midi.read_midifile(".\Super Mario 64 - Bob-Omb Battlefield.mid")
 trks = [pattern[i] for i in range(len(pattern))]
 
@@ -45,7 +45,7 @@ synths = [sammy.SampleSynthesizer(pattern.resolution) for i in range(len(pattern
 for s in synths:
     s.set_create_notes_callback(s.create_notes_callback)
 
-insts = [synth.CORN_ANGLAIS]*len(trks)
+insts = [synth.TRUMPET]*len(trks)
 
 synths_trks_insts = [(synths[i], trks[i], insts[i]) for i in range(len(trks))]
 

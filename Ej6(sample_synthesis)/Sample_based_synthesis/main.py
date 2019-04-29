@@ -8,4 +8,4 @@ import midi
 
 pattern = midi.read_midifile(".\ArchivosMIDI\Super Mario 64 - Bob-Omb Battlefield.mid")
 synthesizer = sam.SampleSynthesizer(pattern.resolution)
-synthesizer.synthesize(pattern[2],'corn anglais','prueba.wav')
+synthesizer.synthesize(pattern[1],'corn anglais','prueba.wav')
