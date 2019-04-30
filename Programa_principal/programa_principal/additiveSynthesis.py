@@ -5,8 +5,6 @@ from pathlib import Path
 import spectralAnalysis as sa
 import OLA as ola
 
-import matplotlib.pyplot as plt
-
 # envelope files
 GUITAR_ENVELOPE = "guitarSample.wav"
 VIOLIN_ENVELOPE = "violinSample.wav"
@@ -22,11 +20,11 @@ TRUMPET = 3
 def getNperseg(instrument):
     nperseg = 0
     if instrument == GUITAR:
-        nperseg = 256
+        nperseg = 512
     elif instrument == VIOLIN:
         nperseg = 512
     elif instrument == SAXO:
-        nperseg = 512
+        nperseg = 256
     elif instrument == TRUMPET:
         nperseg = 512
     return nperseg
@@ -49,7 +47,7 @@ def initEnvelopes(files,maxNumber):
         npg = getNperseg(i)
         data_folder = Path("all-samples/")
         file_to_open = data_folder / files[i]
-        fs, signalTime, signalData, fftF, fftData, stftF, stftT, stftData, nMax = sa.wavSpectralAnalysis(file_to_open)
+        fs, signalTime, signalData, fftF, fftData, nMax = sa.wavSpectralAnalysis(file_to_open)
         fHarmonic = sa.findHarmonic(fftData,fftF, nMax)
         auxEnvelopes = sa.findEnvelopes(fHarmonic,signalData,fs,nMax,npg)
         if len(auxEnvelopes) > maxNumber:
@@ -144,8 +142,6 @@ class additiveSynthesis(synth.Synthesizer):
         t_func = scale*t
         for i in range(0,len(envelopes)):
             envelopes[i] = ola.OLA(envelopes[i],np.ones(250),t_func,0)
-        #plt.plot(envelopes[0])
-        #plt.show()
         return envelopes
 
     def create_note_array(self, pitch, amount_of_ns: int, velocity, instrument):

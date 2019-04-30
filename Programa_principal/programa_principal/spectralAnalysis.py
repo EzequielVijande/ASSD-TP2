@@ -26,14 +26,10 @@ def wavSpectralAnalysis(wavPath):
     T = (2*nMax)/fs
     fftF = k/T 
     fftData = fft.rfft(signalData)
-    stftF, stftT, stftData = signal.spectrogram(signalData,fs, nperseg=512)
-    #stftData = abs(stftData[:])
     fftData = abs(fftData[:])
-    return fs, signalTime, signalData, fftF, fftData, stftF, stftT, stftData, nMax
+    return fs, signalTime, signalData, fftF, fftData, nMax
 
 def findHarmonic(fftData,fftF,nMax):
-    #plt.plot(fftF,fftData)
-    #plt.show()
     fMax = 22050
     fftData = abs(fftData[:])
     fHarmonic = []
@@ -77,19 +73,13 @@ def findHarmonic(fftData,fftF,nMax):
 
 def findEnvelopes(fHarmonic,signalData,fs,nMax,npg):
     envelopes = [] # arreglo de arreglos cada arreglo contiene una envolvente para el armonico correspondiente
-    stftF, stftT, stftData = signal.spectrogram(signalData,fs, nperseg=npg)
-   #plt.pcolormesh(stftT, stftF, stftData)
-   #plt.ylabel('Frequency [Hz]')
-   #plt.xlabel('Time [sec]')
-   #plt.show()
+    stftF, stftT, stftData = signal.spectrogram(signalData,fs, nperseg=2000,noverlap = 1800,nfft = 4000)
     signalTime = np.arange(0,nMax/fs,1/fs)
     index = 0
     for i in range(0,len(fHarmonic)):
         for j in range(index,len(stftF)):
             if stftF[j]<=fHarmonic[i] and stftF[j+1]> fHarmonic[i]:
                 auxEnvelope = np.interp(signalTime,stftT,stftData[j])
-                #plt.plot(auxEnvelope)
-                #plt.show()
                 envelopes.append(auxEnvelope)
                 index = j
                 break
