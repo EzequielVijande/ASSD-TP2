@@ -4,6 +4,7 @@ import midi
 import time
 import struct, math
 import wav_gen
+    
 import SampleSynthesizer as sammy
 import synth
 
