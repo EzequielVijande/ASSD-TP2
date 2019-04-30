@@ -61,7 +61,8 @@ data = []
 j = 0
 
 # for format 1 .mid files
-if synths[0].get_tempo_map(trks[0]) is not None:
+#if synths[0].get_tempo_map(trks[0]) is not None:
+if not not_meta_track(synths_trks_insts[0]) and synths[0].get_tempo_map(trks[0]) is not None:
     # new_tempo_map should be None if the first meta track does not contain tempo information
     new_tempo_map = synths[0].get_tempo_map(trks[0])
     print(new_tempo_map)
