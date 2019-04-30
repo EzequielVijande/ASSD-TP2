@@ -37,7 +37,7 @@ def not_meta_track(synth_trk_inst):
     # return len(s.synthesize(t, i, True, 1000)[0]) != 0
 
 waver = wav_gen.WaveManagement()
-pattern = midi.read_midifile(".\ArchivosMIDI\Aguado_12valses_Op1_No1.mid")
+pattern = midi.read_midifile(".\ArchivosMIDI\pirates.mid")
 # pattern = midi.read_midifile(".\Super Mario 64 - Bob-Omb Battlefield.mid")
 trks = [pattern[i] for i in range(len(pattern))]
 
@@ -45,12 +45,12 @@ trks = [pattern[i] for i in range(len(pattern))]
 #for s in synths:
 #    s.set_create_notes_callback(s.create_notes_callback)
 
-add = additiveSynthesis(pattern.resolution)
+add = sammy.SampleSynthesizer(pattern.resolution)
 synths = [Synthesizer(pattern.resolution) for i in range(len(pattern))]
 for s in synths:
-    s.set_create_notes_callback(add.create_note_array)
+    s.set_create_notes_callback(add.create_notes_callback)
 
-insts = [synth.GUITAR]*len(trks)
+insts = [synth.VIOLIN]*len(trks)
 
 synths_trks_insts = [(synths[i], trks[i], insts[i]) for i in range(len(trks))]
 
