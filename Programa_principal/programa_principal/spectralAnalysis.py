@@ -71,7 +71,7 @@ def findHarmonic(fftData,fftF,nMax):
                 break
     return fHarmonic
 
-def findEnvelopes(fHarmonic,signalData,fs,nMax,npg):
+def findEnvelopes(fHarmonic,signalData,fs,nMax):
     envelopes = [] # arreglo de arreglos cada arreglo contiene una envolvente para el armonico correspondiente
     stftF, stftT, stftData = signal.spectrogram(signalData,fs, nperseg=2000,noverlap = 1800,nfft = 4000)
     signalTime = np.arange(0,nMax/fs,1/fs)

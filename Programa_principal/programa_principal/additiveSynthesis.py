@@ -17,18 +17,6 @@ VIOLIN = 1
 SAXO = 2
 TRUMPET = 3
 
-def getNperseg(instrument):
-    nperseg = 0
-    if instrument == GUITAR:
-        nperseg = 512
-    elif instrument == VIOLIN:
-        nperseg = 512
-    elif instrument == SAXO:
-        nperseg = 256
-    elif instrument == TRUMPET:
-        nperseg = 512
-    return nperseg
-
 def getInstNumber(instrument):
     instNumb = 0
     if instrument == synth.GUITAR:
@@ -44,12 +32,11 @@ def getInstNumber(instrument):
 def initEnvelopes(files,maxNumber):
     originalEnvelopes = []
     for i in range(0,len(files)):
-        npg = getNperseg(i)
         data_folder = Path("all-samples/")
         file_to_open = data_folder / files[i]
         fs, signalTime, signalData, fftF, fftData, nMax = sa.wavSpectralAnalysis(file_to_open)
         fHarmonic = sa.findHarmonic(fftData,fftF, nMax)
-        auxEnvelopes = sa.findEnvelopes(fHarmonic,signalData,fs,nMax,npg)
+        auxEnvelopes = sa.findEnvelopes(fHarmonic,signalData,fs,nMax)
         if len(auxEnvelopes) > maxNumber:
             auxEnvelopes = auxEnvelopes[:maxNumber] 
         originalEnvelopes.append(auxEnvelopes)
@@ -57,34 +44,17 @@ def initEnvelopes(files,maxNumber):
     print("Additive Synthesis Envelopes Initialized Successfully")
     return originalEnvelopes
 
-class envelope():
-    def __init__(self, envelopes,instrumentString,asample,ssamplei,ssamplef,rsample):
-        self.AllEnvelopes = envelopes
-        self.instrument = getInstNumber(instrumentString)
-        self.attackSample = asample
-        self.sustainSamples = [ssamplei,ssamplef]
-        self.releaseSample = rsample
-        
-    def newResizedEnv(self,sampleNumber):
-        newEnvelope = self.AllEnvelopes
-        #reshape
-        return newEnvelope
-
 
 class additiveSynthesis(synth.Synthesizer):
     def __init__(self, resolution):
-        self.set_create_notes_callback(self.create_note_array)
         super(additiveSynthesis, self).__init__(resolution)
+        self.set_create_notes_callback(self.create_note_array)
         files = []
         files.append(GUITAR_ENVELOPE)
         files.append(VIOLIN_ENVELOPE)
         files.append(SAXO_ENVELOPE)
         files.append(TRUMPET_ENVELOPE)
         self.originalEnvelopes = initEnvelopes(files,30)
-        self.guitarEnvelope = envelope(self.originalEnvelopes[GUITAR],'guitar',1248,0,0,3936)
-        self.violinEnvelope = envelope(self.originalEnvelopes[VIOLIN],'violin',8340,11847,18163,18163)
-        self.saxoEnvelope = envelope(self.originalEnvelopes[SAXO],'saxophone',2508,2508,26663,26663)
-        self.trumpetrEnvelope = envelope(self.originalEnvelopes[TRUMPET],'trumpet',15049,25777,92525,92525)
 
     # Asume duracion total igual al largo de la envolvente
     # Suma armonicos con su envolvente correspondiente
@@ -121,10 +91,11 @@ class additiveSynthesis(synth.Synthesizer):
             synthFunction = np.int16(synthFunction)
         return synthFunction
 
-    def scaleEnvelope(self,envelope,k):
+    def scaleEnvelope(self,envelope,k,int16 = True):
         scaledEnvelope = []
         scaledEnvelope = np.multiply(k,envelope)
-        scaledEnvelope = np.int16(scaledEnvelope)
+        if int16:
+            scaledEnvelope = np.int16(scaledEnvelope)
         return scaledEnvelope
 
     def defineFrequencies(self,fundamentalFreq,instrument):
@@ -150,9 +121,9 @@ class additiveSynthesis(synth.Synthesizer):
         fs = self.frame_rate
         frequencies = self.defineFrequencies(fundamentalFreq,instrument)
         envelopes = self.getEnvelopes(amount_of_ns,instrument)
-        note = self.additiveSynthesis(frequencies,envelopes, fs)
+        note = self.additiveSynthesis(frequencies,envelopes, fs,False)
         if intensity < 1:
-            note = self.scaleEnvelope(note,intensity)
+            note = self.scaleEnvelope(note,intensity,False)
         return note
 
 
