@@ -4,6 +4,7 @@ import midi
 import time
 import struct, math
 import wav_gen
+from additiveSynthesis import additiveSynthesis
 import SampleSynthesizer as sammy
 import synth
 
@@ -35,17 +36,21 @@ def not_meta_track(synth_trk_inst):
     return False
     # return len(s.synthesize(t, i, True, 1000)[0]) != 0
 
-
 waver = wav_gen.WaveManagement()
-pattern = midi.read_midifile(".\ArchivosMIDI\jurassic.mid")
+pattern = midi.read_midifile(".\ArchivosMIDI\pirates.mid")
 # pattern = midi.read_midifile(".\Super Mario 64 - Bob-Omb Battlefield.mid")
 trks = [pattern[i] for i in range(len(pattern))]
 
-synths = [sammy.SampleSynthesizer(pattern.resolution) for i in range(len(pattern))]
-for s in synths:
-    s.set_create_notes_callback(s.create_notes_callback)
+#synths = [additiveSynthesis(pattern.resolution) for i in range(len(pattern))]
+#for s in synths:
+#    s.set_create_notes_callback(s.create_notes_callback)
 
-insts = [synth.TRUMPET]*len(trks)
+add = sammy.SampleSynthesizer(pattern.resolution)
+synths = [Synthesizer(pattern.resolution) for i in range(len(pattern))]
+for s in synths:
+    s.set_create_notes_callback(add.create_notes_callback)
+
+insts = [synth.VIOLIN]*len(trks)
 
 synths_trks_insts = [(synths[i], trks[i], insts[i]) for i in range(len(trks))]
 
@@ -56,7 +61,8 @@ data = []
 j = 0
 
 # for format 1 .mid files
-if synths[0].get_tempo_map(trks[0]) is not None:
+#if synths[0].get_tempo_map(trks[0]) is not None:
+if not not_meta_track(synths_trks_insts[0]) and synths[0].get_tempo_map(trks[0]) is not None:
     # new_tempo_map should be None if the first meta track does not contain tempo information
     new_tempo_map = synths[0].get_tempo_map(trks[0])
     print(new_tempo_map)
