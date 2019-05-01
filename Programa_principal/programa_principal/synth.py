@@ -104,7 +104,7 @@ class Synthesizer:
             if (len(self.x_out) > n_frames)and(len(self.on_notes)==0):               # arbitrarily chosen length in which the buffer should be cleared
                 self.avg_counter = 0
                 returnable = self.x_out[0:n_frames]
-                self.x_out = self.x_out[n_frames-1:]
+                self.x_out = self.x_out[n_frames:]
                 self.last_sent_n += len(returnable)-1
                 self.aux_buffer_flag = True
                 self.aux_buffer_size = len(self.x_out)
@@ -114,7 +114,13 @@ class Synthesizer:
 
         # the deletion of the tempo_map should come after fully synthesizing the track
         self.tempo_map = None
-        return self.x_out, True
+        if len(self.x_out) > n_frames:
+            returnable = self.x_out[0:n_frames]
+            self.x_out = self.x_out[n_frames:]
+            return returnable, False
+        else:
+            returnable = self.x_out + [0]*(n_frames-len(self.x_out)) #Lleno con ceros para devolver n_frames
+            return returnable, True
 
     def handle_track_name(self, ev: midi.TrackNameEvent):
         if self.curr_track_name != '':
