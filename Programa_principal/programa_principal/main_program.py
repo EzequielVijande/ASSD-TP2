@@ -7,6 +7,7 @@ import wav_gen
 from additiveSynthesis import additiveSynthesis
 import SampleSynthesizer as sammy
 import synth
+import GraphSpectrogram as gs
 
 def avg(prev_data, new_data, avg_count):
     if len(prev_data) == 0:
@@ -50,7 +51,7 @@ synths = [Synthesizer(pattern.resolution) for i in range(len(pattern))]
 for s in synths:
     s.set_create_notes_callback(add.create_notes_callback)
 
-insts = [synth.VIOLIN]*len(trks)
+insts = [synth.DRUMS]*len(trks)
 
 synths_trks_insts = [(synths[i], trks[i], insts[i]) for i in range(len(trks))]
 
@@ -89,4 +90,5 @@ while not finished:
 end = time.time()
 
 print('Tardo ' + str(int(end-start)) + ' segundos en sintetizar todo!')
-
+del synths_trks_insts
+gs.GraphSpectrogram(file_name='.\\Track0'+'.wav')
