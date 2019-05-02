@@ -4,9 +4,7 @@
 
 #include "userInterface.h"
 #include "audioSupport.h"
-
-int main()
-{
+int main(void){
     userPreferences_t userChoice;
     audioSupportResults_t audioResult;
     userInteract(&userChoice);

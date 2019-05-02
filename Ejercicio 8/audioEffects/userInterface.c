@@ -25,7 +25,7 @@ void userInteract(userPreferences_t * pUserPreferences){
     printf("Welcome to Audio Effects Interface\n\n");
     printf("10 effects will be shown then, choose the one you want to apply:\n\n");
     printf("(0) All Pass Reverb\n(1) Echo Simple\n(2) Plane Reverb\n(3) Low Pass Reverb\n"
-            "(4) Complete Reverb\n(5) Convolution Reverb\n(6) Robotization\n"
+            "(4) Convolution Reverb\n(5) Complete Reverb\n(6) Robotization\n"
             "(7) Headphones 3D\n(8) Vibrato\n(9) Flanger\n");
     char c = 'A';
     char enter = 'A';
@@ -108,12 +108,14 @@ void planeReverbRoutine(reverbPlane_t * pData){
 }
 void lowPassReverbRoutine(reverbLowPass_t * pData){
     printf("You have choosen Low Pass Reverberator!\n");
+    pData->n = 0;
 }
 void convolutionReverbRoutine(reverbConvolution_t * pData){
     printf("You have choosen Reverberetaion through Convolution!\n");
 }
 void completeReverbRoutine(reverbComplete_t * pData){
     printf("You have choosen Complete Reverberation!\n");
+    pData->n = 0;
 }
 void robotizationRoutine(robotization_t * pData){
     printf("You have choosen Robotization!\n");

@@ -18,8 +18,8 @@
 #define FLANGER 9     //ultimo efecto
 
 
-#define L 20000
-#define FPB 512
+#define L 15000
+#define FPB 64
 
 
 
@@ -59,6 +59,11 @@ typedef struct{
 typedef struct{
     int a;           //comentar que representan estos parámetros
     int b;
+    float memoryInputsDer[L];
+    float memoryInputsIzq[L];
+    float memoryOutputsDer[L];
+    float memoryOutputsIzq[L];
+    int n;
 }reverbLowPass_t;
 
 typedef struct{
@@ -69,6 +74,13 @@ typedef struct{
 typedef struct{
     int a;           //comentar que representan estos parámetros
     int b;
+    float memoryInputsDer[L];
+    float memoryInputsIzq[L];
+    float memoryOutputsDer[L];
+    float memoryOutputsIzq[L];
+    float memoryWDer[L];
+    float memoryWIzq[L];
+    int n;
 }reverbComplete_t;
 
 typedef struct{
