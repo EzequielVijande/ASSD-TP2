@@ -1,0 +1,714 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\end_layout
+
+\begin_layout Plain Layout
+
+% University Assignment Title Page  
+\end_layout
+
+\begin_layout Plain Layout
+
+% LaTeX Template % Version 1.0 (27/12/12) 
+\end_layout
+
+\begin_layout Plain Layout
+
+% % This template has been downloaded from: 
+\end_layout
+
+\begin_layout Plain Layout
+
+% http://www.LaTeXTemplates.com % % Original author: 
+\end_layout
+
+\begin_layout Plain Layout
+
+% WikiBooks (http://en.wikibooks.org/wiki/LaTeX/Title_Creation) % % License:
+ 
+\end_layout
+
+\begin_layout Plain Layout
+
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/) 
+\end_layout
+
+\begin_layout Plain Layout
+
+%  % Instructions for using this template: 
+\end_layout
+
+\begin_layout Plain Layout
+
+% This title page is capable of being compiled as is.
+ This is not useful for  
+\end_layout
+
+\begin_layout Plain Layout
+
+% including it in another document.
+ To do this, you have two options:  
+\end_layout
+
+\begin_layout Plain Layout
+
+% % 1) Copy/paste everything between 
+\backslash
+begin{document} and 
+\backslash
+end{document}  
+\end_layout
+
+\begin_layout Plain Layout
+
+% starting at 
+\backslash
+begin{titlepage} and paste this into another LaTeX file where you  
+\end_layout
+
+\begin_layout Plain Layout
+
+% want your title page.
+ 
+\end_layout
+
+\begin_layout Plain Layout
+
+% OR % 2) Remove everything outside the 
+\backslash
+begin{titlepage} and 
+\backslash
+end{titlepage} and  
+\end_layout
+
+\begin_layout Plain Layout
+
+% move this file to the same directory as the LaTeX file you wish to add
+ it to.
+  
+\end_layout
+
+\begin_layout Plain Layout
+
+% Then add 
+\backslash
+input{./title_page_1.tex} to your LaTeX file where you want your 
+\end_layout
+
+\begin_layout Plain Layout
+
+% title page.
+ % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% %
+\backslash
+title{Title page with logo} 
+\end_layout
+
+\begin_layout Plain Layout
+
+%-------------------------------------------------------------------------------
+--------- 
+\end_layout
+
+\begin_layout Plain Layout
+
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS 
+\end_layout
+
+\begin_layout Plain Layout
+
+%-------------------------------------------------------------------------------
+---------      
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{titlepage}          
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+newcommand{
+\backslash
+HRule}
+\end_layout
+
+\begin_layout Plain Layout
+
+{
+\backslash
+rule{
+\backslash
+linewidth}{0.5mm}} 
+\end_layout
+
+\begin_layout Plain Layout
+
+% Defines a new command for the horizontal lines, change thickness here
+              
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+center 
+\end_layout
+
+\begin_layout Plain Layout
+
+% Center everything on the page               
+\end_layout
+
+\begin_layout Plain Layout
+
+%-------------------------------------------------------------------------------
+---------    
+\end_layout
+
+\begin_layout Plain Layout
+
+%	HEADING SECTIONS     
+\end_layout
+
+\begin_layout Plain Layout
+
+%-------------------------------------------------------------------------------
+---------              
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+textsc{
+\backslash
+LARGE Instituto Tecnológico de Buenos Aires}
+\backslash
+
+\backslash
+[2cm] 
+\end_layout
+
+\begin_layout Plain Layout
+
+% Name of your university/college     
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+textsc{
+\backslash
+Large 22.05 Análisis de Señales y Sistemas Digitales}
+\backslash
+
+\backslash
+[1.5cm] 
+\end_layout
+
+\begin_layout Plain Layout
+
+% Major heading such as course name     
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+textsc{
+\backslash
+large Trabajo Práctico de Laboratorio N°2}
+\backslash
+
+\backslash
+[0.5cm] 
+\end_layout
+
+\begin_layout Plain Layout
+
+% Minor heading such as course title              
+\end_layout
+
+\begin_layout Plain Layout
+
+%-------------------------------------------------------------------------------
+---------    
+\end_layout
+
+\begin_layout Plain Layout
+
+%	TITLE SECTION    
+\end_layout
+
+\begin_layout Plain Layout
+
+%-------------------------------------------------------------------------------
+---------          
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+HRule 
+\backslash
+
+\backslash
+[0.5cm]     
+\end_layout
+
+\begin_layout Plain Layout
+
+{ 
+\backslash
+huge 
+\backslash
+bfseries Análisis y Síntesis de Audio digital}
+\backslash
+
+\backslash
+[0.4cm] % Title of your document     
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+HRule 
+\backslash
+
+\backslash
+[2cm]               
+\end_layout
+
+\begin_layout Plain Layout
+
+%-------------------------------------------------------------------------------
+---------     
+\end_layout
+
+\begin_layout Plain Layout
+
+%	AUTHOR SECTION     
+\end_layout
+
+\begin_layout Plain Layout
+
+%-------------------------------------------------------------------------------
+---------             
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{minipage}{0.4
+\backslash
+textwidth}     
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{flushleft} 
+\backslash
+large     
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+emph{Grupo 2:}
+\backslash
+
+\backslash
+		
+\end_layout
+
+\begin_layout Plain Layout
+
+%names     
+\end_layout
+
+\begin_layout Plain Layout
+
+[.3cm]     Matías 
+\backslash
+textsc{Larroque}
+\backslash
+
+\backslash
+     Leg.
+ 56597
+\backslash
+
+\backslash
+      [.3cm]         
+\end_layout
+
+\begin_layout Plain Layout
+
+Tomás Agustín 
+\backslash
+textsc{González Orlando}
+\backslash
+
+\backslash
+     Leg.
+ 57090
+\backslash
+
+\backslash
+      [.3cm]     
+\end_layout
+
+\begin_layout Plain Layout
+
+Lucero Guadalupe 
+\backslash
+textsc{Fernandez}
+\backslash
+
+\backslash
+     Leg.
+ 57485
+\backslash
+
+\backslash
+      [.3cm]     
+\end_layout
+
+\begin_layout Plain Layout
+
+Manuel 
+\backslash
+textsc{Mollón}
+\backslash
+
+\backslash
+     Leg.
+ 58023
+\backslash
+
+\backslash
+      [.3cm]     
+\end_layout
+
+\begin_layout Plain Layout
+
+Ezequiel 
+\backslash
+textsc{Vijande}
+\backslash
+
+\backslash
+     Leg.
+ 58057
+\backslash
+
+\backslash
+      [.3cm]     
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{flushleft}     
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{minipage}     ~     
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{minipage}{0.4
+\backslash
+textwidth}     
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{flushright} 
+\backslash
+large     
+\backslash
+emph{Profesor:} 
+\backslash
+
+\backslash
+     [.3cm]     
+\end_layout
+
+\begin_layout Plain Layout
+
+Daniel 
+\backslash
+textsc{Jacoby}
+\backslash
+
+\backslash
+ % Supervisor's Name     
+\end_layout
+
+\begin_layout Plain Layout
+
+Carlos 
+\backslash
+textsc{Belaustegui Goitia}
+\backslash
+
+\backslash
+     
+\end_layout
+
+\begin_layout Plain Layout
+
+Rodrigo Iñaki 
+\backslash
+textsc{Iribarren}
+\backslash
+
+\backslash
+     
+\backslash
+end{flushright}     
+\backslash
+end{minipage}
+\backslash
+
+\backslash
+[2cm]              
+\end_layout
+
+\begin_layout Plain Layout
+
+% If you don't want a supervisor, uncomment the two lines below and remove
+ the section above     
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+Large 
+\backslash
+emph{Author:}
+\backslash
+
+\backslash
+     
+\end_layout
+
+\begin_layout Plain Layout
+
+%John 
+\backslash
+textsc{Smith}
+\backslash
+
+\backslash
+[3cm] 
+\end_layout
+
+\begin_layout Plain Layout
+
+% Your name             
+\end_layout
+
+\begin_layout Plain Layout
+
+%-------------------------------------------------------------------------------
+---------     
+\end_layout
+
+\begin_layout Plain Layout
+
+%	DATE SECTION     
+\end_layout
+
+\begin_layout Plain Layout
+
+%-------------------------------------------------------------------------------
+---------              
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+vfill     
+\end_layout
+
+\begin_layout Plain Layout
+
+{
+\backslash
+large Entregado: 3 de Mayo de 2019}
+\backslash
+
+\backslash
+[2cm] 
+\end_layout
+
+\begin_layout Plain Layout
+
+% Date, change the 
+\backslash
+today to a set date if you want to be precise              %--------------------
+--------------------------------------------------------------------   
+  
+\end_layout
+
+\begin_layout Plain Layout
+
+%	LOGO SECTION    
+\end_layout
+
+\begin_layout Plain Layout
+
+%-------------------------------------------------------------------------------
+---------             
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+includegraphics{logo.png}
+\backslash
+
+\backslash
+[1cm] 
+\end_layout
+
+\begin_layout Plain Layout
+
+% %Include a department/university logo - this will require the graphicx
+ %package               %-------------------------------------------------------
+---------------------------------              
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+vfill % Fill the rest of the page with whitespace              
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{titlepage}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
