@@ -1,0 +1,435 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Part
+Ejercicio 8 - ASSD-TP2
+\end_layout
+
+\begin_layout Section
+Introducción
+\end_layout
+
+\begin_layout Standard
+En esta parte del trabajo, se propuso la realización de varios efectos de
+ audio en tiempo real mediante el procesamiento digital de señales.
+ Este procesamiento se basa en el hecho de que se puede estructurar un programa
+ de manera que resulte un sistema para una entrada digital (de audio, en
+ este caso) modificando ciertas características de las mismas, ya sea mediante
+ el punto de vista del espacio de la frecuencia o del espacio temporal.
+ Además, para poder generar dicho sistema que provoque una modificación
+ en la entrada que sea 
+\begin_inset Quotes eld
+\end_inset
+
+agradable
+\begin_inset Quotes erd
+\end_inset
+
+ al usuario, hay ciertas bases de investigación, en el campo de la física,
+ la matemática y la acústica en las cuales debese apoyar para mejores resultados.
+\end_layout
+
+\begin_layout Standard
+A continuación se presentarán los efectos que se intentaron realizar, pero
+ dicha presentación será breve a modo de tan solo acompañar los resultados
+ obtenidos en el programa computacional de esta parte del trabajo.
+\end_layout
+
+\begin_layout Section
+Reverberadores
+\end_layout
+
+\begin_layout Standard
+Un efecto reverberador busca imitar las reflexiones que se producen en una
+ camára reverberante (que puede utilizarse en un estudio de grabación, por
+ ejemplo).
+ El programa computacional realizado podrá simular de mejor manera esta
+ situación a medida que se tengan en cuenta mayor cantidad de factores influyent
+es en la reverberación, como pueden ser los índices de reflexión de los
+ materiales con los que estan conformados las paredes de las habitaciones
+ reverberantes, entre otras cosas.
+ A continuación se presentará el eco simple, reverberador plano, pasabajos,
+ pasa todo, por convolución y el reverberador completo.
+\end_layout
+
+\begin_layout Subsection
+Eco Simple
+\end_layout
+
+\begin_layout Standard
+El eco simple se generá a partir del hecho de que la salida no solo está
+ definida por la entrada, si no que también se le agrega lo que fue la entrada
+ un instante de tiempo anterior, y esto se repite para cualquier instante
+ de tiempo.
+ Entonces la salida puede definirse mediante la siguiente expresión:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $y(n)=x(n)+g.x(n-M)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Siendo M el equivalente al tiempo de retardo.
+ Para poder apreciar un echo, es recomendable que el factor 
+\begin_inset Formula $"g"$
+\end_inset
+
+ sea de 
+\begin_inset Formula $0.5$
+\end_inset
+
+ y el tiempo de retardo sea mayor a 
+\begin_inset Formula $50ms$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Reverberador Plano
+\end_layout
+
+\begin_layout Standard
+Si se analiza el eco simple mediante la transformada Z, el transferencia
+ del sistema queda definida de la siguiente manera:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $H(Z)=\frac{Y(Z)}{X(Z)}=1+g.Z^{-1}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Sin embargo, si se agregaran un número considerable de 
+\begin_inset Quotes eld
+\end_inset
+
+líneas de retardo
+\begin_inset Quotes erd
+\end_inset
+
+ (
+\begin_inset Formula $y(n)=x(n)+g.x(n-M)+g^{2}.x(n-2M)+...$
+\end_inset
+
+) entonces el sistema se podría describir de la siguiente forma:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $H(Z)\simeq\sum_{n=0}^{\infty}(g.Z)^{-nM}=\frac{1}{1+gZ^{-M}}\Rightarrow y(n)=g.y(n-M)+x(n)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+En esto, entonces, se basa en un reverberador plano, el cual imita mejor
+ los efectos de una cámara reverberante ya que en cada reflexión se añade
+ un nuevo retardo, siendo la cantidad de veces que se dan estas reflexiones
+ un número considerablemente 
+\begin_inset Quotes eld
+\end_inset
+
+grande
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Reverberador Pasa Bajos
+\end_layout
+
+\begin_layout Standard
+El reverberador pasabajos, tiene en cuenta que en cada reflexión se produce
+ un decaimiento del retardo ya que existe físicamente pérdida de energía
+ (coeficiente de reflexión menor a 1).
+ Entonces, se simula este hecho agregando en la línea de retardo un pasabajos
+ (por ejemplo, con función transferencia 
+\begin_inset Formula $G(Z)$
+\end_inset
+
+) quedando la transferencia total del sistema como 
+\begin_inset Formula $H(Z)=\frac{1}{1+(gZ^{-M}).G(Z)}$
+\end_inset
+
+ .
+\end_layout
+
+\begin_layout Subsection
+Reverberador Pasa Todo
+\end_layout
+
+\begin_layout Standard
+El reverberador pasatodo es interesante ya que logra efectos cambiando la
+ fase de la entrada pero sin generar un decaimiento en ninguna componente
+ armónica de la misma.
+ Una transferencia de este tipo se puede lograr mediante un sistema como
+ el siguiente:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $y(n)=x(n-M)+g.y(n-M)-g.x(n)\Rightarrow H(Z)=\frac{z^{.M}-g}{1-g.Z^{-M}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Siendo esta última transferencia la de un ecualizador de fase.
+\end_layout
+
+\begin_layout Subsection
+Reverberador Completo
+\end_layout
+
+\begin_layout Standard
+Para lograr un reverberador completo es neceasario aplicar varios reverberadores
+ simples de manera que convivan los efectos de los mismos y se logre simular
+ una habitación reverberante más cercana a la realidad.
+ Existen diversos tipos de arquitecturas posibles, y en el programa computaciona
+l implementado en este trabajo se utilizó el esquema del 
+\begin_inset Quotes eld
+\end_inset
+
+Reverberador de Moore
+\begin_inset Quotes erd
+\end_inset
+
+ que consta de una serie de filtros 
+\begin_inset Quotes eld
+\end_inset
+
+pasatodo
+\begin_inset Quotes erd
+\end_inset
+
+ sumado a filtros 
+\begin_inset Quotes eld
+\end_inset
+
+comb
+\begin_inset Quotes erd
+\end_inset
+
+ en paralelo.
+ Es de esperar la presencia de los filtros pasatodos por su efecto en la
+ fase, pero además se simula un decaimiento en la salida mediante la implementac
+ión de los filtros comb.
+\end_layout
+
+\begin_layout Subsection
+Reverberación por Convolución
+\end_layout
+
+\begin_layout Standard
+En este tipo de efecto, en lugar de simular computacionalmente un espacio
+ reverberante, se toma la respuesta impulsiva de uno existente (y real),
+ se digitaliza y se utiliza para obtener la salida del sistema digital mediante
+ la aplicación de la convolución para sistemas LTI (lineal y tiempo invariante).
+ Esto tiene la ventaja de tratar directamente con un efecto existente en
+ la realidad, y en efecto se obtienen resultados favorables en la salida
+ (el efecto es realtivamente 
+\begin_inset Quotes eld
+\end_inset
+
+cercano
+\begin_inset Quotes erd
+\end_inset
+
+ al que se produciría en la realidad).
+\end_layout
+
+\begin_layout Standard
+En cuanto a la respuesta impusiva del sistema, que es digitalizada, se puede
+ obtener mediante la grabación de la respuesta de una cámara reverberante
+ ante un disparo de pistola, por ejemplo, realizandose la aproximación de
+ que un impulso se puede representar mediante el mismo disparo.
+\end_layout
+
+\begin_layout Section
+Otras Distorsiones
+\end_layout
+
+\begin_layout Standard
+Mediante la aplicación de sistemas que distorsionan, se pueden obtener efectos
+ deseables para algunas situaciones específicas.
+ A continuación se presentarán los efectos de robotización, flanger y vibrato.
+\end_layout
+
+\begin_layout Subsection
+Robotización
+\end_layout
+
+\begin_layout Standard
+El efecto de robotización puede ser deseable para audios de voz, y se logra
+ provocando que la salida de audio tenga siempre el mismo tono.
+ Para esto, se utiliza la transformada de fourier fragmentada (FFT) para
+ que todas las componentes armónicos posean fase nula, para luego antitransforma
+r y lograr finalmente lo deseado.
+\end_layout
+
+\begin_layout Standard
+En la implementación del programa, la fft se aplicó con un overlap de 50%
+ con ventana de 
+\begin_inset Quotes eld
+\end_inset
+
+Hanning
+\begin_inset Quotes erd
+\end_inset
+
+.
+ Esto produjo efectos satisfactorios, que pueden variar si se varía el ancho
+ de la ventana utilizada.
+\end_layout
+
+\begin_layout Subsection
+Vibrato
+\end_layout
+
+\begin_layout Standard
+La voz humana, generada por la vibración de cuerdas vocales, posee un efecto
+ de vibrato (de hecho, los cantantes profesionales tienen la capacidad de
+ regular el efecto según su canto) debido a la oscilación de las ondas mecánicas.
+ Con el programa de este trabajo se buscó simular este efecto mediante delays
+ variables modulados por una onda senoidal de baja frecuencia.
+ Es decir:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $H(Z)=Z^{-M}$
+\end_inset
+
+ con 
+\begin_inset Formula $"M"$
+\end_inset
+
+ variable según la frecuencia de la senoidal (típicamente entre 4Hz y 14Hz,
+ con un retardo entre 5ms y 10ms).
+\end_layout
+
+\begin_layout Standard
+Con este procesamiento digital se logra un efecto de vibrato generalmente
+ más evidente que el que existe naturalmente en las cuerdas vocales, y se
+ suele utilizar para música como el rock.
+\end_layout
+
+\begin_layout Subsection
+Flanger
+\end_layout
+
+\begin_layout Standard
+El efecto flanger, al igual que el de vibrato se logra mediante la modulación
+ de un retardo, pero con una frecuencia aún más baja (aproximadamente de
+ 1Hz) y además este retardo se añade a la salida en conjunto con la misma
+ entrada.
+ Es decir que se respeta el mismo esquema que eco simple, pero al variar
+ lentamente un retardo relativamente bajo (aproximadamente 15ms) se logra
+ un efecto audible que, nuevamente, es deseable en ciertos ambientes musicales.
+\end_layout
+
+\begin_layout Section
+Efecto 3D con Auriculares
+\end_layout
+
+\begin_layout Section
+Conclusión
+\end_layout
+
+\begin_layout Standard
+Al implementar el programa de procesamiento digital para generación de efectos
+ de audio, se pudo notar la importancia tanto del aspecto artístico y perceptivo
+ de los efectos, como los razonamientos matemáticos para dar con un sistema
+ que logre una respuesta satisfactoria.
+ En el análisis digital, el modelado mediante la teoría de Fourier y los
+ aportes realizados por diversos matemáticos y físicos fueron cruciales
+ para obtener calidad y poder realizar lo que se ha propuesto.
+ Además, cabe remarcar que los efectos que se han implementado tienen el
+ beneficio de ser aplicables en tiempo real, para lo cual fue necesario
+ aplicar un criterio de programación que permita la implementación de forma
+ eficiente en cuanto a la velocidad de procesamiento de un efecto.
+\end_layout
+
+\end_body
+\end_document
