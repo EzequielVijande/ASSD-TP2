@@ -38,8 +38,7 @@ def not_meta_track(synth_trk_inst):
     # return len(s.synthesize(t, i, True, 1000)[0]) != 0
 
 waver = wav_gen.WaveManagement()
-pattern = midi.read_midifile(".\ArchivosMIDI\jurassic.mid")
-# pattern = midi.read_midifile(".\Super Mario 64 - Bob-Omb Battlefield.mid")
+pattern = midi.read_midifile(".\ArchivosMIDI\\beethoven_duo_for_clarinet_and_bassoon_1.mid")
 trks = [pattern[i] for i in range(len(pattern))]
 
 #synths = [additiveSynthesis(pattern.resolution) for i in range(len(pattern))]
@@ -73,7 +72,9 @@ iterable_list = list(range(len(synths_trks_insts)))
 
 # The tracks that only contain MetaEvents will not be taken into account when filling the .wav !
 iterable_list[:] = [x for x in iterable_list if not_meta_track(synths_trks_insts[x])]
-finished = [False]*len(iterable_list) #Lista donde se va marcando los tracks que se terminaron
+finished = [True]*len(synths_trks_insts) #Lista donde se va marcando los tracks que se terminaron
+for i in iterable_list:
+    finished[i] = False #Actualizo cuales son los tracks que faltan terminar.
 
 while not all(finished):
     for k in iterable_list:

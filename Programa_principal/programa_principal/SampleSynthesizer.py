@@ -282,7 +282,7 @@ class SampleSynthesizer(synth.Synthesizer):
                             piano_sample = COR_ANGLAIS_PATH+"\B5_1_mezzo-piano.wav"
                         else:
                             forte_sample = COR_ANGLAIS_PATH+"\B5_025_forte.wav"
-                            COR_ANGLAIS_PATH+"\B5_025_mezzo-piano.wav"
+                            piano_sample = COR_ANGLAIS_PATH+"\B5_025_mezzo-piano.wav"
                         freq_factor = 1.059463094
                     else:
                         forte_sample_1_5,piano_sample_1_5,forte_sample_0_25,piano_sample_0_25,freq_factor = self.corn_dict[pitch]
