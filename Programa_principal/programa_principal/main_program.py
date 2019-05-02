@@ -7,6 +7,7 @@ import wav_gen
 from additiveSynthesis import additiveSynthesis
 import SampleSynthesizer as sammy
 import synth
+import GraphSpectrogram as gs
 
 def avg(prev_data, new_data, avg_count):
     if len(prev_data) == 0:
@@ -37,20 +38,16 @@ def not_meta_track(synth_trk_inst):
     # return len(s.synthesize(t, i, True, 1000)[0]) != 0
 
 waver = wav_gen.WaveManagement()
-pattern = midi.read_midifile(".\ArchivosMIDI\pirates.mid")
-# pattern = midi.read_midifile(".\Super Mario 64 - Bob-Omb Battlefield.mid")
+pattern = midi.read_midifile(".\ArchivosMIDI\\beethoven_duo_for_clarinet_and_bassoon_1.mid")
 trks = [pattern[i] for i in range(len(pattern))]
 
 #synths = [additiveSynthesis(pattern.resolution) for i in range(len(pattern))]
 #for s in synths:
 #    s.set_create_notes_callback(s.create_notes_callback)
 
-add = sammy.SampleSynthesizer(pattern.resolution)
-synths = [Synthesizer(pattern.resolution) for i in range(len(pattern))]
-for s in synths:
-    s.set_create_notes_callback(add.create_notes_callback)
+synths = [sammy.SampleSynthesizer(pattern.resolution) for i in range(len(pattern))]
 
-insts = [synth.VIOLIN]*len(trks)
+insts = [synth.DRUMS]*len(trks)
 
 synths_trks_insts = [(synths[i], trks[i], insts[i]) for i in range(len(trks))]
 
@@ -75,18 +72,23 @@ iterable_list = list(range(len(synths_trks_insts)))
 
 # The tracks that only contain MetaEvents will not be taken into account when filling the .wav !
 iterable_list[:] = [x for x in iterable_list if not_meta_track(synths_trks_insts[x])]
+finished = [True]*len(synths_trks_insts) #Lista donde se va marcando los tracks que se terminaron
+for i in iterable_list:
+    finished[i] = False #Actualizo cuales son los tracks que faltan terminar.
 
-
-while not finished:
+while not all(finished):
     for k in iterable_list:
         s, t, i = synths_trks_insts[k]
-        newer_data, finished = s.synthesize(t, i, j == 0, 70000)
+        newer_data, finished[k] = s.synthesize(t, i, j == 0, 70000)
+        if(finished[k]): #Si el track k-esimo termino lo saca de la lista
+            iterable_list.remove(k)
         # print('j='+str(j)+'. Tempo map' + str(k) + str(s.tempo_map))
         data = avg(prev_data=data, new_data=newer_data, avg_count=k)
-    waver.generate_wav(finished, data, n_channels=1, sample_width=2, frame_rate=44100, file_name='Track'+str(j)+'.wav')
+    waver.generate_wav(all(finished), data, n_channels=1, sample_width=2, frame_rate=44100, file_name='Track'+str(j)+'.wav')
     j += 1
 
 end = time.time()
 
 print('Tardo ' + str(int(end-start)) + ' segundos en sintetizar todo!')
-
+del synths_trks_insts
+gs.GraphSpectrogram(file_name='.\\Track0'+'.wav')

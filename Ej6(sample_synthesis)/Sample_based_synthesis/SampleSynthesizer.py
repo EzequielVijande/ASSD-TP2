@@ -44,7 +44,6 @@ def MakeWindow(length,type='Hann'):
 #intensidad
 class SampleSynthesizer(synth.Synthesizer):
     def __init__(self,resolution):
-        self.set_create_notes_callback(self.MakeNote)
         super(SampleSynthesizer, self).__init__(resolution)
         self.set_create_notes_callback(self.MakeNote)
         #Genero los diccionarios con la muestra correspondiente a cda semitono
@@ -131,14 +130,6 @@ class SampleSynthesizer(synth.Synthesizer):
             (midi.C_6, (COR_ANGLAIS_PATH+"\B5_1_forte.wav",COR_ANGLAIS_PATH+"\B5_1_mezzo-piano.wav",COR_ANGLAIS_PATH+"\B5_025_forte.wav",COR_ANGLAIS_PATH+"\B5_025_mezzo-piano.wav",1.059463094))
             ])     #Para el corn anglais los valores son: (forte_1.5,piano_1.5,forte_0.5,piano_0.5,freq_factor)
         self.trumpet_dict = dict([
-            ( midi.E_2, (TRUMPET_PATH+"//E2_25_pianissimo_normal.wav",TRUMPET_PATH+"//E2_25_pianissimo_normal.wav",TRUMPET_PATH+"//E2_25_pianissimo_normal.wav",TRUMPET_PATH+"//E2_25_pianissimo_normal.wav",TRUMPET_PATH+"//E2_25_pianissimo_normal.wav",TRUMPET_PATH+"//E2_25_pianissimo_normal.wav",1) ),
-            ( midi.F_2, (TRUMPET_PATH+"//E2_25_pianissimo_normal.wav",TRUMPET_PATH+"//E2_25_pianissimo_normal.wav",TRUMPET_PATH+"//E2_25_pianissimo_normal.wav",TRUMPET_PATH+"//E2_25_pianissimo_normal.wav",TRUMPET_PATH+"//E2_25_pianissimo_normal.wav",TRUMPET_PATH+"//E2_25_pianissimo_normal.wav",1.059463094) ),
-            ( midi.Fs_2, (TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",0.8908987181) ),
-            ( midi.G_2, (TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",0.9438743127) ),
-            ( midi.Gs_2, (TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",1) ),
-            ( midi.A_2, (TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",1.059463094) ),
-            ( midi.As_2, (TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",TRUMPET_PATH+"//Gs2_long_pianissimo.wav",1.122462048) ),
-            ( midi.B_2, (TRUMPET_PATH+"//Cs3_15_pianissimo_normal.wav",TRUMPET_PATH+"//Cs3_15_pianissimo_normal.wav",TRUMPET_PATH+"//Cs3_15_pianissimo_normal.wav",TRUMPET_PATH+"//Cs3_15_pianissimo_normal.wav",TRUMPET_PATH+"//Cs3_15_pianissimo_normal.wav",TRUMPET_PATH+"//Cs3_15_pianissimo_normal.wav",0.8908987181) ),
             ( midi.C_3, (TRUMPET_PATH+"//E3_15_forte.wav",TRUMPET_PATH+"//E3_15_pianissimo.wav",TRUMPET_PATH+"//E3_1_forte.wav",TRUMPET_PATH+"//E3_1_pianissimo.wav",TRUMPET_PATH+"//E3_025_mezzo-forte.wav",TRUMPET_PATH+"//E3_025_pianissimo.wav",0.793700526) ),
             ( midi.Cs_3, (TRUMPET_PATH+"//E3_15_forte.wav",TRUMPET_PATH+"//E3_15_pianissimo.wav",TRUMPET_PATH+"//E3_1_forte.wav",TRUMPET_PATH+"//E3_1_pianissimo.wav",TRUMPET_PATH+"//E3_025_mezzo-forte.wav",TRUMPET_PATH+"//E3_025_pianissimo.wav",0.8408964153) ),
             ( midi.D_3, (TRUMPET_PATH+"//E3_15_forte.wav",TRUMPET_PATH+"//E3_15_pianissimo.wav",TRUMPET_PATH+"//E3_1_forte.wav",TRUMPET_PATH+"//E3_1_pianissimo.wav",TRUMPET_PATH+"//E3_025_mezzo-forte.wav",TRUMPET_PATH+"//E3_025_pianissimo.wav",0.8908987181) ),
@@ -187,39 +178,39 @@ class SampleSynthesizer(synth.Synthesizer):
             ( midi.A_3, (VIOLIN_PATH+"\\Gs3_15_forte_arco.wav",VIOLIN_PATH+"\\Gs3_15_mezzo-forte.wav",VIOLIN_PATH+"\\Gs3_1_forte.wav",VIOLIN_PATH+"\\Gs3_1_piano.wav",VIOLIN_PATH+"\\Gs3_025_forte.wav",VIOLIN_PATH+"\\Gs3_025_mezzo-piano.wav",1.059463094) ),
             ( midi.As_3, (VIOLIN_PATH+"\\C4_15_forte.wav",VIOLIN_PATH+"\\C4_15_mezzo-forte.wav",VIOLIN_PATH+"\\C4_1_forte.wav",VIOLIN_PATH+"\\C4_1_mezzo-piano.wav",VIOLIN_PATH+"\\C4_025_forte.wav",VIOLIN_PATH+"\\C4_025_mezzo-piano.wav",0.8908987181) ),
             ( midi.B_3, (VIOLIN_PATH+"\\C4_15_forte.wav",VIOLIN_PATH+"\\C4_15_mezzo-forte.wav",VIOLIN_PATH+"\\C4_1_forte.wav",VIOLIN_PATH+"\\C4_1_mezzo-piano.wav",VIOLIN_PATH+"\\C4_025_forte.wav",VIOLIN_PATH+"\\C4_025_mezzo-piano.wav",0.9438743127) ),
-            ( midi.C_4, (VIOLIN_PATH+"\\C4_15_forte.wav",VIOLIN_PATH+"\\C4_15_mezzo-forte.wav",VIOLIN_PATH+"\\C4_1_forte.wav","\\C4_1_mezzo-piano.wav",VIOLIN_PATH+"\\C4_025_forte.wav",VIOLIN_PATH+"\\C4_025_mezzo-piano.wav",1) ),
-            ( midi.Cs_4, (VIOLIN_PATH+"\\C4_15_forte.wav",VIOLIN_PATH+"\\C4_15_mezzo-forte.wav",VIOLIN_PATH+"\\C4_1_forte.wav","\\C4_1_mezzo-piano.wav",VIOLIN_PATH+"\\C4_025_forte.wav",VIOLIN_PATH+"\\C4_025_mezzo-piano.wav",1.059463094) ),
-            ( midi.D_4, (VIOLIN_PATH+"\\E4_15_fortissimo.wav",VIOLIN_PATH+"\\E4_15_piano.wav",VIOLIN_PATH+"\\E4_1_mezzo-forte.wav","\\E4_1_piano.wav",VIOLIN_PATH+"\\E4_025_forte.wav",VIOLIN_PATH+"\\E4_025_piano.wav",0.8908987181) ),
-            ( midi.Ds_4, (VIOLIN_PATH+"\\E4_15_fortissimo.wav",VIOLIN_PATH+"\\E4_15_piano.wav",VIOLIN_PATH+"\\E4_1_mezzo-forte.wav","\\E4_1_piano.wav",VIOLIN_PATH+"\\E4_025_forte.wav",VIOLIN_PATH+"\\E4_025_piano.wav",0.9438743127) ),
-            ( midi.E_4, (VIOLIN_PATH+"\\E4_15_fortissimo.wav",VIOLIN_PATH+"\\E4_15_piano.wav",VIOLIN_PATH+"\\E4_1_mezzo-forte.wav","\\E4_1_piano.wav",VIOLIN_PATH+"\\E4_025_forte.wav",VIOLIN_PATH+"\\E4_025_piano.wav",1) ),
-            ( midi.F_4, (VIOLIN_PATH+"\\E4_15_fortissimo.wav",VIOLIN_PATH+"\\E4_15_piano.wav",VIOLIN_PATH+"\\E4_1_mezzo-forte.wav","\\E4_1_piano.wav",VIOLIN_PATH+"\\E4_025_forte.wav",VIOLIN_PATH+"\\E4_025_piano.wav",1.059463094) ),
-            ( midi.Fs_4, (VIOLIN_PATH+"\\Gs4_15_forte.wav",VIOLIN_PATH+"\\Gs4_15_pianissimo.wav",VIOLIN_PATH+"\\Gs4_1_forte.wav","\\Gs4_1_pianissimo.wav",VIOLIN_PATH+"\\Gs4_025_forte.wav",VIOLIN_PATH+"\\Gs4_025_mezzo-piano.wav",0.8908987181) ),
-            ( midi.G_4, (VIOLIN_PATH+"\\Gs4_15_forte.wav",VIOLIN_PATH+"\\Gs4_15_pianissimo.wav",VIOLIN_PATH+"\\Gs4_1_forte.wav","\\Gs4_1_pianissimo.wav",VIOLIN_PATH+"\\Gs4_025_forte.wav",VIOLIN_PATH+"\\Gs4_025_mezzo-piano.wav",0.9438743127) ),
-            ( midi.Gs_4, (VIOLIN_PATH+"\\Gs4_15_forte.wav",VIOLIN_PATH+"\\Gs4_15_pianissimo.wav",VIOLIN_PATH+"\\Gs4_1_forte.wav","\\Gs4_1_pianissimo.wav",VIOLIN_PATH+"\\Gs4_025_forte.wav",VIOLIN_PATH+"\\Gs4_025_mezzo-piano.wav",1) ),
-            ( midi.A_4, (VIOLIN_PATH+"\\Gs4_15_forte.wav",VIOLIN_PATH+"\\Gs4_15_pianissimo.wav",VIOLIN_PATH+"\\Gs4_1_forte.wav","\\Gs4_1_pianissimo.wav",VIOLIN_PATH+"\\Gs4_025_forte.wav",VIOLIN_PATH+"\\Gs4_025_mezzo-piano.wav",1.059463094) ),
+            ( midi.C_4, (VIOLIN_PATH+"\\C4_15_forte.wav",VIOLIN_PATH+"\\C4_15_mezzo-forte.wav",VIOLIN_PATH+"\\C4_1_forte.wav",VIOLIN_PATH+"\\C4_1_mezzo-piano.wav",VIOLIN_PATH+"\\C4_025_forte.wav",VIOLIN_PATH+"\\C4_025_mezzo-piano.wav",1) ),
+            ( midi.Cs_4, (VIOLIN_PATH+"\\C4_15_forte.wav",VIOLIN_PATH+"\\C4_15_mezzo-forte.wav",VIOLIN_PATH+"\\C4_1_forte.wav",VIOLIN_PATH+"\\C4_1_mezzo-piano.wav",VIOLIN_PATH+"\\C4_025_forte.wav",VIOLIN_PATH+"\\C4_025_mezzo-piano.wav",1.059463094) ),
+            ( midi.D_4, (VIOLIN_PATH+"\\E4_15_fortissimo.wav",VIOLIN_PATH+"\\E4_15_piano.wav",VIOLIN_PATH+"\\E4_1_mezzo-forte.wav",VIOLIN_PATH+"\\E4_1_piano.wav",VIOLIN_PATH+"\\E4_025_forte.wav",VIOLIN_PATH+"\\E4_025_piano.wav",0.8908987181) ),
+            ( midi.Ds_4, (VIOLIN_PATH+"\\E4_15_fortissimo.wav",VIOLIN_PATH+"\\E4_15_piano.wav",VIOLIN_PATH+"\\E4_1_mezzo-forte.wav",VIOLIN_PATH+"\\E4_1_piano.wav",VIOLIN_PATH+"\\E4_025_forte.wav",VIOLIN_PATH+"\\E4_025_piano.wav",0.9438743127) ),
+            ( midi.E_4, (VIOLIN_PATH+"\\E4_15_fortissimo.wav",VIOLIN_PATH+"\\E4_15_piano.wav",VIOLIN_PATH+"\\E4_1_mezzo-forte.wav",VIOLIN_PATH+"\\E4_1_piano.wav",VIOLIN_PATH+"\\E4_025_forte.wav",VIOLIN_PATH+"\\E4_025_piano.wav",1) ),
+            ( midi.F_4, (VIOLIN_PATH+"\\E4_15_fortissimo.wav",VIOLIN_PATH+"\\E4_15_piano.wav",VIOLIN_PATH+"\\E4_1_mezzo-forte.wav",VIOLIN_PATH+"\\E4_1_piano.wav",VIOLIN_PATH+"\\E4_025_forte.wav",VIOLIN_PATH+"\\E4_025_piano.wav",1.059463094) ),
+            ( midi.Fs_4, (VIOLIN_PATH+"\\Gs4_15_forte.wav",VIOLIN_PATH+"\\Gs4_15_pianissimo.wav",VIOLIN_PATH+"\\Gs4_1_forte.wav",VIOLIN_PATH+"\\Gs4_1_pianissimo.wav",VIOLIN_PATH+"\\Gs4_025_forte.wav",VIOLIN_PATH+"\\Gs4_025_mezzo-piano.wav",0.8908987181) ),
+            ( midi.G_4, (VIOLIN_PATH+"\\Gs4_15_forte.wav",VIOLIN_PATH+"\\Gs4_15_pianissimo.wav",VIOLIN_PATH+"\\Gs4_1_forte.wav",VIOLIN_PATH+"\\Gs4_1_pianissimo.wav",VIOLIN_PATH+"\\Gs4_025_forte.wav",VIOLIN_PATH+"\\Gs4_025_mezzo-piano.wav",0.9438743127) ),
+            ( midi.Gs_4, (VIOLIN_PATH+"\\Gs4_15_forte.wav",VIOLIN_PATH+"\\Gs4_15_pianissimo.wav",VIOLIN_PATH+"\\Gs4_1_forte.wav",VIOLIN_PATH+"\\Gs4_1_pianissimo.wav",VIOLIN_PATH+"\\Gs4_025_forte.wav",VIOLIN_PATH+"\\Gs4_025_mezzo-piano.wav",1) ),
+            ( midi.A_4, (VIOLIN_PATH+"\\Gs4_15_forte.wav",VIOLIN_PATH+"\\Gs4_15_pianissimo.wav",VIOLIN_PATH+"\\Gs4_1_forte.wav",VIOLIN_PATH+"\\Gs4_1_pianissimo.wav",VIOLIN_PATH+"\\Gs4_025_forte.wav",VIOLIN_PATH+"\\Gs4_025_mezzo-piano.wav",1.059463094) ),
             ( midi.As_4, (VIOLIN_PATH+"\\C5_15_fortissimo.wav",VIOLIN_PATH+"\\C5_15_fortissimo.wav",VIOLIN_PATH+"\\C5_1_mezzo-forte.wav",VIOLIN_PATH+"\\C5_1_pianissimo.wav",VIOLIN_PATH+"\\C5_025_forte.wav",VIOLIN_PATH+"\\C5_025_mezzo-piano.wav",0.8908987181) ),
             ( midi.B_4, (VIOLIN_PATH+"\\C5_15_fortissimo.wav",VIOLIN_PATH+"\\C5_15_fortissimo.wav",VIOLIN_PATH+"\\C5_1_mezzo-forte.wav",VIOLIN_PATH+"\\C5_1_pianissimo.wav",VIOLIN_PATH+"\\C5_025_forte.wav",VIOLIN_PATH+"\\C5_025_mezzo-piano.wav",0.9438743127) ),
             ( midi.C_5, (VIOLIN_PATH+"\\C5_15_fortissimo.wav",VIOLIN_PATH+"\\C5_15_fortissimo.wav",VIOLIN_PATH+"\\C5_1_mezzo-forte.wav",VIOLIN_PATH+"\\C5_1_pianissimo.wav",VIOLIN_PATH+"\\C5_025_forte.wav",VIOLIN_PATH+"\\C5_025_mezzo-piano.wav",1) ),
             ( midi.Cs_5, (VIOLIN_PATH+"\\C5_15_fortissimo.wav",VIOLIN_PATH+"\\C5_15_fortissimo.wav",VIOLIN_PATH+"\\C5_1_mezzo-forte.wav",VIOLIN_PATH+"\\C5_1_pianissimo.wav",VIOLIN_PATH+"\\C5_025_forte.wav",VIOLIN_PATH+"\\C5_025_mezzo-piano.wav",1.059463094) ),
-            ( midi.D_5, (VIOLIN_PATH+"\\E5_15_forte.wav",VIOLIN_PATH+"\\E5_15_mezzo-piano.wav","\\E5_1_forte.wav","\\E5_1_mezzo-piano.wav",VIOLIN_PATH+"\\E5_025_forte.wav",VIOLIN_PATH+"\\E5_025_mezzo-piano.wav",0.8908987181) ),
-            ( midi.Ds_5, (VIOLIN_PATH+"\\E5_15_forte.wav",VIOLIN_PATH+"\\E5_15_mezzo-piano.wav",VIOLIN_PATH+"\\E5_1_forte.wav",VIOLIN_PATH+"\\E5_1_mezzo-piano.wav","\\E5_025_forte.wav",VIOLIN_PATH+"\\E5_025_mezzo-piano.wav",0.9438743127) ),
-            ( midi.E_5, (VIOLIN_PATH+"\\E5_15_forte.wav",VIOLIN_PATH+"\\E5_15_mezzo-piano.wav",VIOLIN_PATH+"\\E5_1_forte.wav",VIOLIN_PATH+"\\E5_1_mezzo-piano.wav","\\E5_025_forte.wav",VIOLIN_PATH+"\\E5_025_mezzo-piano.wav",1) ),
-            ( midi.F_5, (VIOLIN_PATH+"\\E5_15_forte.wav",VIOLIN_PATH+"\\E5_15_mezzo-piano.wav",VIOLIN_PATH+"\\E5_1_forte.wav",VIOLIN_PATH+"\\E5_1_mezzo-piano.wav","\\E5_025_forte.wav",VIOLIN_PATH+"\\E5_025_mezzo-piano.wav",1.059463094) ),
-            ( midi.Fs_5, (VIOLIN_PATH+"\\Gs5_15_forte.wav",VIOLIN_PATH+"\\Gs5_15_forte.wav",VIOLIN_PATH+"\\Gs5_1_forte.wav",VIOLIN_PATH+"\\Gs5_1_piano.wav","\\Gs5_025_forte.wav",VIOLIN_PATH+"\\Gs5_025_mezzo-piano.wav",0.8908987181) ),
-            ( midi.G_5, (VIOLIN_PATH+"\\Gs5_15_forte.wav",VIOLIN_PATH+"\\Gs5_15_forte.wav",VIOLIN_PATH+"\\Gs5_1_forte.wav",VIOLIN_PATH+"\\Gs5_1_piano.wav","\\Gs5_025_forte.wav",VIOLIN_PATH+"\\Gs5_025_mezzo-piano.wav",0.9438743127) ),
-            ( midi.Gs_5, (VIOLIN_PATH+"\\Gs5_15_forte.wav",VIOLIN_PATH+"\\Gs5_15_forte.wav",VIOLIN_PATH+"\\Gs5_1_forte.wav",VIOLIN_PATH+"\\Gs5_1_piano.wav","\\Gs5_025_forte.wav",VIOLIN_PATH+"\\Gs5_025_mezzo-piano.wav",1) ),
-            ( midi.A_5, (VIOLIN_PATH+"\\Gs5_15_forte.wav",VIOLIN_PATH+"\\Gs5_15_forte.wav",VIOLIN_PATH+"\\Gs5_1_forte.wav",VIOLIN_PATH+"\\Gs5_1_piano.wav","\\Gs5_025_forte.wav",VIOLIN_PATH+"\\Gs5_025_mezzo-piano.wav",1.059463094) ),
-            ( midi.As_5, (VIOLIN_PATH+"\\C6_15_forte.wav",VIOLIN_PATH+"\\C6_15_forte.wav",VIOLIN_PATH+"\\C6_1_forte.wav",VIOLIN_PATH+"\\C6_1_piano.wav","\\C6_025_forte.wav",VIOLIN_PATH+"\\C6_025_mezzo-piano.wav",0.8908987181) ),
-            ( midi.B_5, (VIOLIN_PATH+"\\C6_15_forte.wav",VIOLIN_PATH+"\\C6_15_forte.wav",VIOLIN_PATH+"\\C6_1_forte.wav",VIOLIN_PATH+"\\C6_1_piano.wav","\\C6_025_forte.wav",VIOLIN_PATH+"\\C6_025_mezzo-piano.wav",0.9438743127) ),
-            ( midi.C_6, (VIOLIN_PATH+"\\C6_15_forte.wav",VIOLIN_PATH+"\\C6_15_forte.wav",VIOLIN_PATH+"\\C6_1_forte.wav",VIOLIN_PATH+"\\C6_1_piano.wav","\\C6_025_forte.wav",VIOLIN_PATH+"\\C6_025_mezzo-piano.wav",1) ),
-            ( midi.Cs_6, (VIOLIN_PATH+"\\C6_15_forte.wav",VIOLIN_PATH+"\\C6_15_forte.wav",VIOLIN_PATH+"\\C6_1_forte.wav",VIOLIN_PATH+"\\C6_1_piano.wav","\\C6_025_forte.wav",VIOLIN_PATH+"\\C6_025_mezzo-piano.wav",1.059463094) ),
-            ( midi.D_6, (VIOLIN_PATH+"\\E6_15_forte.wav",VIOLIN_PATH+"\\E6_15_forte.wav",VIOLIN_PATH+"\\E6_1_forte.wav",VIOLIN_PATH+"\\E6_1_piano.wav","\\E6_025_forte.wav",VIOLIN_PATH+"\\E6_025_mezzo-piano.wav",0.8908987181) ),
-            ( midi.Ds_6, (VIOLIN_PATH+"\\E6_15_forte.wav",VIOLIN_PATH+"\\E6_15_forte.wav",VIOLIN_PATH+"\\E6_1_forte.wav",VIOLIN_PATH+"\\E6_1_piano.wav","\\E6_025_forte.wav",VIOLIN_PATH+"\\E6_025_mezzo-piano.wav",0.9438743127) ),
-            ( midi.E_6, (VIOLIN_PATH+"\\E6_15_forte.wav",VIOLIN_PATH+"\\E6_15_forte.wav",VIOLIN_PATH+"\\E6_1_forte.wav",VIOLIN_PATH+"\\E6_1_piano.wav","\\E6_025_forte.wav",VIOLIN_PATH+"\\E6_025_mezzo-piano.wav",1) ),
-            ( midi.F_6, (VIOLIN_PATH+"\\E6_15_forte.wav",VIOLIN_PATH+"\\E6_15_forte.wav",VIOLIN_PATH+"\\E6_1_forte.wav",VIOLIN_PATH+"\\E6_1_piano.wav","\\E6_025_forte.wav",VIOLIN_PATH+"\\E6_025_mezzo-piano.wav",1.059463094) ),
-            ( midi.Fs_6, (VIOLIN_PATH+"\\Gs6_15_forte.wav",VIOLIN_PATH+"\\Gs6_15_mezzo-forte.wav",VIOLIN_PATH+"\\Gs6_1_forte.wav",VIOLIN_PATH+"\\Gs6_1_mezzo-forte.wav",VIOLIN_PATH+"\\Gs6_025_forte.wav","\\Gs6_025_mezzo-piano.wav",0.8908987181) ),
-            ( midi.G_6, (VIOLIN_PATH+"\\Gs6_15_forte.wav",VIOLIN_PATH+"\\Gs6_15_mezzo-forte.wav",VIOLIN_PATH+"\\Gs6_1_forte.wav",VIOLIN_PATH+"\\Gs6_1_mezzo-forte.wav",VIOLIN_PATH+"\\Gs6_025_forte.wav","\\Gs6_025_mezzo-piano.wav",0.9438743127) ),
-            ( midi.Gs_6, (VIOLIN_PATH+"\\Gs6_15_forte.wav",VIOLIN_PATH+"\\Gs6_15_mezzo-forte.wav",VIOLIN_PATH+"\\Gs6_1_forte.wav",VIOLIN_PATH+"\\Gs6_1_mezzo-forte.wav",VIOLIN_PATH+"\\Gs6_025_forte.wav","\\Gs6_025_mezzo-piano.wav",1) ),
+            ( midi.D_5, (VIOLIN_PATH+"\\E5_15_forte.wav",VIOLIN_PATH+"\\E5_15_mezzo-piano.wav",VIOLIN_PATH+"\\E5_1_forte.wav",VIOLIN_PATH+"\\E5_1_mezzo-piano.wav",VIOLIN_PATH+"\\E5_025_forte.wav",VIOLIN_PATH+"\\E5_025_mezzo-piano.wav",0.8908987181) ),
+            ( midi.Ds_5, (VIOLIN_PATH+"\\E5_15_forte.wav",VIOLIN_PATH+"\\E5_15_mezzo-piano.wav",VIOLIN_PATH+"\\E5_1_forte.wav",VIOLIN_PATH+"\\E5_1_mezzo-piano.wav",VIOLIN_PATH+"\\E5_025_forte.wav",VIOLIN_PATH+"\\E5_025_mezzo-piano.wav",0.9438743127) ),
+            ( midi.E_5, (VIOLIN_PATH+"\\E5_15_forte.wav",VIOLIN_PATH+"\\E5_15_mezzo-piano.wav",VIOLIN_PATH+"\\E5_1_forte.wav",VIOLIN_PATH+"\\E5_1_mezzo-piano.wav",VIOLIN_PATH+"\\E5_025_forte.wav",VIOLIN_PATH+"\\E5_025_mezzo-piano.wav",1) ),
+            ( midi.F_5, (VIOLIN_PATH+"\\E5_15_forte.wav",VIOLIN_PATH+"\\E5_15_mezzo-piano.wav",VIOLIN_PATH+"\\E5_1_forte.wav",VIOLIN_PATH+"\\E5_1_mezzo-piano.wav",VIOLIN_PATH+"\\E5_025_forte.wav",VIOLIN_PATH+"\\E5_025_mezzo-piano.wav",1.059463094) ),
+            ( midi.Fs_5, (VIOLIN_PATH+"\\Gs5_15_forte.wav",VIOLIN_PATH+"\\Gs5_15_forte.wav",VIOLIN_PATH+"\\Gs5_1_forte.wav",VIOLIN_PATH+"\\Gs5_1_piano.wav",VIOLIN_PATH+"\\Gs5_025_forte.wav",VIOLIN_PATH+"\\Gs5_025_mezzo-piano.wav",0.8908987181) ),
+            ( midi.G_5, (VIOLIN_PATH+"\\Gs5_15_forte.wav",VIOLIN_PATH+"\\Gs5_15_forte.wav",VIOLIN_PATH+"\\Gs5_1_forte.wav",VIOLIN_PATH+"\\Gs5_1_piano.wav",VIOLIN_PATH+"\\Gs5_025_forte.wav",VIOLIN_PATH+"\\Gs5_025_mezzo-piano.wav",0.9438743127) ),
+            ( midi.Gs_5, (VIOLIN_PATH+"\\Gs5_15_forte.wav",VIOLIN_PATH+"\\Gs5_15_forte.wav",VIOLIN_PATH+"\\Gs5_1_forte.wav",VIOLIN_PATH+"\\Gs5_1_piano.wav",VIOLIN_PATH+"\\Gs5_025_forte.wav",VIOLIN_PATH+"\\Gs5_025_mezzo-piano.wav",1) ),
+            ( midi.A_5, (VIOLIN_PATH+"\\Gs5_15_forte.wav",VIOLIN_PATH+"\\Gs5_15_forte.wav",VIOLIN_PATH+"\\Gs5_1_forte.wav",VIOLIN_PATH+"\\Gs5_1_piano.wav",VIOLIN_PATH+"\\Gs5_025_forte.wav",VIOLIN_PATH+"\\Gs5_025_mezzo-piano.wav",1.059463094) ),
+            ( midi.As_5, (VIOLIN_PATH+"\\C6_15_forte.wav",VIOLIN_PATH+"\\C6_15_forte.wav",VIOLIN_PATH+"\\C6_1_forte.wav",VIOLIN_PATH+"\\C6_1_piano.wav",VIOLIN_PATH+"\\C6_025_forte.wav",VIOLIN_PATH+"\\C6_025_mezzo-piano.wav",0.8908987181) ),
+            ( midi.B_5, (VIOLIN_PATH+"\\C6_15_forte.wav",VIOLIN_PATH+"\\C6_15_forte.wav",VIOLIN_PATH+"\\C6_1_forte.wav",VIOLIN_PATH+"\\C6_1_piano.wav",VIOLIN_PATH+"\\C6_025_forte.wav",VIOLIN_PATH+"\\C6_025_mezzo-piano.wav",0.9438743127) ),
+            ( midi.C_6, (VIOLIN_PATH+"\\C6_15_forte.wav",VIOLIN_PATH+"\\C6_15_forte.wav",VIOLIN_PATH+"\\C6_1_forte.wav",VIOLIN_PATH+"\\C6_1_piano.wav",VIOLIN_PATH+"\\C6_025_forte.wav",VIOLIN_PATH+"\\C6_025_mezzo-piano.wav",1) ),
+            ( midi.Cs_6, (VIOLIN_PATH+"\\C6_15_forte.wav",VIOLIN_PATH+"\\C6_15_forte.wav",VIOLIN_PATH+"\\C6_1_forte.wav",VIOLIN_PATH+"\\C6_1_piano.wav",VIOLIN_PATH+"\\C6_025_forte.wav",VIOLIN_PATH+"\\C6_025_mezzo-piano.wav",1.059463094) ),
+            ( midi.D_6, (VIOLIN_PATH+"\\E6_15_forte.wav",VIOLIN_PATH+"\\E6_15_forte.wav",VIOLIN_PATH+"\\E6_1_forte.wav",VIOLIN_PATH+"\\E6_1_piano.wav",VIOLIN_PATH+"\\E6_025_forte.wav",VIOLIN_PATH+"\\E6_025_mezzo-piano.wav",0.8908987181) ),
+            ( midi.Ds_6, (VIOLIN_PATH+"\\E6_15_forte.wav",VIOLIN_PATH+"\\E6_15_forte.wav",VIOLIN_PATH+"\\E6_1_forte.wav",VIOLIN_PATH+"\\E6_1_piano.wav",VIOLIN_PATH+"\\E6_025_forte.wav",VIOLIN_PATH+"\\E6_025_mezzo-piano.wav",0.9438743127) ),
+            ( midi.E_6, (VIOLIN_PATH+"\\E6_15_forte.wav",VIOLIN_PATH+"\\E6_15_forte.wav",VIOLIN_PATH+"\\E6_1_forte.wav",VIOLIN_PATH+"\\E6_1_piano.wav",VIOLIN_PATH+"\\E6_025_forte.wav",VIOLIN_PATH+"\\E6_025_mezzo-piano.wav",1) ),
+            ( midi.F_6, (VIOLIN_PATH+"\\E6_15_forte.wav",VIOLIN_PATH+"\\E6_15_forte.wav",VIOLIN_PATH+"\\E6_1_forte.wav",VIOLIN_PATH+"\\E6_1_piano.wav",VIOLIN_PATH+"\\E6_025_forte.wav",VIOLIN_PATH+"\\E6_025_mezzo-piano.wav",1.059463094) ),
+            ( midi.Fs_6, (VIOLIN_PATH+"\\Gs6_15_forte.wav",VIOLIN_PATH+"\\Gs6_15_mezzo-forte.wav",VIOLIN_PATH+"\\Gs6_1_forte.wav",VIOLIN_PATH+"\\Gs6_1_mezzo-forte.wav",VIOLIN_PATH+"\\Gs6_025_forte.wav",VIOLIN_PATH+"\\Gs6_025_mezzo-piano.wav",0.8908987181) ),
+            ( midi.G_6, (VIOLIN_PATH+"\\Gs6_15_forte.wav",VIOLIN_PATH+"\\Gs6_15_mezzo-forte.wav",VIOLIN_PATH+"\\Gs6_1_forte.wav",VIOLIN_PATH+"\\Gs6_1_mezzo-forte.wav",VIOLIN_PATH+"\\Gs6_025_forte.wav",VIOLIN_PATH+"\\Gs6_025_mezzo-piano.wav",0.9438743127) ),
+            ( midi.Gs_6, (VIOLIN_PATH+"\\Gs6_15_forte.wav",VIOLIN_PATH+"\\Gs6_15_mezzo-forte.wav",VIOLIN_PATH+"\\Gs6_1_forte.wav",VIOLIN_PATH+"\\Gs6_1_mezzo-forte.wav",VIOLIN_PATH+"\\Gs6_025_forte.wav",VIOLIN_PATH+"\\Gs6_025_mezzo-piano.wav",1) ),
             ( midi.A_6, (VIOLIN_PATH+"\\Gs6_15_forte.wav",VIOLIN_PATH+"\\Gs6_15_mezzo-forte.wav",VIOLIN_PATH+"\\Gs6_1_forte.wav",VIOLIN_PATH+"\\Gs6_1_mezzo-forte.wav",VIOLIN_PATH+"\\Gs6_025_forte.wav",VIOLIN_PATH+"\\Gs6_025_mezzo-piano.wav",1.059463094) ),
             ( midi.As_6, (VIOLIN_PATH+"\\C7_15_forte.wav",VIOLIN_PATH+"\\C7_15_forte.wav",VIOLIN_PATH+"\\C7_1_forte.wav",VIOLIN_PATH+"\\C7_1_pianissimo.wav",VIOLIN_PATH+"\\C7_025_forte.wav",VIOLIN_PATH+"\\C7_025_mezzo-piano.wav",0.8908987181) ),
             ( midi.B_6, (VIOLIN_PATH+"\\C7_15_forte.wav",VIOLIN_PATH+"\\C7_15_forte.wav",VIOLIN_PATH+"\\C7_1_forte.wav",VIOLIN_PATH+"\\C7_1_pianissimo.wav",VIOLIN_PATH+"\\C7_025_forte.wav",VIOLIN_PATH+"\\C7_025_mezzo-piano.wav",0.9438743127) ),
@@ -244,7 +235,7 @@ class SampleSynthesizer(synth.Synthesizer):
         value_type = str(type(self.note_dict.get((pitch,duration,intensity),1)))
         if(value_type == "<class 'int'>"):
             desired_fs = self.frame_rate
-            if( instrument == 'drums'):
+            if( instrument == synth.DRUMS):
                 if(duration < 1000):
                     N= math.ceil(duration/2)
                 else:
@@ -256,7 +247,7 @@ class SampleSynthesizer(synth.Synthesizer):
                 stretch_func = stretch_factor*t_h
                 note= o.OLA(data,window,stretch_func,0.01)
             else:
-                if( instrument == 'guitar'):
+                if( instrument == synth.GUITAR):
                     fmin = 82 #Frecuencia minima de un semitono de guitarra
                     if( pitch < midi.E_2):
                         forte_sample= GUITAR_PATH+"\E2_forte_trimmed.wav"
@@ -274,7 +265,7 @@ class SampleSynthesizer(synth.Synthesizer):
                     else: #cargo nota con velocidad baja
                         f_s, data= wavfile.read(piano_sample)
                 
-                elif( instrument == 'corn anglais'):
+                elif( instrument == synth.CORN_ANGLAIS):
                     fmin = 165 #Frecuencia minima de un semitono de corn anglais
                     if( pitch < midi.E_3):
                         if( duration > int(0.875*self.frame_rate)): #Uso las muestras de 1.5 seg para duraciones mayores a 0.875 seg
@@ -290,7 +281,7 @@ class SampleSynthesizer(synth.Synthesizer):
                             piano_sample = COR_ANGLAIS_PATH+"\B5_1_mezzo-piano.wav"
                         else:
                             forte_sample = COR_ANGLAIS_PATH+"\B5_025_forte.wav"
-                            COR_ANGLAIS_PATH+"\B5_025_mezzo-piano.wav"
+                            piano_sample = COR_ANGLAIS_PATH+"\B5_025_mezzo-piano.wav"
                         freq_factor = 1.059463094
                     else:
                         forte_sample_1_5,piano_sample_1_5,forte_sample_0_25,piano_sample_0_25,freq_factor = self.corn_dict[pitch]
@@ -305,12 +296,19 @@ class SampleSynthesizer(synth.Synthesizer):
                         f_s, data= wavfile.read(forte_sample)
                     else: #cargo nota con velocidad baja
                         f_s, data= wavfile.read(piano_sample)
-                elif( instrument == 'trumpet'):
-                    fmin = 82 #Frecuencia minima de un semitono de trompeta
-                    if( pitch < midi.E_2):
-                        forte_sample = TRUMPET_PATH+"//E2_25_pianissimo_normal.wav"
-                        piano_sample = TRUMPET_PATH+"//E2_25_pianissimo_normal.wav"
-                        freq_factor = 1
+                elif( instrument == synth.TRUMPET):
+                    fmin = 165 #Frecuencia minima de un semitono de trompeta
+                    if( pitch < midi.C_3):
+                        if( duration < int(0.625*self.frame_rate)):
+                            forte_sample = (self.trumpet_dict[ midi.C_3])[4]
+                            piano_sample = (self.trumpet_dict[ midi.C_3])[5]
+                        elif( duration < int(1.25*self.frame_rate) ):
+                            forte_sample = (self.trumpet_dict[ midi.C_3])[2]
+                            piano_sample = (self.trumpet_dict[ midi.C_3])[3]
+                        else:
+                            forte_sample = (self.trumpet_dict[ midi.C_3])[0]
+                            piano_sample = (self.trumpet_dict[ midi.C_3])[1]
+                        freq_factor = (self.trumpet_dict[ midi.C_3])[6]
                     elif( pitch > midi.E_6):
                         if( duration < int(0.625*self.frame_rate)):
                             forte_sample = (self.trumpet_dict[ midi.E_6])[4]
@@ -337,7 +335,7 @@ class SampleSynthesizer(synth.Synthesizer):
                         f_s, data= wavfile.read(forte_sample)
                     else: #cargo nota con velocidad baja
                         f_s, data= wavfile.read(piano_sample)
-                elif( instrument == 'violin'):
+                elif( instrument == synth.VIOLIN):
                     fmin = 196 #Frecuencia minima que se puede tocar con un violin
                     if( pitch < midi.G_3):
                         if( duration < int(0.625*self.frame_rate)): #Uso las muestras de 1.5 seg para duraciones mayores a 0.875 seg
@@ -385,9 +383,9 @@ class SampleSynthesizer(synth.Synthesizer):
                 window = MakeWindow(N)
                 stretch_factor = (duration)/t_h[-1]
                 stretch_func = stretch_factor*t_h
-                note = ph.PhVocoder(pitch_corrected_data,window,stretch_func,math.ceil(0.1*N))
+                note= ph.PhVocoder(pitch_corrected_data,window,stretch_func,int(0.1*N))
                 #note= w.WSOLA(pitch_corrected_data,window,stretch_func,math.ceil(N/2),0.01)
-                #note= o.OLA(pitch_corrected_data,window,stretch_func,0.2)
+                #note= o.OLA(pitch_corrected_data,window,stretch_func,0.01)
 
             #Normalizo el vector
             note_max_pos = np.max(note)
