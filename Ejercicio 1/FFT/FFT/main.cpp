@@ -12,7 +12,6 @@ int main() {
 	fft_init();
 
 
-	
 	double p_n = 0;
 	for (int n = 256; n <= 4096; n=n*2) {
 		double test_time_n = 0;
