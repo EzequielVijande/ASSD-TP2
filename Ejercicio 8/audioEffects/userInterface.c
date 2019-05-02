@@ -4,6 +4,7 @@
 #include "userInterface.h"
 #include "presets.h"
 #include "stdio.h"
+#include "hanning.h"
 
 #define ENTER '\n' //Carriage return ASCII
 
@@ -116,6 +117,8 @@ void completeReverbRoutine(reverbComplete_t * pData){
 }
 void robotizationRoutine(robotization_t * pData){
     printf("You have choosen Robotization!\n");
+    pData->flag = 0;
+    hanning(FPB, pData->hanning, 0); //ventana de hanning de largo FPB y simetrica (tercer parametro igual a cero).
 }
 void headPhones3DRoutine(headPhones3D_t * pData){
     printf("You have choosen 3D effect with Headphones!\n");

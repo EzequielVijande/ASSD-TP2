@@ -19,6 +19,7 @@
 
 
 #define L 20000
+#define FPB 512
 
 
 
@@ -73,6 +74,14 @@ typedef struct{
 typedef struct{
     int a;           //comentar que representan estos parámetros
     int b;
+    float memDerOLADer[FPB];
+    float memDerOLAIzqFFT[FPB];
+    float memIzqOLADer[FPB];
+    float memIzqOLAIzqFFT[FPB];
+    float memDerFFTnoOLA[FPB];
+    float memIzqFFTnoOLA[FPB];
+    float hanning[FPB];
+    int flag;
 }robotization_t;
 
 typedef struct{
