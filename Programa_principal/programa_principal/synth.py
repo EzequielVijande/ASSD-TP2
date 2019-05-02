@@ -4,6 +4,7 @@ import math
 
 #Strings que indican el instrumento
 GUITAR = "guitar"
+DRUMS = "drums"
 CORN_ANGLAIS = "corn anglais"
 VIOLIN = "violin"
 SAXO = "saxophone"
@@ -93,17 +94,17 @@ class Synthesizer:
         for k in range(self.track_index, len(track)):
             ev = track[k]
             i += 1
-            segs_per_tick = 60 / self.curr_bpm / self.curr_resolution
+            segs_per_tick = 60.0 / (self.curr_bpm * self.curr_resolution)
             self.last_ev_time += ev.tick * segs_per_tick
-
             self.update_tempo_if_tempo_map()
+
             if self.evs_dict[ev.name] is not None:              # looks for the handler of the specific event
                 self.evs_dict[ev.name](ev)
 
             if (len(self.x_out) > n_frames)and(len(self.on_notes)==0):               # arbitrarily chosen length in which the buffer should be cleared
                 self.avg_counter = 0
                 returnable = self.x_out[0:n_frames]
-                self.x_out = self.x_out[n_frames-1:]
+                self.x_out = self.x_out[n_frames:]
                 self.last_sent_n += len(returnable)-1
                 self.aux_buffer_flag = True
                 self.aux_buffer_size = len(self.x_out)
@@ -113,7 +114,13 @@ class Synthesizer:
 
         # the deletion of the tempo_map should come after fully synthesizing the track
         self.tempo_map = None
-        return self.x_out, True
+        if len(self.x_out) > n_frames:
+            returnable = self.x_out[0:n_frames]
+            self.x_out = self.x_out[n_frames:]
+            return returnable, False
+        else:
+            returnable = self.x_out + [0]*(n_frames-len(self.x_out)) #Lleno con ceros para devolver n_frames
+            return returnable, True
 
     def handle_track_name(self, ev: midi.TrackNameEvent):
         if self.curr_track_name != '':
@@ -186,10 +193,11 @@ It may also be a NoteOnEvent, hence the generic 'Event' annotation"""
         curr_bpm = 120
         self.tempo_map = []
         for ev in track:
-            segs_per_tick = 60 / curr_bpm / self.curr_resolution
-            last_ev_time += ev.tick * segs_per_tick
             if ev.name == 'Set Tempo':
                 curr_bpm = ev.get_bpm()
+                self.curr_bpm = curr_bpm
+                segs_per_tick = 60.0 / (self.curr_bpm * self.curr_resolution)
+                last_ev_time += ev.tick * segs_per_tick
                 self.tempo_map.append((last_ev_time, curr_bpm))
         # no set Tempo events found in this file !
         if len(self.tempo_map) == 0:
@@ -201,11 +209,13 @@ It may also be a NoteOnEvent, hence the generic 'Event' annotation"""
         if self.tempo_map is not None:
             if len(self.tempo_map) > 0:
                 set_time, bpm = self.tempo_map[0]
-                # print('set_time = ' + str(set_time))
-                # print('last_ev_time = ' + str(self.last_ev_time))
+                #print('set_time = ' + str(set_time))
+                #print('last_ev_time = ' + str(self.last_ev_time))
                 if set_time == 0:
                     self.curr_bpm = bpm
                     self.tempo_map = self.tempo_map[1:]
                 elif set_time <= self.last_ev_time:
                     self.curr_bpm = bpm
+                    print('set_time = ' + str(set_time))
+                    print('bpm = '+ str(self.curr_bpm))
                     self.tempo_map = self.tempo_map[1:]

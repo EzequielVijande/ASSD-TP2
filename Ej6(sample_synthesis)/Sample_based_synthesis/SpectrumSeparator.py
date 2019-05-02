@@ -1,6 +1,7 @@
 import scipy.signal as s
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.io import wavfile as wave
 #Funcion que separa el espectro de un audio en dos espectros distintos.
 #Un espectro corresponde a los sonidos harmonicos y otro a los percusivos.
 #Recibe como parametros el arreglo con el audio, el largo de los filtros a aplicar,
@@ -43,3 +44,12 @@ def GetPercussiveAndHarmonicSpectrum(input,h_filter_len=15,p_filter_len=15,frame
     t_h, audio_h = s.istft(h_spectr)
     t_p, audio_p = s.istft(p_spectr)
     return t_h, audio_h, t_p, audio_p
+
+
+fs, data = wave.read("C:\\Users\\HP\\Documents\\ITBA\\Tercer Año\\ASSD\\TPs\\Audios\\persona5.wav")
+data = data[:,0]
+t_h, audio_h, arg_path_positional, audio_p = GetPercussiveAndHarmonicSpectrum(data,frame_size=2000,beta=3)
+audio_h = audio_h.astype('int16')
+audio_p = audio_p.astype('int16')
+wave.write("percusion.wav",fs,audio_p)
+wave.write("harmonic.wav",fs,audio_h)

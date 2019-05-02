@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>918b01af-e033-43e5-b91c-ba240789ba3e</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>harmonicsAnalysis.py</StartupFile>
+    <StartupFile>realEnvelopeADSR.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -29,7 +29,7 @@
     <Compile Include="envelopeDetectorTestbench.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="harmonicsAnalysis.py" />
+    <Compile Include="realEnvelopeADSR.py" />
     <Compile Include="spectralAnalysis.py" />
   </ItemGroup>
   <ItemGroup>

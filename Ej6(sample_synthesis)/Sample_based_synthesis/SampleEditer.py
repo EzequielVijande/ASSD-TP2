@@ -6,7 +6,7 @@ import math
 from SampleSynthesizer import ResampleArray
 
 desired_fs = 44100
-f_s, data= wavfile.read(".\Samples\Cor Anglais\english-horn_B3_15_forte_normal.wav")
+f_s, data= wavfile.read('.\\Samples\\Trumpet\\trumpet_C4_1_fortissimo_normal.wav')
 if(len(data.shape) > 1):
     data = data[:,0]
 if(f_s != desired_fs):
@@ -31,4 +31,4 @@ plt.plot(t_out,output)
 plt.ylabel("Modificada")
 plt.show()
 
-wavfile.write("Gs5_forte_trimmed.wav", desired_fs, output)
+#wavfile.write("Gs5_forte_trimmed.wav", desired_fs, output)

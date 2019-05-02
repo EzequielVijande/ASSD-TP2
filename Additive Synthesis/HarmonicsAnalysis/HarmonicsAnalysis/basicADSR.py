@@ -5,8 +5,8 @@ def main():
     fs = 44100
     addsyn.adsrSynthGuitar(110,3)
     addsyn.adsrDesvSynthGuitar(110,3)
-    addsyn.adsrSynthViolin(440,3)
-    addsyn.adsrDesvSynthViolin(440,3)
+    addsyn.adsrSynthViolin(194,1.3)
+    addsyn.adsrDesvSynthViolin(194,1.3)
     addsyn.adsrSynthSaxophone(110,3)
     addsyn.adsrDesvSynthSaxophone(110,3)
     addsyn.adsrSynthTrumpet(110,3)

@@ -1,0 +1,508 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language spanish-mexico
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 2cm
+\topmargin 2cm
+\rightmargin 2cm
+\bottommargin 2cm
+\headheight 2cm
+\headsep 2cm
+\footskip 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style french
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Part
+Espectrograma
+\end_layout
+
+\begin_layout Section
+Introducción
+\end_layout
+
+\begin_layout Standard
+Un espectrograma es una gráfica tridimensional en la que se busca representar
+ como varia el contenido armónico de una señal a lo largo del tiempo.Normalmente
+ se toma el eje horizontal de la gráfica como el tiempo, y el eje vertical
+ como las frecuencias de la señal.
+ La intensidad de un armónico para un tiempo dado suele representarse mediante
+ el uso de un color, generalmente colores cerca del rojo indican mayor intensida
+d en dicho armónico y colores cerca del azul baja intensidad.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Imagenes/spectrogram_ex.jpg
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Ejemplo del formato de un espectrograma
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Existen diversas aplicaciones en el que el espectograma de una senal puede
+ ser de utilidad.En este informe se enfoca en el uso del mismo para identificar
+ caracteristicas en una senal de audio.Las senales de audio son no estacionarias,
+ lo que quiere decir que su contenido armonico no permanece igual a lo largo
+ del tiempo, es por esto que es conveniente tener el espectograma del audio
+ para tener una idea no solo del contenido armonico de la senal pero sino
+ tambien de como el mismo evoluciona a lo largo del tiempo.
+\end_layout
+
+\begin_layout Standard
+El objetivo de esta sección es la de explicar los parámetros relevantes
+ que deben tenerse en cuenta para realizar el espectrograma de una señal
+ y como cada uno afecta el resultado obtenido.Con este objetivo se presentara
+ y analizara la herramienta matemática conocida como 'Short Time Fourier
+ Transform'(STFT) ya que para obtener el espectrograma de una señal es necesario
+ realizar la STFT de la misma.Asimismo, se presentara la implementación de
+ un espectrograma para una señal de audio y se comentara sobre cuales son
+ los parámetros apropiados a utilizar y porque.
+\end_layout
+
+\begin_layout Section
+Desarrollo matematico
+\end_layout
+
+\begin_layout Subsection
+Definicion
+\end_layout
+
+\begin_layout Standard
+El espectograma de una senal puede obtenerse directamente de la STFT de
+ una senal segun:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Formula 
+\begin{equation}
+Espectrograma(t,\omega)=\left|STFT\left\{ x(t)\right\} \right|^{2}(t,\omega)
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+La defincion previa vale tanto para el caso en el que x(la senal de interes)
+ es una senal en tiempo continuo como para si lo fuera en tiempo discreto,solo
+ falta sustituir 
+\begin_inset Formula $t=nT_{step}$
+\end_inset
+
+ y 
+\begin_inset Formula $\tau=mT_{step}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+En cuanto a la STFT de una senal, la misma se define como:
+\end_layout
+
+\begin_layout Standard
+Tiempo continuo:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Formula 
+\[
+STFT\{x(t)\}(t,\omega)=\stackrel[-\infty]{+\infty}{\int}x(t+\tau)w(\tau)e^{-j\omega\tau}d\tau
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Tiempo discreto:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Formula $STFT\{x(nT)\}(n,\omega)=\underset{m\epsilon\mathbb{Z}}{\sum}x(nT+mT)w(mT)e^{-j\omega m}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Donde 
+\begin_inset Formula $w$
+\end_inset
+
+ es una funcion que sirve de ventana, esto quiere decir que tiene valores
+ no nulos en un intervalo de longitud L y es nula fuera de ese intervalo.
+ Teniendo en cuenta los fines practicos de este informe de aqui en mas se
+ trabajara con la defincion en tiempo discreto y asumiendo 
+\begin_inset Formula $T=1$
+\end_inset
+
+ sin perdida de generalidad.
+\end_layout
+
+\begin_layout Standard
+Puede interpretarse la STFT como la tranformada de producto de dos senales:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Formula $STFT\{x(n)\}(n,\omega)=\mathcal{F}_{d}\left\{ x(n+m)w(m)\right\} =\mathcal{F}_{d}\left\{ x(n+m)\right\} *\mathcal{F}_{d}\left\{ w(m)\right\} $
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Formula $=\frac{1}{2\pi}\underset{<2\pi>}{\int}X(\theta)W(\theta-\omega)e^{j\theta n}d\theta$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Esta ultima forma analoga de ver la senal muestra que la STFT es equivalente
+ a la IDTFT del espectro de la senal ponderado por una funcion W centrada
+ en 
+\begin_inset Formula $\omega$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+En la practica no es posible calcular la STFT para un continuo de frecuencias
+ si no que se debe calcular para N muestras por lo tanto la expresion cambia
+ a:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Formula $STFT\{x(n)\}(n,k)=\underset{m\epsilon\mathbb{Z}}{\sum}x(n+m)w(m)e^{-jk\frac{2\pi}{N}m},k\epsilon[0,N-1]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+De forma similar, la STFT se calcula para ciertos intervalos de tiempo separados
+ por una distancia 
+\begin_inset Formula $R\epsilon\mathbb{N}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Formula $STFT\{x(n)\}(r,k)=X(r,k)=\stackrel[m=0]{L-1}{\sum}x(rR+m)w(m)e^{-jk\frac{2\pi}{N}m},$
+\end_inset
+
+ 
+\begin_inset Formula $k\epsilon[0,N-1]$
+\end_inset
+
+ ,
+\begin_inset Formula $r\epsilon\mathbb{Z}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+De la expresion anterior se puede llegar a la siguiente expresion final:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Formula 
+\begin{equation}
+X(r,k)=X_{r}(k)=\stackrel[m=0]{L-1}{\sum}x_{r}(m)e^{-jk\frac{2\pi}{N}m}\label{eq:2}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Formula $donde:x_{r}(m)=x(rR+m)w(m)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+De 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:2"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ se puede ver que la STFT es simplemente una secuencia de DFTs de x con
+ una ventana aplicada cada R muestras,visualmente seria lo siguiente:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Imagenes/Windowing.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Esquema de como estan dispuestas las ventanas sobre x
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+La STFT corresponderia a una secuencia de DTFTs de x donde hay una DFT por
+ cada ventana aplicada sobre x.R es la distancia entre ventanas y L el largo
+ de las mismas.Como puede verse en la imagen anterior, si R<L entonces habra
+ superposicion de ventanasa mientras que si R>L no habra superposicion de
+ ventanas.Si se desea recuperar la senal a partir de la STFT de la misma
+ entonces se debe cumplir que:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Formula $N\geq L\geq R$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Si N fuera menor a L entonces no seria posible recuperar la senal a partir
+ de la IDFT del espectro, en cuanto a el lado derecho de la desigualdad.Se
+ explico previamente que el caso en el que R>L hay muestras que no caen
+ en inguna ventana por lo que se pierde informacion de la senal que no es
+ posible recuperar, el caso en el que R=L es el caso limite en el que no
+ hay overlap pero todas las muestras estan incluidas dentro de alguna ventana.
+\end_layout
+
+\begin_layout Subsection
+Resolucion en el tiempo vs resolucion en frecuencia
+\end_layout
+
+\begin_layout Section
+Parámetros
+\end_layout
+
+\begin_layout Subsection
+Ventana
+\end_layout
+
+\begin_layout Standard
+La ventana sirve dos propositos fundamentales.
+ El primero que es el mas evidente, es el de limitar la duracion de la senal
+ de interes para poder calcular su tranformada en un intervalo acotado.El
+ segundo es el de reducir la 'fuga espectral',esto se logra eligiendo ventanas
+ cuyos extremos decaerapido y suavemente a cero con el fin de evitar posibles
+ discontinuidades en los extremos.
+\end_layout
+
+\begin_layout Standard
+El largo y la forma de la ventana elegida son de suma importancia.El largo
+ de la misma definira cual sera la resolucion en frecuencia y en tiempo
+ del espectograma.Como se analizo previamente, al aumentar el largo de la
+ ventana se tiene mayor resolucion en frecuencia pero menor resolucion en
+ tiempo y al disminuir el mismo se tiene mayor resolucion en tiempo pero
+ menor resolucion en frecuencia.
+\end_layout
+
+\begin_layout Standard
+La forma de la ventana tendra impacto en el grado de fuga espectral que
+ tomara lugar en el espectograma.La fuga espectral es consecuencia de que
+ la transformada de una senal se calcula en un intervalo finito que puede
+ no coincidir con un multiplo del periodo fundamental de la misma,lo que
+ genera discontinuidades en los extremos de la extension periodica de dicha
+ senal y por ende agrega contenido armonico que no es propio de la misma.Las
+ formas de ventana que disminuyen a cero tanto en su valor como en sus derivadas
+ cerca de los extremos reducen la fuga espectral ya que disminuyen la relevancia
+ del contenido armonico aportado por los extremos del intervalo.
+\end_layout
+
+\begin_layout Subsection
+Largo del segmento
+\end_layout
+
+\begin_layout Standard
+El largo del segmento es igual largo de la ventana.
+ Este parametro define el largo de la ventana que a su vez define la resolucion
+ temporal y en frecuencia del espectrograma.
+\end_layout
+
+\begin_layout Subsection
+Overlap entre segmentos
+\end_layout
+
+\begin_layout Subsection
+Largo de la FFT
+\end_layout
+
+\begin_layout Standard
+Como fue explicado en el desarrollo matematico, el minimo de muestras necesarios
+ de la fft para reconstruir la senal es igual a la duracion de la senal(
+\begin_inset Formula $N=L$
+\end_inset
+
+).Si se incrementa N sobre el valor de L ,es aquivalente a agregar ceros
+ al vector de la fft(zero-padding) no se esta agregando informacion nueva
+ a la senal por lo que la resolucion de la misma no mejora.Sin embargo, al
+ tener un N mayor se obtiene una grafica que parece ser mas continua y que
+ puede permitir distinguir mejor rasgos del espectro.
+\end_layout
+
+\begin_layout Section
+Aplicacion del espectrograma
+\end_layout
+
+\begin_layout Section
+Conclusiones
+\end_layout
+
+\end_body
+\end_document
