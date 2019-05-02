@@ -2,6 +2,13 @@ import midi
 import wav_gen
 import math
 
+#Strings que indican el instrumento
+GUITAR = "guitar"
+DRUMS = "drums"
+CORN_ANGLAIS = "corn anglais"
+VIOLIN = "violin"
+SAXO = "saxophone"
+TRUMPET = "trumpet"
 
 class Synthesizer:
 
@@ -47,7 +54,6 @@ class Synthesizer:
         # time in seconds of the last event
         self.last_ev_time = 0
         self.last_sent_n = 0
-        self.last_sent_time = 0
         # callback used to generate a note array with the corresponding synthesis method
         self.create_notes_callback = None
         # rate by which the samples will be outputted.
@@ -57,51 +63,62 @@ class Synthesizer:
         self.avg_counter = 0
         self.curr_instrument = ''
         self.curr_track_name = ''
+        self.aux_buffer_flag = False
+        self.track_index = 0
+        self.aux_buffer_size = 0
+        self.set_tempo_ev = False
+        self.tempo_map = None
 
     def set_create_notes_callback(self, callback):
         self.create_notes_callback = callback
 
-    def synthesize(self, track: midi.Track, instrument: str, name: str):
+    def synthesize(self, track: midi.Track, instrument: str, first_time: bool=False, n_frames: int=100000):
+        # print('synth tempo_map'+ str(self.tempo_map))
+        # print(self.curr_bpm)
+        if first_time:
+            self.x_out = []
+            self.avg_counter = 0
+            self.last_ev_time = 0
+            self.last_sent_n = 0
+            self.on_notes = []
+            self.curr_bpm = 120
+            self.curr_track_name = ''
+            self.aux_buffer_flag = False
+            self.aux_buffer_size = 0
+            self.track_index = 0
+            self.set_tempo_ev = False
+
         self.curr_instrument = instrument
-        self.x_out = []
-        self.define_bpm(track)
 
         i = 0
-        for ev in track:
+        for k in range(self.track_index, len(track)):
+            ev = track[k]
             i += 1
             segs_per_tick = 60 / self.curr_bpm / self.curr_resolution
             self.last_ev_time += ev.tick * segs_per_tick
-            # print(ev.name + str(i))
+
+            self.update_tempo_if_tempo_map()
             if self.evs_dict[ev.name] is not None:              # looks for the handler of the specific event
                 self.evs_dict[ev.name](ev)
 
-            if len(self.x_out) > 10**5:             # arbitrarily chosen length in which the buffer should be cleared
-                self.refresh_notes()
+            if (len(self.x_out) > n_frames)and(len(self.on_notes)==0):               # arbitrarily chosen length in which the buffer should be cleared
                 self.avg_counter = 0
-                self.last_sent_n += len(self.x_out)-1
-                #if self.curr_track_name != '':
-                #    name = self.curr_track_name + '.wav'
-                self.wav_manager.generate_wav(False, self.x_out, file_name=name) # generate part of the final .wav
-                self.x_out = []         # clears the buffer
+                returnable = self.x_out[0:n_frames]
+                self.x_out = self.x_out[n_frames-1:]
+                self.last_sent_n += len(returnable)-1
+                self.aux_buffer_flag = True
+                self.aux_buffer_size = len(self.x_out)
                 self.avg_counter = 0
+                self.track_index = k+1
+                return returnable, False
 
-        self.wav_manager.generate_wav(True, self.x_out, file_name=name)
-        # name = self.curr_track_name
-        # self.curr_track_name = ''
-        print('Termine track')
-        return name
-
-    def refresh_notes(self):
-        back_up = self.on_notes[:]
-        self.off_all_notes()
-        self.last_sent_time += len(self.x_out) / self.frame_rate
-        for j in range(len(back_up)):
-            on_ev, on_time = back_up[j]
-            back_up[j] = (on_ev, self.last_sent_time)
-        self.on_notes = back_up
+        # the deletion of the tempo_map should come after fully synthesizing the track
+        self.tempo_map = None
+        return self.x_out, True
 
     def handle_track_name(self, ev: midi.TrackNameEvent):
-        self.curr_track_name = ev.name
+        if self.curr_track_name != '':
+            self.curr_track_name = ev.text
 
     def handle_note_on(self, ev: midi.NoteOnEvent):
 
@@ -126,8 +143,7 @@ class Synthesizer:
             self.off_note(off_ev)
 
     def handle_set_tempo(self, ev: midi.SetTempoEvent):
-        self.curr_bpm = ev.bpm
-        print('Tempo seteado')
+        self.curr_bpm = ev.get_bpm()
 
     def off_note(self, off_ev: midi.NoteEvent):
         """off_ev is not necessarily a NoteOffEvent
@@ -142,7 +158,7 @@ It may also be a NoteOnEvent, hence the generic 'Event' annotation"""
         off_ev, off_time = off_tuple
         on_ev_tick = on_ev.tick
         off_ev_tick = off_ev.tick
-        if(on_ev_tick < off_ev_tick): #Ignora el evento si los ticks no tiene sentido
+        if(on_ev_tick < off_ev_tick): #Ignora el evento si las duraciones no tiene sentido
             beginning_n = int(on_time*self.frame_rate) - self.last_sent_n
             ending_n = int(off_time*self.frame_rate)+1 - self.last_sent_n
             notes = self.create_notes_callback(on_ev.get_pitch(), ending_n-beginning_n, on_ev.get_velocity(), self.curr_instrument)
@@ -150,14 +166,9 @@ It may also be a NoteOnEvent, hence the generic 'Event' annotation"""
 
     def sum_note_arrays(self, notes: list, beginning_n: int, ending_n: int):
         """sums the new note to previous notes that are on the same time interval"""
+
         if len(self.x_out) < ending_n:
             self.x_out += [0]*(ending_n-len(self.x_out))
-        #for i in range(ending_n-beginning_n):
-
-        #    if abs(self.x_out[i + beginning_n] + notes[i]) > 1:
-        #        self.x_out[i + beginning_n] = (self.x_out[i + beginning_n] + notes[i]) / 2
-        #    else:
-        #        self.x_out[i + beginning_n] += notes[i]
         avged = False
         for i in range(ending_n-beginning_n):
             if self.x_out[i + beginning_n] != 0:
@@ -165,11 +176,37 @@ It may also be a NoteOnEvent, hence the generic 'Event' annotation"""
                 self.x_out[i + beginning_n] = (self.x_out[i + beginning_n]*self.avg_counter + notes[i]) / (self.avg_counter+1)
             else:
                 self.x_out[i + beginning_n] = (self.x_out[i + beginning_n] + notes[i])
-            # print(self.avg_counter)
         if avged:
             self.avg_counter += 1
 
-    def define_bpm(self, track: midi.Track):
-        for i in range(len(track)-1, 0, -1):
-            if track[i].name == 'End of Track':
-                track[i].tick
+    def set_tempo_map(self, tempo_map):
+        self.tempo_map = tempo_map[:]
+
+    def get_tempo_map(self, track: midi.Track):
+        last_ev_time = 0
+        curr_bpm = 120
+        self.tempo_map = []
+        for ev in track:
+            segs_per_tick = 60 / curr_bpm / self.curr_resolution
+            last_ev_time += ev.tick * segs_per_tick
+            if ev.name == 'Set Tempo':
+                curr_bpm = ev.get_bpm()
+                self.tempo_map.append((last_ev_time, curr_bpm))
+        # no set Tempo events found in this file !
+        if len(self.tempo_map) == 0:
+            self.tempo_map = None
+
+        return self.tempo_map
+
+    def update_tempo_if_tempo_map(self):
+        if self.tempo_map is not None:
+            if len(self.tempo_map) > 0:
+                set_time, bpm = self.tempo_map[0]
+                # print('set_time = ' + str(set_time))
+                # print('last_ev_time = ' + str(self.last_ev_time))
+                if set_time == 0:
+                    self.curr_bpm = bpm
+                    self.tempo_map = self.tempo_map[1:]
+                elif set_time <= self.last_ev_time:
+                    self.curr_bpm = bpm
+                    self.tempo_map = self.tempo_map[1:]

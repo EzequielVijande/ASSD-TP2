@@ -1,0 +1,14 @@
+#ifndef PRESETS_H
+#define PRESETS_H
+
+
+//VIBRATO EFFECTS:
+#define VIBRATO_MINDELAY 3 //(ms)
+#define VIBRATO_MAXDELAY 15 //(ms)
+#define VIBRATO_MINFREQ 3 //(Hz)
+#define VIBRATO_MAXFREQ 18 //(Hz)
+#define VIBRATO_MINDELAY_PRESET 5 //(ms)
+#define VIBRATO_MAXDELAY_PRESET 10 //(ms)
+#define VIBRATO_FREQ_PRESET 10 // (Hz)
+
+#endif //PRESETS_H

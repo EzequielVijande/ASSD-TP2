@@ -77,7 +77,7 @@ def adsrEnvelope(ta,td,s,tr,tt,fs):
                 envelope.append((s/tr)*(tt-t[i]))
                 i += 1
     else:
-        print("caso turbio")
+        print("Total note time too short")
     return envelope
 
 def scaleEnvelope(envelope,k):

@@ -4,25 +4,42 @@ import midi
 import time
 import struct, math
 import wav_gen
+from matplotlib import pyplot as pl
+from scipy import signal as sig
+import numpy as np
+import pandas as pd
+import scipy
+
+from scipy import signal
 
 waver = wav_gen.WaveManagement()
 
 synth = FmSynthesizer(192)
 func = synth.create_note_array
 
-pitches = [(110, 220), (220, 440), (110, 220), (110, 220), (250, 350), (250, 350)]
-taus = [2, 2, 12, 0.3, 2, 1]
-times = [6, 6, 3, 3, 5, 5]          # seconds
-fs = 11025
-amount_of_ns = [int(t*fs) for t in times]
-taus = [int(tau*fs) for tau in taus]
+# amount_of_ns = 17500      # clarinete
+amount_of_ns = 200000      # campana
+# amount_of_ns = 27000        # trompeta
 velocity = 127
-inst = 112
+# inst = 71     # clarinete
+inst = 112    # campana
+# inst = 56      # trompeta
+# pitch = 57    # trompeta y clarinete
+pitch = 69      # campana
+notes = func(pitch=pitch, amount_of_ns=amount_of_ns, velocity=velocity, instrument=inst)
+# pl.plot(list(range(len(notes))), [n*4500 for n in notes])       # clarinete
+pl.plot(list(range(len(notes))), [n*680 for n in notes])      # campana
+# pl.plot(list(range(len(notes))), [n*6200 for n in notes])     # trompeta
+pl.show()
+waver.generate_wav(finished=True, data=notes, n_channels=1, sample_width=2, frame_rate=44100, file_name='NEW_WAV.wav')
 
-for i in range(len(pitches)):
-    # (pitch, amount_of_ns: int, velocity, instrument :int, tau)
-    notes = func(pitch=pitches[i], amount_of_ns=amount_of_ns[i], velocity=velocity, instrument=inst, tau=taus[i])
-    waver.generate_wav(True, notes, n_channels=1, sample_width=2, frame_rate=fs, file_name='TrackBell'+str(i)+'.wav')
+# Para el espectograma!!!
 
-
+# notes = np.asarray(notes)
+# f, t, Sxx = signal.spectrogram(notes, 44100)
+# pl.pcolormesh(t, f, Sxx)
+# pl.title('A3, Nota sintetizada')
+# pl.ylabel('Frequency [Hz]')
+# pl.xlabel('Time [sec]')
+# pl.show()
 

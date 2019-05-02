@@ -2,7 +2,10 @@ import wave
 import math
 import struct
 
+
 class WaveManagement:
+    number_of_bytes_codification = 2        # number of bytes a frame has
+
     def __init__(self):
         self.opened_file = None
 
@@ -27,15 +30,3 @@ class WaveManagement:
             self.opened_file.close()
             self.opened_file = None
 
-
-#wav_m = WaveManagement()
-
-#f_rate = 44100          # standard frame rate for audio
-#for j in range(3):
-#    my_data = []
-#    for i in range(f_rate*5):
-#        my_data.append(math.cos(2*math.pi*400*i/f_rate))
-#    if j != 3:
-#        wav_m.generate_wav(False, my_data, n_channels=1, sample_width=2, frame_rate=f_rate, file_name='KEASE.wav')
-#    else:
-#        wav_m.generate_wav(True, my_data, n_channels=1, sample_width=2, frame_rate=f_rate, file_name='KEASE.wav')

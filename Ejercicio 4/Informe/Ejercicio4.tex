@@ -1,0 +1,787 @@
+%% LyX 2.3.2-2 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[english]{article}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{luainputenc}
+\usepackage{babel}
+\usepackage{float}
+\usepackage{amstext}
+\usepackage{graphicx}
+\usepackage[unicode=true,pdfusetitle,
+ bookmarks=true,bookmarksnumbered=false,bookmarksopen=false,
+ breaklinks=false,pdfborder={0 0 1},backref=false,colorlinks=false]
+ {hyperref}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+%% A simple dot to overcome graphicx limitations
+\newcommand{\lyxdot}{.}
+
+
+\makeatother
+
+\begin{document}
+
+\section{Síntesis FM}
+
+\subsection{Introducción}
+
+Los orígenes de la síntesis mediante el método FM se remontan a 1973
+con el paper del padre de dicho método, John Chowning, titulado ``The
+Synthesis of Complex Audio Spectra by Means of Frequency Modulation''.
+
+En una entrevista con la Audio Engeneering Society (ver referencias),
+John Chowning cuenta que el descubrimiento del método surgió cuando
+estaba experimentando con dos osciladores, modulando en frecuencia
+de manera infrasónica para producir una suerte de vibrato en una señal.
+A medida que cambiaba la amplitud de dicho vibrato (vibrato depth)
+y la frecuencia a la cual se estaba haciendo oscilar a los osciladores
+al punto en que ya no podía seguir la frecuencia instantánea de la
+señal, pudo percatarse de que las frecuencias que aparecían como resultado
+caían dentro del rango audible y eran ricas en timbre.
+
+Fue así como comenzó a analizar las relaciones entre frecuencias y
+amplitudes que permitió el desarrollo de la teoría presentada a continuación,
+que dio el origen a la síntesis FM o síntesis de modulación en frecuencia.
+
+A modo de establecer un marco teórico a partir del cual se establecerán
+los conceptos y bases utilizados en el desarrollo del sintetizador,
+se procederá a explicar las relaciones matemáticas y los razonamientos
+en los que se basa dicho método.
+
+\subsubsection{Características del sonido}
+
+Un tono musical puede ser visto como una señal del timpo que cae dentro
+de la banda audible, con frecuencias de 20Hz a 20kHz. Por lo general,
+cuando se habla de tonos musicales se considera una señal periódica
+en el tiempo, por lo que las frecuencias en el espectro de la misma
+serán discretas y múltiplos de una frecuencia fundamental $f_{0}$.
+
+Como un sonido musical en realidad no es una señal periódica a lo
+largo del tiempo, el espectro del mismo tendrá variaciones en función
+del tiempo y contendrá inharmonías, o frecuencias NO múltiplos de
+$f_{o}$. Cuanto menos ideal sea el tono musical escuchado, más contenido
+inharmónico tendrá. Pero es importante destacar que el no idealismo
+no implica una peor calidad de sonido, sino todo lo contrario: Son
+aquellas no idealidades las que le dan el grado subjetivo a la música
+y caracterizarán a una nota como agradable o desagradable al oído.
+
+Una nota musical no es lo mismo que un tono musical. Una nota musical
+hablará de la frecuencia fundamental de aquel sonido ideal mencionado
+anteriormente (el tono), una cierta duración, y estará descripta por
+una cierta notación musical.
+
+Un tono musical puede puede ser entonces descripto por 4 características
+primordiales, a saber:
+\begin{enumerate}
+\item Tono: frecuencia fundamental del tono, es decir, aquella frecuencia
+cuya componente prevalece por sobre las demás, suele ser la primera
+a partir del cero, aunque no necesariamente.
+\item Duración: Intervalo de tiempo en el que la señal no es nula.
+\item Intensidad: Amplitud de la señal que describe al sonido en cierto
+instante de tiempo.
+\item Timbre: Lo que le da ``color'' al sonido. Permite identificar a
+una nota musical siendo tocada por un instrumento y por otro. Consiste
+principalmente en tres cosas: \par La evolución de las componentes
+en frecuencia a lo largo del tiempo. \par Las frecuencias características
+de la señal. \par La envolvente dinámica, o la variación del sonido
+en el tiempo.
+\end{enumerate}
+Es en el timbre en el que nos centraremos en este informe y es por
+la habilidad de conseguir un timbre característico y no demasiado
+irreal con fórmulas matemáticas simples y bien establecidas lo que
+le dio su reconocimiento al método de síntesis FM.
+
+\subsubsection{Análisis matemático}
+
+La fórmula general para una señal modulada en frecuencia, otorgada
+por consigna, es:
+\begin{center}
+$x(t)=A(t)\cdot cos(2\pi\cdot f_{c}\cdot t+\phi_{c}+I(t)\cdot cos(2\pi\cdot f_{m}\cdot t+\phi_{m}))$
+\par\end{center}
+
+Para simplificar cuentas y cálculos que tenga que realizar la computadora
+a la hora de sintetizar, elegimos $\phi_{m}=\phi_{c}=-\frac{\pi}{2}$,
+por lo que la expresión anterior queda reducida a:
+\begin{center}
+$x(t)=A(t)\cdot sin(2\pi\cdot f_{c}\cdot t+I(t)\cdot sin(2\pi\cdot f_{m}\cdot t))$
+\par\end{center}
+
+$f_{c}$ será entonces la frecuencia portadora y $f_{m}$ la frecuencia
+moduladora. A(t) e I(t) definirán entonces las envolventes de las
+señales portadora y moduladora respectivamente.
+
+Usando la expansión en funciones trigonométricas de $x(t)$, la misma
+puede ser reescrita como:
+\begin{center}
+$x(t)\approx J_{0}\cdot A\cdot sin(\alpha\cdot t)+A\cdot\sum_{k=1}^{n}J_{k}(I)\cdot[sin((\alpha+k\beta)\cdot t)+(-1)^{k}sin((\alpha-k\beta)\cdot t)]$
+\par\end{center}
+
+Donde $J_{k}$(I) son las funciones de Bessel de primera especie.
+
+Los $J_{k}(I)$ tendrán entonces la forma:
+\begin{center}
+$J_{k}(I)$ = $\sum_{m=0}^{\infty}\frac{(-1)^{m}}{m!\cdot\gamma(m+k+1)}\cdot(\frac{I}{2})^{2m+k}$
+\par\end{center}
+
+Donde $\gamma(z)$ es la función gamma.
+
+y los $J_{k}(I)$ responden a la ecuación diferencial ${\displaystyle x^{2}\cdot\frac{d^{2}y}{dx^{2}}+x\cdot\frac{dy}{dx}+\left(x^{2}-\alpha^{2}\right)\cdot y=0}$.
+
+De esta manera, es posible determinar el comportamiento de los $J_{k}(I)$
+numéricamente.
+
+De la expansión trigonométrica de x(t) podemos, para un A y un I fijos,
+estudiar las componentes en frecuencia de la señal en parte estuandio
+el comportamiento de las funciones de Bessel de primera especie:
+
+Primero, es importante hacer notar que el valor de I necesario para
+que un determinado valor de k produzca una amplitud lo suficientemente
+grande en las senoidales representativas para que la frecuencia que
+representan sea tenida en cuenta es creciente a medida que el valor
+de k aumenta. Esto es fácilmente observable de los primeros gráficos
+de $J_{k}(I)$:
+
+\begin{figure}[H]
+\begin{centering}
+\includegraphics[scale=0.7]{Imágenes/bessel_functions}
+\par\end{centering}
+\caption{Gráfico de algunas funciones de Bessel de primera especie}
+
+\end{figure}
+
+A partir de lo anterior se deduce que a medida que se aumenta el índice
+de modulación I, más frecuencias entrarán en juego, cada frecuencia
+nueva que aparece lo hace de a pares y lateralmente a las frecuencias
+que ya existían previamente con un valor de I menor. Esto implicará
+que el ancho de banda de la señal en frecuencia aumentará a medida
+que I crece.
+
+Este ancho de banda será aproximadamente igual a:
+\begin{center}
+$BW\approx4\pi\cdot f_{m}(I+1)$
+\par\end{center}
+
+De aquí hacemos notar que, dado que el espectro estará centrado en
+la frecuencia portadora $f_{c}$ (único factor sobreviviente cuando
+I=0), cuando $f_{c}<2\cdot f_{m}\cdot(I+1),$las frecuencias negativas
+entrarán en juego, reflejándose sobre las positivas y así se superpondrán
+componentes entre sí, alterando el espectro. En realidad, puede ser
+que se superpongan componentes como que no, y esto dependerá de la
+relación entre la frecuencia moduladora y la portadora. De esta manera,
+podrán también aparecer componentes inharmónicas al aumentar el I.
+
+Nos preguntamos entonces cuándo aparecerán componentes inharmónicasy
+cuándo no, además de preguntarnos como determinar entonces la frecuencia
+fundamental de la señal en el tiempo y se pueden apreciar suficiententes
+componentes harmónicas como para poder simular sonidos naturales.
+
+La respuesta a estas preguntas resulta simple y la da el paper de
+Chowning, aunque se deduce fácilmente de la expansión trigonométrica
+de x(t):
+
+Si $f_{c}=N1\cdot f_{o}$ y $f_{m}=N2\cdot f_{0}$, entonces la frecuencia
+fundamental para el tono musical será $f_{0}$ y esta recién comenzará
+a prevalecer a partir de valores mayores a uno para el índice de modulación.
+
+Sim en cambio, no hay una relación racional entre las frecuencias
+moduladora y portadora, entonces comenzarán a surgir frecuencias inharmónicas
+en el espectro, pudiéndose así lograr efectos subjetivamente placenteros
+al oído, como a su vez ``arruinar'' el sonido que se tenía originalmente.
+Como principalmente los instrumentos de percusión tienen componentes
+inharmónicas en su espectro, eligiéndose relaciones no racionales
+se podrá sintetizar sonidos percusivos, y eligiéndose relaciones racionales
+se podrá sintetizar sonidos de instrumentos para los cuales las componentes
+en frecuencia principales son harmónicas de la fundamental.
+
+\subsection{Síntesis de un clarinete}
+
+Se obtuvieron muestras de distintas notas musicales de un clarinete
+de la página de Philharmonia Orchestra
+
+https://www.philharmonia.co.uk/explore/sound_samples.
+
+Se procedió luego a intentar encontrar la funciones A(t) e I(t) para
+que la función del tiempo sintetizada se parezca lo más posible a
+las muestras en el tiempo de los clarinetes grabados.
+
+Se muestra el gráfico en el tiempo de , nota que fue sampleada con
+una frecuencia de sampleo de 44100 Hz, estándar para CDs.
+
+\begin{figure}[H]
+\begin{centering}
+\includegraphics[scale=0.7]{Imágenes/clarinet_A3_025_forte_normal\lyxdot mp3}
+\par\end{centering}
+\caption{Nota de un clarinete, donde cada n corresponde a un tiempo $t=\frac{n}{fs}$
+segundos}
+\end{figure}
+
+\begin{figure}[H]
+\begin{raggedright}
+\includegraphics[scale=0.6]{Imágenes/clarinet_A3_025_forte_normal_tiempo}
+\par\end{raggedright}
+\caption{Nota de un clarinete en función del tiempo}
+
+\end{figure}
+
+Observamos de aquí principalmente 3 frecuencias que definen a este
+gráfico. Las hallaremos experimentalmente y veremos cómo el método
+de síntesis FM encastra correctamente con estas ocurrencias empíricas.
+
+De este gráfico observamos que hay cuatro etapas fácilmente distinguibles
+para la nota, que denominaremos la etapa de Attack, Decay, Sustain
+y Release siguiendo la notación que nos impone el método de síntesis
+aditiva explicado en otros puntos.
+
+Dado que el tiempo de sustain (llamamos tiempo de sustain al tiempo
+en que la nota se mantiene en el nivel de sustain fijado por el parámetro
+ADSR) es el tiempo preponderante en la nota y es el tiempo en que
+la nota se encuentra establecida, pudiéndose así considerarla en este
+intervalo como una función periódica del tiempo con frecuencia fundamental
+$f_{0}$, usaremos a este intervalo como el intervalo representativo
+en tiempo de la función. Es en él en donde procederemos a hallar las
+frecuencias de importancia.
+
+En un intervalo de menor longitud de la nota, procedemos entonces
+a hallar la frecuencia fundamental y la frecuencia cuya amplitud del
+orden de la de la fundamental:
+
+\begin{figure}[H]
+\begin{centering}
+\includegraphics[scale=0.4]{Imágenes/freq_fo}
+\par\end{centering}
+\caption{Obtención gráfica de las frecuencias de importancia de la nota}
+
+\end{figure}
+
+Dado $t_{0}\text{=}0.197532$s y $t_{1}=0.192986$s tiempos en los
+que se encuentra una repetición en amplitud, obtenemos el período
+fundamental como $\Delta t\text{=}t_{1}-t_{0}$ y su consecuente frecuencia
+fundamental $f_{0}=\frac{1}{\Delta t}=219.9Hz$, lo cual coincide
+con el marco teórico de las notas musicales, bajo el cual la frecuencia
+de un $A_{3}$ resulta ser $f_{A_{3}}\text{=}220Hz\approx f_{0}$.
+
+Luego, observamos la segunda frecuencia preponderante en la nota,
+lo cual nos arroja una frecuencia $f_{o}'=882Hz$.
+
+Siguiendo la teoría de del paper de Chowning explicada en la introducción,
+observamos que eligiendo $f_{c}\text{=}f_{A_{3}}$ y $f_{m}=4\cdot f_{A_{3}}$,
+obtendremos una frecuencia fundamental para nota de $f_{0}=f_{A_{3}}$
+y la segunda frecuencia preponderante $f_{m}=882Hz\approx f_{0}'$.
+De aquí quedan entonces determinadas las constantes de consigna $n=1$
+y $m=4$.
+
+Además, observaremos entonces una desaparición de los armónicos pares
+(debido a N2 = 4), característico de los clarinetes, como veremos
+en mayor detalle en la sección de análisis de frecuencia.
+
+Observamos luego una nota de igual duración pero distinta frecuencia,
+en particular un D4 de 0.25 segundos, forte, normal:
+
+\begin{figure}[H]
+\begin{centering}
+\includegraphics[scale=0.85]{Imágenes/clarinet_D4_025_forte_normal}
+\par\end{centering}
+\caption{Nota de distinta frecuencia fundamental pero igual duración}
+
+\end{figure}
+
+Observamos también una nota de distinta duración pero igual frecuencia,
+en particular un A3 de 0.5 segundos, forte, normal.:
+
+\begin{figure}[H]
+\begin{centering}
+\includegraphics[scale=0.6]{Imágenes/clarinet_A3_05_forte_normal}
+\par\end{centering}
+\caption{Nota de igual frecuencia fundamental pero distinta duración}
+
+\end{figure}
+
+Finalmente, observamos una nota de distinta duración y distinta frecuencia,
+en particular un E5 de 0.5 segundos, forte, normal:
+
+\begin{figure}[H]
+\begin{centering}
+\includegraphics[scale=0.6]{Imágenes/clarinet_E5_05_forte_normal}
+\par\end{centering}
+\caption{Nota de distinta frecuencia fundamental y distinta duración}
+
+\end{figure}
+
+De aquí extrapolamos que independientemente de las frecuencias fundamentales
+de las notas y de su respectiva duración, los tiempos de ataque, decay
+y release no sólo durarán aproximadamente lo mismo sino que estarán
+regidas por la misma forma matemática. Esto nos permite hacer un análisis
+aproximado de cómo deberá simularse la envolvente de cada nota en
+sus distintos estadíos por separado, y luego unir aquellas etapas
+para llegar al resultado final.
+
+El tiempo de sustain, por otro lado, se expandirá o comprimirá según
+la duración de la nota pero tendrá la misma froma de envolvente, que
+se aproxima como constante.
+
+Los próximos gráficos que se utilizarán para los análisis de las distintas
+etapas serán para la nota anteriormente mostrada, $A_{3}$, elegida
+arbitrariamente.
+
+\subsubsection{Determinación de las envolventes}
+
+Dado el gráfico de la nota en función del tiempo, se pueden identificar
+dos zonas de densidades muy diferentes (distintas frecuencias). La
+zonas de mayor densidad (o mayor frecuencia) se corresponderán gráficamente
+con la frecuencia modulante $f_{m}$, que es 4 veces superior a la
+$f_{c}$, que a su vez estará asociada a las zonas de menor densidad.
+
+Es de aquí que surge la idea de que la envolvente $I(t)$ fijará la
+amplitud de la zona de baja densidad, ya que está fijando la envolvente
+del coseno de frecuencia central $f_{c}$, mientras que la envolvente$I(t)$,
+en cambio, alterará la envolvente de la zona de alta densidad, la
+de frecuencia $f_{m}$.
+
+\subsubsection{Análisis del Attack}
+
+Se analiza la envolvente del attack de la nota de manera general:
+
+\begin{figure}[H]
+\begin{centering}
+\includegraphics[scale=0.6]{Imágenes/attack}
+\par\end{centering}
+\caption{Attack de un clarinete}
+
+\end{figure}
+
+Se observa para la envolvente un creciemiento exponencial de la forma
+$A_{1}(t)\text{=}e^{\frac{t}{\tau_{1}}}-1$ donde $\tau_{1}$ es constante.
+
+Dado que la amplitud máxima de la nota estará fijada por el último
+tiempo t del attack y que genéricamente $A(t)\epsilon[-A_{m\acute{a}x};A_{m\acute{a}x}]$,
+donde $A_{m\acute{a}x}$ está fijado por la cantidad de bits utilizados
+para representar la amplitud en el .wav (en nuestro caso 16 bits),
+se asociará a $A_{m\acute{a}x}$ con la amplitud máxima de la nota
+real y luego se realizará el apropiado escalamiento para adaptarlo
+al sistema digital.
+
+Procedemos calcular entonces el valor de $\tau_{1}$ empíricamente,
+aproximando a la duración del tiempo attack $\Delta t_{att}$ como
+4000 samples a 44100Hz de sampleo, es decir, $\Delta t_{att}\text{=}$0.091
+segundos.
+
+De este tiempo, despejamos $\tau_{1}=\frac{\Delta t_{att}}{ln(1+A_{m\acute{a}x})}$,
+lo que arroja un resultado en tiempo de $\tau_{1}=0.0108s$, al haber
+aproximado $A_{m\acute{a}x}=$4200 para el .wav
+
+Se muestra el gráfico de la exponencial aproximadora superpuesta con
+el attack real.
+
+\begin{figure}[H]
+\begin{centering}
+\includegraphics[scale=0.5]{Imágenes/attack_sup}
+\par\end{centering}
+\caption{Attack y envolvente aproximada superpuestos. A(t) en azul.}
+
+\end{figure}
+
+Luego, para la zona de mayor densidad o frecuencia, la envolvente
+I(t) estará fijada por un crecimiento exponencial durante el attack
+de la forma $I(t)\text{=\ensuremath{I_{0}}}\cdot(e^{\frac{t}{\tau_{1}}}-1)$.
+Dicha fórmula es extraída de la forma exponencial de los gráficos
+del paper de Chowning.
+
+Se determinó $I_{0}$ experimentalmente mediante prueba y error, obteniéndose
+resultados más realistas para aquellos valores en los que $I_{0}<0.$
+
+\subsubsection{Análisis del Decay}
+
+\begin{figure}[H]
+\begin{centering}
+\includegraphics{Imágenes/decay}
+\par\end{centering}
+\caption{Decay de un clarinete}
+
+\end{figure}
+
+Se observa para la envolvente un decaimiento exponencial de la forma
+$A_{2}(t)\text{=}A_{m\acute{a}x}\cdot e^{-\frac{t}{\tau_{2}}}$ donde
+tanto $A_{m\acute{a}x}$ coincide con el valor fijado por el attack.
+
+Determinamos $\Delta t_{dec}\text{=}$0.074 segundos, donde $\Delta t_{dec}$
+es la duración de la etapa de decay. Teniendo en cuenta que la etapa
+de decay decae exponencialmente hacia la constante de sustain, se
+despeja $\tau_{2}=-\frac{\Delta t_{dec}}{ln(\frac{A_{sus}}{A_{m\acute{a}x}})}=$
+como la constante de tiempo de la etapa de decay. En la última expresión,
+$A_{sus}$ resulta ser la amplitud de la etapa de sustain, que se
+aproxima a $A_{sus}=3000$.
+
+\subsubsection{Análisis del Sustain}
+
+\begin{figure}[H]
+\begin{centering}
+\includegraphics{Imágenes/sustain}
+\par\end{centering}
+\caption{Sustain de un clarinete}
+
+\end{figure}
+
+Se observa una envolvente constante, de la forma $A_{3}(t)=0.71\cdot A_{m\acute{a}x}=A_{sus}$
+
+El tiempo en que la nota se mantiene en el nivel de sustain estará
+dado por $\Delta t_{sus}=\Delta t_{nota}-\Delta t_{rel}\text{ - \ensuremath{\Delta t_{dec}} - \ensuremath{\Delta t_{att}}}$,
+donde $\Delta t_{nota}$ la duración total de la nota, $\Delta t_{rel}$
+la duración del release, $\Delta t_{dec}$ la duración del decay,
+y $\Delta t_{att}$ la duración del Attack.
+
+Los valores de I(t) resultan ser constantes para la etapa de sustain.
+
+\subsubsection{Análisis del Release}
+
+\begin{figure}[H]
+\begin{centering}
+\includegraphics{Imágenes/release}
+\par\end{centering}
+\caption{Release de un clarinete}
+\end{figure}
+
+Al igual que con la etapa de decay, se observa un decaimiento exponencial
+de la forma $A_{4}(t)\text{=}A_{sus}\cdot e^{-\frac{t}{\tau_{4}}}$,
+donde, fijando al a la amplitud final de la nota como $A_{f}=\frac{A_{sus}}{32}$,
+la constante de tiempo queda determinada como $\tau_{4}=-\frac{\Delta t_{rel}}{ln(\frac{1}{32})}$
+
+Volviendo a citar el paper de Chowning, se eligió valores de$I(t)$
+constantes e iguales a los del sustain durante el release.
+
+\subsubsection{Resultados intermedios}
+
+Con los razonamientos utilizados hasta aquí, se llega al siguiente
+gráfico en función del tiempo para la señal sintetizada.
+
+\begin{figure}[H]
+\begin{centering}
+\includegraphics[scale=0.6]{Imágenes/sintetizado_version_no_final}
+\par\end{centering}
+\caption{Nota sintetizada con el método, versión no final}
+
+\end{figure}
+
+Se muestra también el gráfico de la nota original para constrastar.
+
+\begin{figure}[H]
+\begin{centering}
+\includegraphics[scale=0.8]{Imágenes/clarinet_A3_025_forte_normal\lyxdot mp3}
+\par\end{centering}
+\caption{Nota original}
+
+\end{figure}
+
+Se logran apreciar las diferentes amplitudes para las zonas densas
+y no densas, que resultan ser del orden de las originales o dentro
+del mismo rango.
+
+Las envolventes, si bien aproximada por fórmulas matemáticas básicas,
+parecen seguir a la señal original correctamente.
+
+Se analizan cortos intervalos de tiempo en la etapa de sustain para
+la señal original y la
+
+\subsubsection{Agregado de frecuencias inharmónicas para efectos más realistas}
+
+En el gráfico de la señal, podemos observar la existencia de zonas
+de densidad intermedia de mediana amplitud. Con el objetivo de hacer
+aparecer estas nuevas frecuencias, sumamos a la frecuencia modulante
+una frecuencia baja de $0.3Hz$ de manera tal que $f_{m}\text{=}4\cdot f_{c}+0.3Hz$.
+El paper de Chowning sugiere una frecuencia de $0.5Hz$ pero observamos
+que los 0.3Hz coincidían de mejor forma con la señal sintetizada por
+las envolventes definidas.
+
+A continuación se muestran las dos señales sintetizadas y se comparan
+las densidades agregadas con la original para poder corroborarlo.
+
+\begin{figure}[H]
+\begin{centering}
+\includegraphics{Imágenes/agregada03}
+\par\end{centering}
+\caption{Frecuencia agregada de 0.3Hz}
+
+\end{figure}
+
+\begin{figure}[H]
+\begin{centering}
+\includegraphics[scale=0.8]{Imágenes/agregado05}
+\par\end{centering}
+\caption{Frecuencia agregada de 0.5Hz}
+\end{figure}
+
+\begin{figure}[H]
+\begin{centering}
+\includegraphics[scale=0.8]{Imágenes/sintetizado_version_final}
+\par\end{centering}
+\caption{Nota sintetizada, versión final}
+
+\end{figure}
+
+
+\subsubsection{Resultados finales}
+
+Para elegir los parámetros sintetizadores, se probó con notas sueltas
+y de distinta duración hasta llegar al resultado final. La constante
+$I_{sus}$ de sustain resultó valer $-\frac{4}{3}\cdot A_{sus}$,
+teniendo entonces un valor negativo.
+
+Una vez elegidos los parámetros de envolvente y frecuencia mencionados
+en las subsecciones anteriores, se sintetizó el duo para clarinete
+y fagot de Bethoven con resultados exitosos.
+
+Se notó que la velocidad de síntesis de este método con respecto a
+otros, como el de síntesis a partir de muestras, es demás superior,
+en detrimento de una peor calidad de sonido.
+
+\subsubsection{Análisis en frecuencia}
+
+Se procede a realizar un espectograma de la nota sintetizada y se
+la compara con la nota original que se intentó imitar.
+
+Los gráficos mostrados permiten visualizar frecuencias no mayores
+a los 2.5kHz porque el espectograma de ambas notas muestra que no
+hay componentes significativas en un rango superior.
+
+\begin{figure}[H]
+\begin{centering}
+\includegraphics{Imágenes/sample_spectogram}
+\par\end{centering}
+\caption{Nota original}
+
+\end{figure}
+
+\begin{figure}[H]
+\centering{}\includegraphics{Imágenes/sintetizada_spectogram}\caption{Nota sintetizada}
+\end{figure}
+
+Se observa que las líneas espectrales en las que hay amplitud coinciden
+correctamente, incluso en aquellas en las que las frecuencias tienen
+amplitudes cercanas a las nulas como en la franja de
+
+Sin embargo, se observa que si bien la nota que se muestreó afirma
+ser un A3, la frecuencia más importante/significativa del gráfico
+resulta ser la de 880 Hz, la que se eligió como frecuencia modulante
+a la hora de sintetizar.
+
+Como se tuvo la intención de hacerlo, la nota sintetizada muestra
+su franja más significativa de frecuencias centrada en los 220Hz.
+Un análisis más intenso en frecuencia y en teoría musical podría explicar
+por qué la muestra evoluciona hacia unos 880 Hz a medida que avanza
+en el tiempo, pero en este artículo nos limitamos a observar que las
+franjas de frecuencias coninciden y resultan satisfactoriamente similares.
+
+\subsubsection{Conclusión}
+
+Si bien el método de síntesis FM no resulta completo en el sentido
+de que la nota sintetizada a partir de él resulta ser imperfecta,
+sí se logran buenos resultados a partir de la misma y al combinarse
+con otras técnicas (como la de ADSR) de síntesis permite obtener resultados
+simples matemáticamente y ágiles en cuanto a cálculo, con un mayor
+color de tono al que se obtiene de otros métodos de síntesis más antiguos.
+
+Por todo lo expuesto en el párrafo anterior, es fácil comprender el
+éxito de este método de síntesis en la música y los videojuegos de
+los años 80.
+
+\subsection{Síntesis de una campana}
+
+Según el paper de Chowning, las campanas tendrán envolvente exponencial
+decreciente y también lo tendrá el índice de modulación.
+
+Esto se confirma al observar el sonido de un triángulo (sonido de
+percusión parecido al de una campana) grabado por la Philarmonia Orchestra.
+
+\begin{figure}
+\begin{centering}
+\includegraphics{Imágenes/triangle__long_piano_struck-singly\lyxdot mp3}
+\par\end{centering}
+\caption{Triángulo}
+
+\end{figure}
+
+Como se mencionó anteriormente, dado que el triángulo es un instrumento
+de percusión, presentará componentes inharmónicas en frecuencia, lo
+cual es fácilmente observable en el gráfico en los picos erráticos
+de la función del tiempo recién mostrada.
+
+Sin embargo, las campanas tienen un comportamiento más melódico que
+otros instrumentos de percusión como la batería, y es por esto que
+el índice de modulación no deberá ser demasiado grande, ya que estoy
+traería demasiadas inharmonías al sonido.
+
+Luego de varios intentos y simulaciones, se decidió fijar $f_{c}=440Hz$
+y $f_{m}=1.4\cdot f_{c}$ como las frecuencias en las que el sonido
+de la campana resulta más real y agradable al oído. Para frecuencias
+menores también se logran resultados interesantes, pero a partir de
+cierto valor de frecuencia a medida que se va subiendo en el espectro
+se comenzará a conseguir un sonido más robótico o menos natural.
+
+Para las fórmulas de las envolventes, se siguió las sugerencias de
+Chowning, haciendo a I(t) proporcional a A(t), y fijando
+
+$A(t)=A_{m\acute{a}x}\cdot e^{-\frac{t}{\tau}}$, por lo que $I(t)=I_{o}\cdot e^{-\frac{t}{\tau}}$,
+con Io=0.5 y $A_{m\acute{a}x}$ la intensidad inicial del sonido.
+
+La constante de tiempo se fijó de manera tal que
+
+A continuación se muestra un gráfico de la señal sintetizada en tiempo:
+
+\begin{figure}[H]
+\begin{centering}
+\includegraphics[scale=0.7]{Imágenes/campana}
+\par\end{centering}
+\caption{Señal sintetizada}
+\end{figure}
+
+Finalmente, se muestra un acercamiento en tiempo para mayor comprensión:
+
+\begin{figure}[H]
+\begin{centering}
+\includegraphics[scale=0.4]{Imágenes/zoom}
+\par\end{centering}
+\caption{Acercamiento en tiempo de la señal sintetizada}
+\end{figure}
+
+
+\subsection{Síntesis de una trompeta}
+
+Notamos que para la síntesis de la trompeta, Chowning describe el
+mismo tipo de envolvente que fue utilizada para la síntesis del clarinete.
+
+Debido a que el paper indica que instrumento como la trompeta contienen
+todas las componentes armónicas (pares e impares), se utiliza N1 =1
+y N2 = 2.
+
+Ya habiendo explicado el razonamiento a utilizar, procederemos a hacer
+el análisis gráfico de las notas de una trompeta. En particular, A3
+forte normal.
+
+\begin{figure}
+\begin{centering}
+\includegraphics{Imágenes/trumpet_sample}
+\par\end{centering}
+\caption{Nota de una trompeta}
+
+\end{figure}
+
+Con los mismos razonamientos que para el clarinete, se obtuvieron
+los tiempos de Attack, Decay, Sustain y Release:
+\begin{itemize}
+\item Tiempo de attack de 0.16 segundos.
+\item Tiempo de Decay de 0.034 segundos.
+\item Tiempo de Release de 0.226 segundos.
+\end{itemize}
+Se observan las siguientes características notables para la nota:
+\begin{enumerate}
+\item La nota tiene zonas de mayor y de menor densidad, como era de notar
+para el clarinete.
+\item La nota es notablemente asimétrica en amplitud: Las amplitudes positivas
+alcanzan el triple del máximo de lo que alcanzan las negativas.
+\item La zona de mayor densidad de la nota se encuentra mayormente del lado
+negativo que del positivo.
+\item Las zonas de mayor densidad tienen baja amplitud con respecto a las
+de baja densidad, siendo esta diferencia de amplitud mucho más grande
+que con el clarinete.
+\item El attack de la nota resulta aproximadamente del mismo orden que el
+clarinete, pero el decay es más rapido y el release más lento.
+\item Al igual que con el clarinete, aparecen ciertas frecuecias bajas montadas
+sobre la señal, esto estando reflejado en aquellas zonas de densidad
+intermedia.
+\end{enumerate}
+Las observaciones anteriores llevan a las siguientes conclusiones,
+que fueron aplicadas a la hora de realizarse la síntesis:
+\begin{itemize}
+\item Debido a la notable diferencia en amplitud entre zonas de distinta
+densidad/frecuencia, se eligió un índice de modulación bajo, que haga
+que las zonas de alta frecuencia tengan menor amplitud. El factor
+Io que se menciona en la síntesis del clarinete resultó ser igual
+para todas las etapas ADSR para asegurar ``continuidad'' en la envolvente
+de cada zona de densidad alta. Luego de experimentar con las distintas
+posibilidades, se eligió un Io=-1. Se muestra el cambio en la amplitud
+de las zonas de densidad con distintos valores de Io.
+\begin{figure}[H]
+\begin{centering}
+\includegraphics{Imágenes/io-05}
+\par\end{centering}
+\caption{Io = -0.5}
+
+\end{figure}
+\begin{figure}[H]
+\begin{centering}
+\includegraphics{Imágenes/io2}
+\par\end{centering}
+\caption{Io = 2}
+
+\end{figure}
+
+\begin{figure}[H]
+\begin{centering}
+\includegraphics{Imágenes/io-2}
+\par\end{centering}
+\caption{Io=-2}
+
+\end{figure}
+\begin{figure}[H]
+\begin{centering}
+\includegraphics{Imágenes/Io-1}
+\par\end{centering}
+\caption{Io = -1. Se ve que las zonas de alta densidad tienen baja amplitud
+con respecto a las de baja densidad}
+
+\end{figure}
+
+\item Como las amplitudes mínimas son tres veces más chica en valor absoluto
+que las amplitudes máximas para la nota, se eligió escalar las amplitudes
+negativas en ese factor a la hora de sintetizar la nota. A continuación
+se muestra el resultado de dicha operación.
+\begin{figure}[H]
+\begin{centering}
+\includegraphics{Imágenes/amp_escalada}
+\par\end{centering}
+\caption{Nota sintetizada con amplitudes negativas escaladas}
+
+\end{figure}
+\item Habiendo notado que la zona de mayor densidad se ubica mayormente
+del lado negativo de las amplitudes, y habiendo notado también la
+presencia de frecuencias agregadas como en el clarinete, que se muestras
+en zonas de densidad intermedia, se busca una relación entre los dos
+factores. Se descubre que cuando se suma una frecuencia baja (del
+orden de los 0.3Hz) a la frecuencia modulante, la zona de mayor densidad
+baja en amplitud (se hace más negativa) en la etapa de sustain. De
+lo contrario, si se resta una frecuencia baja, la zona de mayor densidad
+se hace más positiva en amplitud. Se muestran gráficos representativos
+de esta situación
+\begin{table}[H]
+\begin{centering}
+\includegraphics{Imágenes/amp_escalada}
+\par\end{centering}
+\caption{Nota sintetizada con parámetros ADSR (versión no final)}
+\end{table}
+\begin{figure}[H]
+\begin{centering}
+\includegraphics{Imágenes/trump_agregada02}
+\par\end{centering}
+\caption{Nota mostrada anteriormente con $f'_{m}=fm+0.2Hz$}
+
+\end{figure}
+\begin{figure}[H]
+\begin{centering}
+\includegraphics{Imágenes/trump_agregada_-03}
+\par\end{centering}
+\caption{Nota mostrada anteriormente con $f'_{m}=fm-0.3Hz$}
+
+\end{figure}
+\end{itemize}
+Finalmente se llega a la versión final de la nota:
+
+\begin{figure}[H]
+\begin{centering}
+\includegraphics{Imágenes/trump_agregada02}
+\par\end{centering}
+\caption{Nota sintetizada, versión final}
+
+\end{figure}
+
+\end{document}
