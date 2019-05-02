@@ -75,6 +75,65 @@
 
 \begin_body
 
+\begin_layout Section
+Síntesis mediante modelo físico (Karplus-Strong)
+\end_layout
+
+\begin_layout Subsection
+Karplus-Strong - Modelo Original
+\end_layout
+
+\begin_layout Standard
+El algoritmo de Karplus-Strong se utiliza para modelar isntrumentos a partir
+ de la simulación del modelo físico del mismo.
+\end_layout
+
+\begin_layout Standard
+La siguiente figura ilustra el modelo conceptual del algoritmo.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Karplus-strong-schematic.svg.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Modelo conceptual
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+extras
+\end_layout
+
 \begin_layout Standard
 -Simulate the plucking of a guitar string.
  When a guitar string is plucked, the string vibrates and creates sound.

@@ -1,0 +1,233 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize 11
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 1.9cm
+\topmargin 1.9cm
+\rightmargin 1.9cm
+\bottommargin 2.5cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section
+Síntesis mediante modelo físico (Karplus-Strong)
+\end_layout
+
+\begin_layout Subsection
+Karplus-Strong - Modelo Original
+\end_layout
+
+\begin_layout Standard
+El algoritmo de Karplus-Strong se utiliza para modelar isntrumentos a partir
+ de la simulación del modelo físico del mismo.
+\end_layout
+
+\begin_layout Standard
+La siguiente figura ilustra el modelo conceptual del algoritmo.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Karplus-strong-schematic.svg.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Modelo conceptual.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+La línea de retardo simula la longitud de la cuerda, y su largo determina
+ la frecuencia fundamental de vibración, según 
+\begin_inset Formula $L=\frac{f_{s}}{p}$
+\end_inset
+
+, con 
+\begin_inset Formula $L$
+\end_inset
+
+ el largo de la cuerda, es decir de la línea de retardo, 
+\begin_inset Formula $f_{s}$
+\end_inset
+
+ la frecuencia de sampleo (
+\begin_inset Formula $44100\,Hz$
+\end_inset
+
+) y 
+\begin_inset Formula $p$
+\end_inset
+
+ el tono de la nota, redondeado al entero más cercano.
+\end_layout
+
+\begin_layout Standard
+La excitación de la cuerda puede contener energía a cualquier frecuencia,
+ por lo que esto se simula con ruido blanco: valores aleatorios entre 
+\begin_inset Formula $[-1,\,1]$
+\end_inset
+
+.
+ Luego de la excitación inicial, la cuerda comienza a vibrar, y ocurre el
+ desplazamiento de la onda en el tiempo.
+ El algoritmo simula lo anterior con una realimentación, que sólo amplifica
+ la frecuencia fundamental y sus armónicos.
+ El filtro es un pasabajos, que, al estar en el lazo de realimentación,
+ tiene el efecto de atenuar gradualmente los ármonicos de altas frecuencias,
+ dejando pasar aquellos de bajas frecuencias, lo que se condice con el sonido
+ de una cuerda de guitarra.
+\end_layout
+
+\begin_layout Standard
+En síntesis, una excitación de ruido es pasado por la unidad de delay; entonces,
+ ajustando la longitud del delay y su ganancia, se modifica el tono y su
+ resonancia, respectivamente.
+ Entonces, al aumentar la ganancia, se controla por cuánto tiempo resuena
+ el sistema.
+ Si esta ganancia estuviera al 
+\begin_inset Formula $100%\%
+$
+\end_inset
+
+, tendríamos un oscilador, por ésto, la misma no debe superar la unidad.
+\end_layout
+
+\begin_layout Standard
+La siguiente figura muestra una implementación del modelo básico de Karplus-Stro
+ng.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename ks.PNG
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Modelo conceptual.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

@@ -246,5 +246,35 @@ In step 1, above, the averaging that happens acts as the low-pass filter
  the first element of the ring buffer is removed.
 \end_layout
 
+\begin_layout Section
+3 youtub
+\end_layout
+
+\begin_layout Standard
+burst of noise is run through a delay unit and by adjusting the rate of
+ the delay and the gain of the delay unit we can adjust the pitch and the
+ resonance respectively.
+\end_layout
+
+\begin_layout Standard
+so by increasing the rate at which the delay is triggeringwere increasing
+ the pitch, by increasing the gain were increasing how long this ring actually
+ resonates for.
+ 
+\end_layout
+
+\begin_layout Standard
+if we brought the gain up to a 100% it would self oscillate.
+ (por eso el factor de atenuacion)
+\end_layout
+
+\begin_layout Standard
+low pass filter to recreate the comb filtering effect (averaging)
+\end_layout
+
+\begin_layout Standard
+random voltage generator para piano??
+\end_layout
+
 \end_body
 \end_document
