@@ -402,6 +402,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename Imágenes/bessel_functions.png
+	lyxscale 70
 	scale 70
 
 \end_inset
@@ -524,17 +525,12 @@ Síntesis de un clarinete
 
 \begin_layout Standard
 Se obtuvieron muestras de distintas notas musicales de un clarinete de la
- página de Philharmonia Orchestra
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-https://www.philharmonia.co.uk/explore/sound_samples
-\end_layout
+ página de Philharmonia Orchestra 
+\begin_inset CommandInset href
+LatexCommand href
+name "https://www.philharmonia.co.uk/explore/sound_samples"
+target "https://www.philharmonia.co.uk/explore/sound_samples"
+literal "false"
 
 \end_inset
 
@@ -1743,7 +1739,7 @@ Nota sintetizada
 \begin_layout Standard
 Se observa que las líneas espectrales en las que hay amplitud coinciden
  correctamente, incluso en aquellas en las que las frecuencias tienen amplitudes
- cercanas a las nulas como en la franja de los 1kHz
+ cercanas a las nulas como en la franja de los 1kHz.
 \end_layout
 
 \begin_layout Standard

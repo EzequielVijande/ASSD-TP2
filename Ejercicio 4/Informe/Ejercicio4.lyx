@@ -402,6 +402,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename Imágenes/bessel_functions.png
+	lyxscale 70
 	scale 70
 
 \end_inset
@@ -524,17 +525,12 @@ Síntesis de un clarinete
 
 \begin_layout Standard
 Se obtuvieron muestras de distintas notas musicales de un clarinete de la
- página de Philharmonia Orchestra
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-https://www.philharmonia.co.uk/explore/sound_samples
-\end_layout
+ página de Philharmonia Orchestra 
+\begin_inset CommandInset href
+LatexCommand href
+name "https://www.philharmonia.co.uk/explore/sound_samples"
+target "https://www.philharmonia.co.uk/explore/sound_samples"
+literal "false"
 
 \end_inset
 
@@ -602,6 +598,7 @@ status open
 \align left
 \begin_inset Graphics
 	filename Imágenes/clarinet_A3_025_forte_normal_tiempo.png
+	lyxscale 70
 	scale 60
 
 \end_inset
@@ -674,6 +671,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename Imágenes/freq_fo.png
+	lyxscale 50
 	scale 40
 
 \end_inset
@@ -837,6 +835,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename Imágenes/clarinet_A3_05_forte_normal.png
+	lyxscale 70
 	scale 60
 
 \end_inset
