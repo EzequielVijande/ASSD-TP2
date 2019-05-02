@@ -26,9 +26,6 @@
     <Compile Include="basicADSR.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="envelopeDetectorTestbench.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="realEnvelopeADSR.py" />
     <Compile Include="spectralAnalysis.py" />
   </ItemGroup>
