@@ -1,7 +1,14 @@
-/*#include "fft.h"
+#include "fft.h"
+
+vector<vector<complex<float>>> to_be_filled;
+vector<complex<float>> fft_twiddle_factors;
+vector<complex<float>> ifft_twiddle_factors;
+vector<int> powers_of_2;
 
 void generate_bit_reversed(int amount);
 void generate_twiddle_factors(int amount);
+void generate_output_vectors(int amount);
+void generate_powers_of_2(int amount);
 
 vector<int>* bit_reversal(int log2_);
 
@@ -9,61 +16,86 @@ vector<int>* bit_reversal(int log2_);
 
 void fft(vector<complex<float>>& in, vector<complex<float>>& out) {
 	int my_size = in.size();
-	vector<int>* running_sequence = bit_reversal(log2(my_size));
-	vector<complex<float>> to_be_filled(my_size,0);
+	int log_size = log2(my_size);
+	vector<int>* running_sequence = bit_reversal(log_size + 0.01);
 	for (int i = 0; i < my_size; i++)
-		to_be_filled[(*running_sequence)[i]] = in[i];
-
-	for (int s = 1; s <= (int)(log2(my_size)); s++) {
-		int m = pow(2, s);
-		complex<float> wm = exp(complex<float>(0, 2 * M_PI / m));
+		to_be_filled[log_size][(*running_sequence)[i]] = in[i];
+	for (int s = 1; s <= log_size; s++) {
+		int m = powers_of_2[s - 1];
+		complex<float> wm = fft_twiddle_factors[m - 1];
 		for (int k = 0; k < my_size; k += m) {
 			complex<float> w = complex<float>(1, 0);
 			for (int j = 0; j <= (m / 2 - 1); j++) {
-				complex<float> t = w * to_be_filled[k + j + m / 2];
-				complex<float> u = to_be_filled[k + j];
-				to_be_filled[k + j] = u + t;
-				to_be_filled[k + j + m / 2] = u - t;
+				complex<float> t = w * to_be_filled[log_size][k + j + m / 2];
+				complex<float> u = to_be_filled[log_size][k + j];
+				to_be_filled[log_size][k + j] = u + t;
+				to_be_filled[log_size][k + j + m / 2] = u - t;
 				w = w * wm;
 			}
 		}
 	}
-	out = to_be_filled;
+	out = to_be_filled[log_size];
 }
 
 void ifft(vector<complex<float>>& in, vector<complex<float>>& out) {
 	int my_size = in.size();
-	vector<int>* running_sequence = bit_reversal(log2(my_size) + 0.01);
-	vector<complex<float>> to_be_filled;
-	to_be_filled = vector<complex<float>>(my_size, (0, 0));
+	int log_size = log2(my_size);
+	vector<int>* running_sequence = bit_reversal(log_size);
 	for (int i = 0; i < my_size; i++)
-		to_be_filled[(*running_sequence)[i]] = in[i];
-
-	for (int s = 1; s <= (int)(log2(my_size)); s++) {
-		int m = pow(2, s);
-		complex<float> wm = exp(complex<float>(0, -2 * M_PI / m));
+		to_be_filled[log_size][(*running_sequence)[i]] = in[i];
+	for (int s = 1; s <= log_size; s++) {
+		int m = powers_of_2[s - 1];
+		complex<float> wm = ifft_twiddle_factors[m - 1];
 		for (int k = 0; k < my_size; k += m) {
 			complex<float> w = complex<float>(1, 0);
 			for (int j = 0; j <= (m / 2 - 1); j++) {
-				complex<float> t = w * to_be_filled[k + j + m / 2];
-				complex<float> u = to_be_filled[k + j];
-				to_be_filled[k + j] = u + t;
-				to_be_filled[k + j + m / 2] = u - t;
+
+				complex<float> t = w * to_be_filled[log_size][k + j + m / 2];
+				complex<float> u = to_be_filled[log_size][k + j];
+				to_be_filled[log_size][k + j] = u + t;
+				to_be_filled[log_size][k + j + m / 2] = u - t;
+
 				w = w * wm;
 			}
 		}
 	}
 	float size = my_size;
 	for (int i = 0; i < my_size; i++)
-		out[i] = to_be_filled[i] / size;
+		out[i] = to_be_filled[log_size][i] / size;
 }
 
+void fft_init() {
+	generate_bit_reversed(4096);
+	generate_twiddle_factors(4096);
+	generate_output_vectors(4096);
+	generate_powers_of_2(4096);
+
+}
 void generate_bit_reversed(int amount) {
-
+	int to_be_generated = log2(amount);
+	for (int i = 0; i <= to_be_generated; i++)
+		bit_reversal(i);
 }
+void generate_powers_of_2(int amount) {
+	int to_be_generated = log2(amount);
+	for (int s = 1; s <= to_be_generated; s++)
+		powers_of_2.push_back(pow(2, s));
+}
+
 void generate_twiddle_factors(int amount) {
-
+	for (int i = 1; i <= amount; i++) {
+		fft_twiddle_factors.push_back(exp(complex<float>(0, -2 * M_PI / i)));
+		ifft_twiddle_factors.push_back(exp(complex<float>(0, 2 * M_PI / i)));
+	}
 }
+void generate_output_vectors(int amount) {
+	int to_be_generated = log2(amount);
+	for (int i = 0; i <= to_be_generated; i++) {
+		vector<complex<float>> new_vector = vector<complex<float>>(pow(2, i), 0);
+		to_be_filled.push_back(new_vector);
+	}
+}
+
 
 //https://en.wikipedia.org/wiki/Bit-reversal_permutation
 vector<int>* bit_reversal(int log2_) {
@@ -118,8 +150,3 @@ void print_vector(vector<complex<float>>& in) {
 	cout << endl;
 }
 
-void fft_init() {
-	generate_bit_reversed(4096);
-	generate_twiddle_factors(4096);
-}
-*/

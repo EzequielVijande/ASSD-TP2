@@ -7,7 +7,7 @@ using namespace std;
 
 void test_case_2_file(ofstream& file, vector<complex<float>>& prueba);
 
-
+/*
 int main() {
 	fft_init();
 	ofstream myfile;
@@ -31,7 +31,7 @@ int main() {
 	}
 	myfile.close();
 	return 0;
-}
+}*/
 
 void test_case_2_file(ofstream& file, vector<complex<float>>& prueba) {
 	file << "[ complex";

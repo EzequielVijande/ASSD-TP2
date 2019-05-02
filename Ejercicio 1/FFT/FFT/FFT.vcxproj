@@ -116,7 +116,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="fft.cpp" />
-    <ClCompile Include="fft2.cpp" />
     <ClCompile Include="inputs_de_prueba.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
