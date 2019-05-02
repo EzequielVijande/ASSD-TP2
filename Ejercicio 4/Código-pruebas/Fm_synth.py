@@ -1,6 +1,8 @@
 import math
 import midi
 import synth
+import wav_gen
+import numpy as np
 
 
 class FmSynthesizer(synth.Synthesizer):
@@ -11,46 +13,48 @@ class FmSynthesizer(synth.Synthesizer):
     # http: // fmslogo.sourceforge.net / manual / midi - instrument.html
 
     # https://en.wikipedia.org/wiki/MIDI_tuning_standard#Frequency_values
-    def create_note_array(self, pitch, amount_of_ns: int, velocity, instrument: int, tau):
+    def create_note_array(self, pitch: int, amount_of_ns: int, velocity, instrument: int):
         # freq = 2 ** ((pitch - 69) / 12) * 440
 
-        if instrument == 112 or instrument == 'Tinkle Bell':
-            return self.synthesize_bell(pitch, amount_of_ns, velocity, instrument, tau)
-        elif instrument == 71 or instrument == 'Clarinet':
-            return self.synthesize_clarinet(pitch, amount_of_ns, velocity, instrument)
+        # if instrument == 112 or instrument == synth.BELL:
+        if instrument == 112:
+            return self.synthesize_bell(pitch, amount_of_ns, velocity)
+        # elif instrument == 71 or instrument == synth.CLARINET:
+        elif instrument == 71:
+            return self.synthesize_clarinet(pitch, amount_of_ns, velocity)
+        # elif instrument == 56 or instrument == synth.TRUMPET:
+        elif instrument == 56:
+            return self.synthesize_trumpet(pitch, amount_of_ns, velocity)
         else:
-            notes = []
-            freq = 2 ** ((pitch - 69) / 12) * 440
-            phim = -math.pi / 2
-            phic = phim
-            fc = freq * 3
-            fm = freq * 4
-            I = []
-            for i in range(amount_of_ns):
-                I.append(4)
-                notes.append((velocity/127)*math.cos(2 * math.pi * fc * i / self.frame_rate + I[i] * math.cos(
-                    2 * math.pi * fm * i / self.frame_rate + phim) + phic))
-            return notes
+            return self.synthesize_clarinet(pitch, amount_of_ns, velocity)
 
-    def synthesize_bell(self, freq, amount_of_ns: int, velocity, instrument: int, tau):
 
+    def synthesize_bell(self, pitch: int, amount_of_ns: int, velocity):
+        # freq = 2 ** ((pitch - 69) / 12) * 440
+        num = 6
+        # N1 =1
+        # fc = freq * N1
+        fc = 440
+        N2 = 1.7
+        fm = fc*N2
+
+        #fm = freq * N2
+        tau = -1/math.log(80/680, math.e)*self.frame_rate*10/5
         notes = []
-        fc = freq[0]
-        fm = freq[1]
 
-        phim = -math.pi / 2
-        phic = phim
-        Io = 10
+        io = 0.5
         for t in range(amount_of_ns):
-            A = math.e**(-t/tau)
-            I = Io*math.e**(-t/tau)
-
-            notes.append(A * math.cos(2 * math.pi * fc * t / self.frame_rate + I * math.cos(
-                2 * math.pi * fm * t / self.frame_rate + phim) + phic))
-
+            a = math.e**(-t/tau)*velocity/127
+            i = -io*math.e**(-t/tau)
+            notes.append(a * math.sin(2 * math.pi * fc * t / self.frame_rate + i * math.sin(
+                2 * math.pi * fm * t / self.frame_rate)))
+        waver = wav_gen.WaveManagement()
+        waver.generate_wav(finished=True, data=notes, n_channels=1, sample_width=2, frame_rate=44100,
+                           file_name='Bell'+'num'+str(num)+'-fc-'+str(fc)+'-N2-'+str(N2)+'-io-'+str(io)+'.wav')
         return notes
 
-    def synthesize_clarinet(self, freq: float, amount_of_ns: int, velocity, instrument: int):
+    def synthesize_clarinet(self, pitch: int, amount_of_ns: int, velocity):
+        # c/m = N1/N2
         # fo = c/N1 = m/N2
         # N2 = 1, the spectrum contains all the harmonics
         # when N2 is an even number, the spectrum contains only odd number harmonics.
@@ -59,10 +63,162 @@ class FmSynthesizer(synth.Synthesizer):
         # 1) The frequencies are in the harmonic series and the spectrum contains only odd numbered harmonics
         # 2) The higher harmonics may increase significantly with the attack.
         # JohnChowning
-        fc = freq*2
-        fm = freq*3
+        freq = 2 ** ((pitch - 69) / 12) * 440
+        N1 = 1
+        fc = freq * N1
+        N2 = 4
+        fm = freq * N2 + 0.3
         notes = []
-        for i in range(amount_of_ns):
-            # notes.append()
-            pass
+        # duration of the attack in seconds:
+        attack_ns = int(0.0901 * self.frame_rate)
+        # duration of the decay in seconds
+        decay_ns = int(0.074 * self.frame_rate)
 
+        # duration of the release in seconds: 0.011
+        release_ns = int(0.11 * self.frame_rate)
+
+        if amount_of_ns < (attack_ns + release_ns + decay_ns):
+            # duration of the attack / total duration of the note : 0.1346
+            attack_ns = int(amount_of_ns*0.1346*2)
+            # post_attack_ns = int(amount_of_ns*0.057)
+            decay_ns = int(amount_of_ns*0.18)
+            # duration of the release / total duration of the note : 0.32
+            release_ns = int(amount_of_ns*0.32)
+
+        sustain_ns = amount_of_ns - release_ns - decay_ns - attack_ns
+        sustain_level = 0.71
+        max_value = 0.98
+        attack_constant = attack_ns / math.log(max_value + 1, math.e)
+        release_constant = -release_ns / math.log(1/32, math.e)
+        decay_constant = -decay_ns / math.log(sustain_level/max_value, math.e)
+
+        io1 = 1
+        io2 = 4/3
+        io3 = 1
+        for t in range(amount_of_ns):
+
+            # attack period
+            if t <= attack_ns:
+                a = (math.e**(t/attack_constant)-1)
+                i = -a*io1
+                notes.append(a * velocity/127 * math.sin(2 * math.pi * fc * t / self.frame_rate + i * math.sin(
+                    2 * math.pi * fm * t / self.frame_rate)))
+
+            # decay period
+            elif t <= (decay_ns + attack_ns):
+                curr_time_offset = attack_ns
+                a = max_value * math.e**(-(t-curr_time_offset)/decay_constant)
+                i = -a*4/3
+                notes.append(a * velocity/127 * math.sin(2 * math.pi * fc * t / self.frame_rate + i * math.sin(
+                    2 * math.pi * fm * t / self.frame_rate)))
+
+            # sustain period
+            elif t <= (decay_ns + sustain_ns + attack_ns):
+                a = sustain_level
+                i = -a*io2
+                notes.append(a * velocity/127 * math.sin(2 * math.pi * fc * t / self.frame_rate + i * math.sin(
+                    2 * math.pi * fm * t / self.frame_rate)))
+
+            # release period
+            elif t > (decay_ns + sustain_ns + attack_ns):
+                curr_time_offset = decay_ns + sustain_ns + attack_ns
+                a = sustain_level * math.e**(-(t-curr_time_offset)/release_constant)
+                i = -sustain_level*io3
+                notes.append(a * velocity/127 * math.sin(2 * math.pi * fc * t / self.frame_rate + i * math.sin(
+                    2 * math.pi * fm * t / self.frame_rate)))
+
+        waver = wav_gen.WaveManagement()
+        waver.generate_wav(finished=True, data=notes, n_channels=1, sample_width=2, frame_rate=44100,
+                           file_name='N1-'+str(N1)+'-N2-'+str(N2)+'-i01-'+str(io1)+'-i02-'+str(io2)+'-io3-'+str(io3)+'.wav')
+
+        return notes
+
+    def synthesize_trumpet(self, pitch: int, amount_of_ns: int, velocity):
+        # c/m = N1/N2
+        # fo = c/N1 = m/N2
+        # N2 = 1, the spectrum contains all the harmonics
+        # JohnChowning
+        freq = 2 ** ((pitch - 69) / 12) * 440
+        N1 = 1
+        fc = freq * N1
+        N2 = 1
+        fm = freq * N2 + 0.2
+
+        notes = []
+        # duration of the attack in seconds:
+        attack_ns = int(0.16 * self.frame_rate)
+        # duration of the decay in seconds
+        decay_ns = int(0.034 * self.frame_rate)
+        # post_attack_ns = int(0.022 * self.frame_rate)
+
+        # duration of the release in seconds:
+        release_ns = int(0.226 * self.frame_rate)
+
+        if amount_of_ns < (attack_ns + release_ns + decay_ns):
+            # duration of the attack / total duration of the note : 0.1346
+            attack_ns = int(amount_of_ns*0.3)
+            # post_attack_ns = int(amount_of_ns*0.057)
+            decay_ns = int(amount_of_ns*0.05)
+            # duration of the release / total duration of the note : 0.32
+            release_ns = int(amount_of_ns*1/3)
+
+        sustain_ns = amount_of_ns - release_ns - decay_ns - attack_ns
+        sustain_level = 0.92
+        max_value = 0.999
+        attack_constant = attack_ns / math.log(max_value + 1, math.e)
+        release_constant = -release_ns / math.log(1/256, math.e)
+        decay_constant = -decay_ns / math.log(sustain_level/max_value, math.e)
+
+        io1 = 1
+        io2 = 1
+        io3 = 1
+        io4 = 1
+        for t in range(amount_of_ns):
+
+            # attack period
+            if t <= attack_ns:
+                a = (math.e**(t/attack_constant)-1)
+                i = -a*io1
+                new_note = a * velocity/127 * math.sin(2 * math.pi * fc * t / self.frame_rate + i * math.sin(
+                    2 * math.pi * fm * t / self.frame_rate))
+                if new_note < 0:
+                    new_note *= 1/3
+                notes.append(new_note)
+
+            # decay period
+            elif t <= (decay_ns + attack_ns):
+                curr_time_offset = attack_ns
+                a = max_value * math.e**(-(t-curr_time_offset)/decay_constant)
+                i = -a*io2
+                new_note = a * velocity/127 * math.sin(2 * math.pi * fc * t / self.frame_rate + i * math.sin(
+                    2 * math.pi * fm * t / self.frame_rate))
+                if new_note < 0:
+                    new_note *= 1/3
+                notes.append(new_note)
+
+            # sustain period
+            elif t <= (decay_ns + sustain_ns + attack_ns):
+                a = sustain_level
+                i = -a*io3
+                new_note = a * velocity/127 * math.sin(2 * math.pi * fc * t / self.frame_rate + i * math.sin(
+                    2 * math.pi * fm * t / self.frame_rate))
+                if new_note < 0:
+                    new_note *= 1/3
+                notes.append(new_note)
+
+            # release period
+            elif t > (decay_ns + sustain_ns + attack_ns):
+                curr_time_offset = decay_ns + sustain_ns + attack_ns
+                a = sustain_level * math.e**(-(t-curr_time_offset)/release_constant)
+                i = -sustain_level*io4
+                new_note = a * velocity/127 * math.sin(2 * math.pi * fc * t / self.frame_rate + i * math.sin(
+                    2 * math.pi * fm * t / self.frame_rate))
+                if new_note < 0:
+                    new_note *= 1/3
+                notes.append(new_note)
+
+        waver = wav_gen.WaveManagement()
+        waver.generate_wav(finished=True, data=notes, n_channels=1, sample_width=2, frame_rate=44100,
+                           file_name='trumpet-N1-'+str(N1)+'-N2-'+str(N2)+'-i01-'+str(io1)+'-i02-'+str(io2)+'-io3-'+str(io3)+'-io4-'+str(io4)+'.wav')
+
+        return notes

@@ -1,14 +1,4 @@
-﻿  fft.cpp
-c:\users\tomas\desktop\itba\8° cuatrimestre\análisis de señales y sistemas digitales\trabajos prácticos\assd-tp2\ejercicio 1\fft\fft\fft.cpp(8): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-c:\users\tomas\desktop\itba\8° cuatrimestre\análisis de señales y sistemas digitales\trabajos prácticos\assd-tp2\ejercicio 1\fft\fft\fft.cpp(14): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-c:\users\tomas\desktop\itba\8° cuatrimestre\análisis de señales y sistemas digitales\trabajos prácticos\assd-tp2\ejercicio 1\fft\fft\fft.cpp(15): warning C4244: 'argument': conversion from 'double' to 'const std::complex<float>::_Ty', possible loss of data
-c:\users\tomas\desktop\itba\8° cuatrimestre\análisis de señales y sistemas digitales\trabajos prácticos\assd-tp2\ejercicio 1\fft\fft\fft.cpp(32): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-c:\users\tomas\desktop\itba\8° cuatrimestre\análisis de señales y sistemas digitales\trabajos prácticos\assd-tp2\ejercicio 1\fft\fft\fft.cpp(34): warning C4244: 'argument': conversion from 'int' to 'const std::complex<float>::_Ty', possible loss of data
-c:\users\tomas\desktop\itba\8° cuatrimestre\análisis de señales y sistemas digitales\trabajos prácticos\assd-tp2\ejercicio 1\fft\fft\fft.cpp(39): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-c:\users\tomas\desktop\itba\8° cuatrimestre\análisis de señales y sistemas digitales\trabajos prácticos\assd-tp2\ejercicio 1\fft\fft\fft.cpp(40): warning C4244: 'argument': conversion from 'double' to 'const std::complex<float>::_Ty', possible loss of data
-c:\users\tomas\desktop\itba\8° cuatrimestre\análisis de señales y sistemas digitales\trabajos prácticos\assd-tp2\ejercicio 1\fft\fft\fft.cpp(52): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-  main.cpp
-c:\users\tomas\desktop\itba\8° cuatrimestre\análisis de señales y sistemas digitales\trabajos prácticos\assd-tp2\ejercicio 1\fft\fft\main.cpp(17): warning C4244: 'argument': conversion from 'int' to 'const std::complex<float>::_Ty', possible loss of data
-c:\users\tomas\desktop\itba\8° cuatrimestre\análisis de señales y sistemas digitales\trabajos prácticos\assd-tp2\ejercicio 1\fft\fft\main.cpp(63): warning C4244: 'argument': conversion from 'double' to 'const std::complex<float>::_Ty', possible loss of data
-  Generating Code...
+﻿  inputs_de_prueba.cpp
+c:\users\tomas\desktop\itba\8° cuatrimestre\análisis de señales y sistemas digitales\trabajos prácticos\assd-tp2\ejercicio 1\fft\fft\inputs_de_prueba.cpp(15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\tomas\desktop\itba\8° cuatrimestre\análisis de señales y sistemas digitales\trabajos prácticos\assd-tp2\ejercicio 1\fft\fft\inputs_de_prueba.cpp(21): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
   FFT.vcxproj -> C:\Users\Tomas\Desktop\ITBA\8° Cuatrimestre\Análisis de Señales y Sistemas Digitales\Trabajos Prácticos\ASSD-TP2\Ejercicio 1\FFT\Debug\FFT.exe

@@ -1,4 +1,8 @@
-#include "fft.h"
+/*#include "fft.h"
+
+void generate_bit_reversed(int amount);
+void generate_twiddle_factors(int amount);
+
 vector<int>* bit_reversal(int log2_);
 
 //https://en.wikipedia.org/wiki/Cooley%E2%80%93Tukey_FFT_algorithm#Data_reordering,_bit_reversal,_and_in-place_algorithms
@@ -54,6 +58,12 @@ void ifft(vector<complex<float>>& in, vector<complex<float>>& out) {
 		out[i] = to_be_filled[i] / size;
 }
 
+void generate_bit_reversed(int amount) {
+
+}
+void generate_twiddle_factors(int amount) {
+
+}
 
 //https://en.wikipedia.org/wiki/Bit-reversal_permutation
 vector<int>* bit_reversal(int log2_) {
@@ -87,56 +97,29 @@ vector<int>* bit_reversal(int log2_) {
 }
 
 
-/*
-void fft(vector<complex<float>>& in, vector<complex<float>>& out) {
-vector<complex<float>> to_be_filled;
-to_be_filled = r_fft(&in[0], in.size() , 1);
-out = to_be_filled;
-}
-*/
+vector<complex<float>> create_test_case(int amount_of_complex) {
 
-/*
-vector<complex<float>> r_fft(complex<float>* x, int N, int s) {
-
-	vector<complex<float>> X(N, complex<float>(0, 0));
-	if (N == 1) {
-		X[0] = x[0];
+	vector<complex<float>> test_case;
+	double fMin = -100000, fMax = 100000;
+	for (int i = 0; i < amount_of_complex; i++) {
+		double f = (double)rand() / RAND_MAX;
+		double f1 = fMin + f * (fMax - fMin);
+		f = (double)rand() / RAND_MAX;
+		double f2 = fMin + f * (fMax - fMin);
+		test_case.push_back(complex<float>(f1, f2));
 	}
-	else {
-		vector<complex<float>> X1 = r_fft(x, N / 2, 2 * s);
-		vector<complex<float>> X2 = r_fft(x + s, N / 2, 2 * s);
-		for (int k = 0; k <= (N / 2 - 1); k++) {
-			X[k] = X1[k] + complex<float>(cos(2 * M_PI*k / N), sin(-2 * M_PI*k / N))* X2[k];
-			X[k + N / 2] = X1[k] - complex<float>(cos(2 * M_PI*k / N), sin(-2 * M_PI*k / N))* X2[k];
-		}
-	}
-	return X;
+	return test_case;
 }
-*/
 
-/*
-void ifft(vector<complex<float>>& in, vector<complex<float>>& out) {
-vector<complex<float>> to_be_filled;
-to_be_filled = r_ifft(&in[0], in.size(), 1);
-for (vector<complex<float>>::iterator it = to_be_filled.begin(); it != to_be_filled.end(); ++it)
-(*it) = (*it) / (float)(to_be_filled.size());
-out = to_be_filled;
+
+void print_vector(vector<complex<float>>& in) {
+	for (vector<complex<float>>::iterator it = in.begin(); it != in.end(); ++it)
+		cout << *it << ", ";
+	cout << endl;
 }
-*/
-/*
-vector<complex<float>> r_ifft(complex<float>* x, int N, int s) {
-	vector<complex<float>> X(N, complex<float>(0, 0));
-	if (N == 1) {
-		X[0] = x[0];
-	}
-	else {
-	vector<complex<float>> X1 = r_ifft(x, N / 2, 2 * s);
-	vector<complex<float>> X2 = r_ifft(x + s, N / 2, 2 * s);
-		for (int k = 0; k <= (N / 2 - 1); k++) {
-			X[k] = X1[k] + complex<float>(cos(2 * M_PI*k / N), sin(2 * M_PI*k / N))* X2[k];
-			X[k + N / 2] = X1[k] - complex<float>(cos(2 * M_PI*k / N), sin(2 * M_PI*k / N))* X2[k];
-		}
-	}
-	return X;
+
+void fft_init() {
+	generate_bit_reversed(4096);
+	generate_twiddle_factors(4096);
 }
 */
