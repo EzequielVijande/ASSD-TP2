@@ -86,7 +86,7 @@ Síntesis mediante modelo físico (Karplus-Strong)
 \end_layout
 
 \begin_layout Subsection
-Karplus-Strong - Modelo Original
+Modelo Básico
 \end_layout
 
 \begin_layout Standard
@@ -103,7 +103,7 @@ La siguiente figura ilustra el modelo conceptual del algoritmo.
 placement H
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
@@ -199,7 +199,7 @@ ng.
 placement H
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
@@ -216,7 +216,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Modelo conceptual.
+Implementación del modelo básico de Karplus-Strong.
 \end_layout
 
 \end_inset
@@ -227,6 +227,139 @@ Modelo conceptual.
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+Del anterior diagrama podemos deducir la ecuación en diferencia a partir
+ de los siguientes nodos:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{cases}
+y(n)=\frac{1}{2}w(n)+\frac{1}{2}w(n-1)\\
+w(n)=x(n)+R_{L}y(n-L)
+\end{cases}\label{eq:KSec1}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Despejando de 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:KSec1"
+
+\end_inset
+
+, se llega a:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+y(n)=\frac{1}{2}\left(x(n)+R_{L}y(n-L)\right)+\frac{1}{2}\left(x(n-1)+R_{L}y(n-L-1)\right)
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Donde 
+\begin_inset Formula $x(n)$
+\end_inset
+
+ será ruido, lo que equivale a excitar la cuerda.
+ Podemos entonces, la ecuación en diferencia quedará simplificada a, lo
+ que simplificará su implementación:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+y(n)=x(n)+\frac{R_{L}}{2}\left(y(n-L)+y(n-L-1)\right)
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Por otro lado, si aplicamos la transformada 
+\begin_inset Formula $\mathcal{Z}$
+\end_inset
+
+, resulta en la siguiente expresión:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+H(z)=\frac{Y(z)}{X(z)}=\frac{1}{1-\frac{R_{L}}{2}z^{-L}(1+z^{-1})}\label{eq:KSec2}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Y luego, reemplazando 
+\begin_inset Formula $z=e^{j\omega/f_{s}}$
+\end_inset
+
+, se obtiene la respuesta en frecuencia:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+H(e^{j\omega})=\frac{1}{1-\frac{R_{L}}{2}e^{-j\omega L/f_{s}}\left(1+e^{-j\omega/f_{s}}\right)}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+El tono resultante de este algoritmo posee un período de 
+\begin_inset Formula $N+0.5$
+\end_inset
+
+ muestras, y está dado por 
+\begin_inset Formula $p=\frac{f_{s}}{N+0.5}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Partiendo de 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:KSec2"
+
+\end_inset
+
+, podemos plantear la estabilidad para obtener el rango de valores de 
+\begin_inset Formula $R_{L}$
+\end_inset
+
+ para el que el sistema es estable.
+ Intuitivamente se puede ver que si 
+\begin_inset Formula $\left|R_{L}\right|<1$
+\end_inset
+
+ el sistema es estable.
+ Ésto se comprobó 
 \end_layout
 
 \end_body

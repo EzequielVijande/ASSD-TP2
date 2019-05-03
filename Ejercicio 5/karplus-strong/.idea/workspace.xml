@@ -5,17 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dfa919f1-b5d2-4674-b2c1-188835cc2d44" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/sintetizador/KS_synth_Extras.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Extending the Karplus-Strong Algorithm to Synthesize Electric Guitar Timbres with 1990.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/../Extending the Karplus-Strong Algorithm to Synthesize Electric Guitar Timbres with 1990.pdf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../informe/borrador.lyx" beforeDir="false" afterPath="$PROJECT_DIR$/../informe/borrador.lyx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../informe/borrador.lyx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../informe/ejercicio 5.lyx" beforeDir="false" afterPath="$PROJECT_DIR$/../informe/ejercicio 5.lyx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../informe/ks.PNG" beforeDir="false" afterPath="$PROJECT_DIR$/../informe/ks.PNG" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sintetizador/Figure_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/polemap.py" beforeDir="false" afterPath="$PROJECT_DIR$/polemap.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sintetizador/KS_synth.py" beforeDir="false" afterPath="$PROJECT_DIR$/sintetizador/KS_synth.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sintetizador/Track0.wav" beforeDir="false" afterPath="$PROJECT_DIR$/sintetizador/Track0.wav" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sintetizador/boul con distort.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sintetizador/con distorsion.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sintetizador/jurassic string.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sintetizador/sin distorsion.wav" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -28,34 +23,25 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/sintetizador/main_program.py">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/polemap.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="288">
-              <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+            <state relative-caret-position="124">
+              <caret line="38" selection-start-line="38" selection-end-line="38" />
               <folding>
-                <element signature="e#0#29#0" expanded="true" />
+                <element signature="e#0#18#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sintetizador/KS_synth.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="148">
-              <caret line="53" column="24" selection-start-line="53" selection-start-column="24" selection-end-line="53" selection-end-column="24" />
+            <state relative-caret-position="172">
+              <caret line="66" column="19" selection-start-line="66" selection-start-column="19" selection-end-line="66" selection-end-column="19" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
-                <element signature="e#1844#2642#0" />
-                <element signature="e#4047#5645#0" />
-                <element signature="e#3537#3932#0" />
-                <element signature="e#5218#5609#0" />
-                <element signature="e#5673#5816#0" />
-                <element signature="e#6689#7560#0" />
-                <element signature="e#7630#7912#0" />
-                <element signature="e#8020#8178#0" />
-                <element signature="e#6396#6794#0" />
               </folding>
             </state>
           </provider>
@@ -108,6 +94,7 @@
         <option value="$PROJECT_DIR$/sintetizador/main_program.py" />
         <option value="$PROJECT_DIR$/sintetizador/KS_synth_Extras.py" />
         <option value="$PROJECT_DIR$/sintetizador/KS_synth.py" />
+        <option value="$PROJECT_DIR$/polemap.py" />
       </list>
     </option>
   </component>
@@ -121,9 +108,9 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-8" />
-    <option name="width" value="977" />
-    <option name="height" value="1038" />
+    <option name="x" value="-9" />
+    <option name="width" value="978" />
+    <option name="height" value="1039" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -174,7 +161,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.main_program">
+  <component name="RunManager" selected="Python.polemap">
     <configuration name="freqplot" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="karplus-strong" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -217,8 +204,30 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="polemap" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="karplus-strong" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/polemap.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.polemap" />
         <item itemvalue="Python.main_program" />
         <item itemvalue="Python.freqplot" />
       </list>
@@ -249,13 +258,13 @@
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49892008" visible="true" weight="0.105019815" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49892008" visible="true" weight="0.105019815" />
       <window_info id="Structure" order="1" sideWeight="0.5010799" side_tool="true" weight="0.10700132" />
       <window_info id="Favorites" order="2" sideWeight="0.5010799" side_tool="true" weight="0.10700132" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3281471" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4980185" visible="true" weight="0.2670537" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.39767778" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4980185" weight="0.2670537" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.23076923" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49867898" weight="0.24238026" />
@@ -466,7 +475,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/sintetizador/main_program.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
+        <state relative-caret-position="144">
           <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
@@ -476,19 +485,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/sintetizador/KS_synth.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="148">
-          <caret line="53" column="24" selection-start-line="53" selection-start-column="24" selection-end-line="53" selection-end-column="24" />
+        <state relative-caret-position="172">
+          <caret line="66" column="19" selection-start-line="66" selection-start-column="19" selection-end-line="66" selection-end-column="19" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
-            <element signature="e#1844#2642#0" />
-            <element signature="e#4047#5645#0" />
-            <element signature="e#3537#3932#0" />
-            <element signature="e#5218#5609#0" />
-            <element signature="e#5673#5816#0" />
-            <element signature="e#6689#7560#0" />
-            <element signature="e#7630#7912#0" />
-            <element signature="e#8020#8178#0" />
-            <element signature="e#6396#6794#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/polemap.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="124">
+          <caret line="38" selection-start-line="38" selection-end-line="38" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -63,7 +63,7 @@ class KSSynthesizer(synth.Synthesizer):
 
             w = self.dc_blocking_filter(x, pitch)
             y = self.overdrive(w, distorsion)
-            z = self.lowpass(np.add(w, y),pitch)
+            z = self.lowpass(np.add(1.4*w, y),pitch)
             #burst = self.feedback_delay(y, pitch)
             notes.extend(z)
         notes = self.normalize_notes(notes)
