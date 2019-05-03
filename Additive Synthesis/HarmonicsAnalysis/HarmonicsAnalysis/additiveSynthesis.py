@@ -1,4 +1,5 @@
 import numpy as np
+import scipy.fftpack as fft
 from scipy.io import wavfile
 import matplotlib.pyplot as plt
 import random
@@ -90,16 +91,28 @@ def adsrSynthGuitar(fo,tt):
     envelopes = []
     harmonics = 12
     guitarFrequencies = np.arange(fo,fo*harmonics+1,fo)
-    guitarEnvelope = adsrEnvelope(0.07,0.038,0.6,2.7,tt,fs)
+    guitarEnvelope = adsrEnvelope(0.07,0.038,0.6,tt-0.07-0.04,tt,fs)
     maxAmplitude = -7
     relativeAmplitudes = [-7,-16,-16,-15,-18,-20,-26,-25,-25,-22,-25,-30]
     for i in range(0,len(guitarFrequencies)):
         auxEnvelope = scaleEnvelope(guitarEnvelope,10**((relativeAmplitudes[i]-maxAmplitude)/20))
         envelopes.append(auxEnvelope)
     synthFunction = additiveSynthesis(guitarFrequencies,envelopes, fs)
+    normSynthFunction = additiveSynthesis(guitarFrequencies,envelopes, fs,False)
     plt.figure("Guitar Signal")
-    plt.plot(synthFunction)
+    plt.xlabel("Sample [n]")
+    plt.ylabel("Amplitude")
+    plt.plot(synthFunction,label = 'ADSR')
     createWav(synthFunction, "adsrGuitar.wav", fs)
+    fftData = fft.rfft(normSynthFunction)
+    plt.figure("FFT")
+    plt.xlabel("Frequency [Hz]")
+    plt.ylabel("Amplitude")
+    nMax = len(normSynthFunction)
+    k = np.arange(nMax)
+    T = (2*nMax)/fs
+    fftF = k/T 
+    plt.plot(fftF,abs(fftData[:]), label = "Synth Signal FFT")
     return
 
 def adsrDesvSynthGuitar(fo,tt):
@@ -115,7 +128,7 @@ def adsrDesvSynthGuitar(fo,tt):
         if sign > signProb:
             desv = desv*(-1)
         guitarFrequencies[i] = guitarFrequencies[i]*(1+desv)
-    guitarEnvelope = adsrEnvelope(0.07,0.038,0.6,2.7,tt,fs)
+    guitarEnvelope = adsrEnvelope(0.07,0.038,0.6,tt-0.07-0.04,tt,fs)
     maxAmplitude = -7
     relativeAmplitudes = [-7,-16,-16,-15,-18,-20,-26,-25,-25,-22,-25,-30]
     for i in range(0,len(guitarFrequencies)):
@@ -123,31 +136,43 @@ def adsrDesvSynthGuitar(fo,tt):
         envelopes.append(auxEnvelope)
     synthFunction = additiveSynthesis(guitarFrequencies,envelopes, fs)
     plt.figure("Guitar Signal")
-    plt.plot(synthFunction)
+    plt.plot(synthFunction,label = "Desv ADSR")
     createWav(synthFunction, "adsrDesvGuitar.wav", fs)
     return
 
 def adsrSynthViolin(fo,tt):
     fs = 44100
     envelopes = []
-    harmonics = 12
+    harmonics = 10
     violinFrequencies = np.arange(fo,fo*harmonics+1,fo)
-    violinEnvelope =  adsrEnvelope(0.5,0,1,0.5,tt,fs)
-    maxAmplitude = -22
-    relativeAmplitudes = [-34,-24,-22,-28,-26,-26,-35,-34,-35,-32,-35,-37]
+    violinEnvelope =  adsrEnvelope(0.364,0.105,0.8,0.4,tt,fs)
+    maxAmplitude = -12
+    relativeAmplitudes = [-12,-22,-26,-29,-24,-30,-30,-31,-32,-34]
     for i in range(0,len(violinFrequencies)):
         auxEnvelope = scaleEnvelope(violinEnvelope,10**((relativeAmplitudes[i]-maxAmplitude)/20))
         envelopes.append(auxEnvelope)
     synthFunction = additiveSynthesis(violinFrequencies,envelopes, fs)
+    normSynthFunction = additiveSynthesis(violinFrequencies,envelopes, fs,False)
     plt.figure("Violin Signal")
-    plt.plot(synthFunction)
+    plt.xlabel("Sample [n]")
+    plt.ylabel("Amplitude")
+    plt.plot(synthFunction,label = "ADSR")
     createWav(synthFunction, "adsrViolin.wav", fs)
+    fftData = fft.rfft(normSynthFunction)
+    plt.figure("FFT")
+    plt.xlabel("Frequency [Hz]")
+    plt.ylabel("Amplitude")
+    nMax = len(normSynthFunction)
+    k = np.arange(nMax)
+    T = (2*nMax)/fs
+    fftF = k/T 
+    plt.plot(fftF,abs(fftData[:]), label = "Synth Signal FFT")
     return
 
 def adsrDesvSynthViolin(fo,tt):
     fs = 44100
     envelopes = []
-    harmonics = 12
+    harmonics = 10
     violinFrequencies = np.arange(fo,fo*harmonics+1,fo)
     pob = 12
     signProb = 8
@@ -157,39 +182,51 @@ def adsrDesvSynthViolin(fo,tt):
         if sign > signProb:
             desv = desv*(-1)
         violinFrequencies[i] = violinFrequencies[i]*(1+desv)
-    violinEnvelope =  adsrEnvelope(0.5,0,1,0.5,tt,fs)
-    maxAmplitude = -22
-    relativeAmplitudes = [-34,-24,-22,-28,-26,-26,-35,-34,-35,-32,-35,-37]
+    violinEnvelope =  adsrEnvelope(0.364,0.105,0.8,0.4,tt,fs)
+    maxAmplitude = -12
+    relativeAmplitudes = [-12,-22,-26,-29,-24,-30,-30,-31,-32,-34]
     for i in range(0,len(violinFrequencies)):
         auxEnvelope = scaleEnvelope(violinEnvelope,10**((relativeAmplitudes[i]-maxAmplitude)/20))
         envelopes.append(auxEnvelope)
     synthFunction = additiveSynthesis(violinFrequencies,envelopes, fs)
     plt.figure("Violin Signal")
-    plt.plot(synthFunction)
+    plt.plot(synthFunction,label = "Desv ADSR")
     createWav(synthFunction, "adsrDesvViolin.wav", fs)
     return
 
 def adsrSynthSaxophone(fo,tt):
     fs = 44100
     envelopes = []
-    harmonics = 19
+    harmonics = 12
     saxoFrequencies = np.arange(fo,fo*harmonics+1,fo)
     saxoEnvelope = adsrEnvelope(1/125,0.055,0.5,0.2,tt,fs)
-    maxAmplitude = -18
-    relativeAmplitudes = [-22,-32,-21,-18,-19,-22,-23,-37,-25,-32,-32,-25,-26,-26,-28,-30,-26,-30,-27]
+    maxAmplitude = -22
+    relativeAmplitudes = [-22,-24,-25,-27,-26,-24,-39,-37,-26,-38,-31,-39]
     for i in range(0,len(saxoFrequencies)):
         auxEnvelope = scaleEnvelope(saxoEnvelope,10**((relativeAmplitudes[i]-maxAmplitude)/20))
         envelopes.append(auxEnvelope)
     synthFunction = additiveSynthesis(saxoFrequencies,envelopes, fs)
+    normSynthFunction = additiveSynthesis(saxoFrequencies,envelopes, fs,False)
     plt.figure("Saxo Signal")
-    plt.plot(synthFunction)
+    plt.xlabel("Sample [n]")
+    plt.ylabel("Amplitude")
+    plt.plot(synthFunction,label = "ADSR")
     createWav(synthFunction, "adsrSaxo.wav", fs)
+    fftData = fft.rfft(normSynthFunction)
+    plt.figure("FFT")
+    plt.xlabel("Frequency [Hz]")
+    plt.ylabel("Amplitude")
+    nMax = len(normSynthFunction)
+    k = np.arange(nMax)
+    T = (2*nMax)/fs
+    fftF = k/T 
+    plt.plot(fftF,abs(fftData[:]), label = "Synth Signal FFT")
     return
 
 def adsrDesvSynthSaxophone(fo,tt):
     fs = 44100
     envelopes = []
-    harmonics = 19
+    harmonics = 12
     saxoFrequencies = np.arange(fo,fo*harmonics+1,fo)
     pob = 19
     signProb = 1
@@ -200,14 +237,14 @@ def adsrDesvSynthSaxophone(fo,tt):
             desv = desv*(-1)
         saxoFrequencies[i] = saxoFrequencies[i]*(1+desv)
     saxoEnvelope = adsrEnvelope(1/125,0.055,0.5,0.2,tt,fs)
-    maxAmplitude = -18
-    relativeAmplitudes = [-22,-32,-21,-18,-19,-22,-23,-37,-25,-32,-32,-25,-26,-26,-28,-30,-26,-30,-27]
+    maxAmplitude = -22
+    relativeAmplitudes = [-22,-24,-25,-27,-26,-24,-39,-37,-26,-38,-31,-39]
     for i in range(0,len(saxoFrequencies)):
         auxEnvelope = scaleEnvelope(saxoEnvelope,10**((relativeAmplitudes[i]-maxAmplitude)/20))
         envelopes.append(auxEnvelope)
     synthFunction = additiveSynthesis(saxoFrequencies,envelopes, fs)
     plt.figure("Saxo Signal")
-    plt.plot(synthFunction)
+    plt.plot(synthFunction,label = "Desv ADSR")
     createWav(synthFunction, "adsrDesvSaxo.wav", fs)
     return
 
@@ -218,15 +255,27 @@ def adsrSynthTrumpet(fo,tt):
     harmonics = 11
     trumpetFrequencies = np.arange(fo,fo*harmonics+1,fo)
     trumpetEnvelope = adsrEnvelope(0.276-0.226,0,1,0.786-0.624,tt,fs)
-    maxAmplitude = -15
-    relativeAmplitudes = [-17,-15,-20,-22,-19,-24,-25,-24,-22,-26,-30]
+    maxAmplitude = -12
+    relativeAmplitudes = [-12,-15,-21,-20,-19,-24,-25,-26,-24,-28,-32]
     for i in range(0,len(trumpetFrequencies)):
         auxEnvelope = scaleEnvelope(trumpetEnvelope,10**((relativeAmplitudes[i]-maxAmplitude)/20))
         envelopes.append(auxEnvelope)
     synthFunction = additiveSynthesis(trumpetFrequencies,envelopes, fs)
+    normSynthFunction = additiveSynthesis(trumpetFrequencies,envelopes, fs,False)
     plt.figure("Trumpet Signal")
-    plt.plot(synthFunction)
+    plt.xlabel("Sample [n]")
+    plt.ylabel("Amplitude")
+    plt.plot(synthFunction,label = "ADSR")
     createWav(synthFunction, "adsrTrumpet.wav", fs)
+    fftData = fft.rfft(normSynthFunction)
+    plt.figure("FFT")
+    plt.xlabel("Frequency [Hz]")
+    plt.ylabel("Amplitude")
+    nMax = len(normSynthFunction)
+    k = np.arange(nMax)
+    T = (2*nMax)/fs
+    fftF = k/T 
+    plt.plot(fftF,abs(fftData[:]), label = "Synth Signal FFT")
     return
 
 def adsrDesvSynthTrumpet(fo,tt):

@@ -22,6 +22,9 @@ def wavSpectralAnalysis(wavPath):
     signalTime = np.arange(0,nMax/fs,1/fs)
     intSize = 16.
     signalData = data[:nMax]
+    normalizer = np.max(signalData)
+    signalData = [i*(1/normalizer) for i in signalData] # normalizo en (-1,1)
+    signalData = np.asarray(signalData)
     print("Frequency sampling:", fs)
     k = np.arange(nMax)
     T = (2*nMax)/fs
@@ -73,18 +76,20 @@ def findHarmonic(fftData,fftF,nMax):
 def findEnvelopes(fHarmonic,signalData,fs,nMax,npg):
     envelopes = [] # arreglo de arreglos cada arreglo contiene una envolvente para el armonico correspondiente
     stftF, stftT, stftData = signal.spectrogram(signalData,fs, nperseg=npg)
-   #plt.pcolormesh(stftT, stftF, stftData)
-   #plt.ylabel('Frequency [Hz]')
-   #plt.xlabel('Time [sec]')
-   #plt.show()
+    signal.spectrogram(signalData,fs, nperseg=npg,noverlap = npg-10,nfft = npg)
     signalTime = np.arange(0,nMax/fs,1/fs)
     index = 0
+    entered = False
     for i in range(0,len(fHarmonic)):
         for j in range(index,len(stftF)):
             if stftF[j]<=fHarmonic[i] and stftF[j+1]> fHarmonic[i]:
                 auxEnvelope = np.interp(signalTime,stftT,stftData[j])
-                #plt.plot(auxEnvelope)
-                #plt.show()
+                if entered == False:
+                    plt.figure('Fundamental Freq Envelope')
+                    plt.plot(auxEnvelope)
+                    plt.ylabel('Amplitud')
+                    plt.xlabel('Samples [n]')
+                    entered = True
                 envelopes.append(auxEnvelope)
                 index = j
                 break

@@ -37,10 +37,11 @@ def realEnvelopeSynthesis(fileNameOrigin,fileNameDestination,npg):
 
 
 def main():
-    #realEnvelopeSynthesis("trumpet_A4_15_forte_normal.wav","reTrumpet128.wav",128)
-    #realEnvelopeSynthesis("violin_A4_15_fortissimo_arco-normal.wav","reViolin512.wav",512)
-    #realEnvelopeSynthesis("saxophone_B3_1_fortissimo_normal.wav","reSaxo256.wav",256)
-    realEnvelopeSynthesis("8403__speedy__clean-g-str-pluck.wav","reGuitar256.wav",256)
+    realEnvelopeSynthesis("trumpet_A4_15_forte_normal.wav","reTrumpet.wav",512)
+    realEnvelopeSynthesis("violin_A4_15_fortissimo_arco-normal.wav","reViolin.wav",512)
+    realEnvelopeSynthesis("saxophone_B3_1_fortissimo_normal.wav","reSaxo.wav",512)
+    realEnvelopeSynthesis("8403__speedy__clean-g-str-pluck.wav","reGuitar.wav",512)
+    plt.show()
 
 
 if __name__== "__main__":
