@@ -325,7 +325,7 @@ Y luego, reemplazando
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-H(e^{j\omega})=\frac{1}{1-\frac{R_{L}}{2}e^{-j\omega L/f_{s}}\left(1+e^{-j\omega/f_{s}}\right)}
+H(e^{j\omega/f_{s}})=\frac{1}{1-\frac{R_{L}}{2}e^{-j\omega L/f_{s}}\left(1+e^{-j\omega/f_{s}}\right)}
 \end{equation}
 
 \end_inset
@@ -594,11 +594,10 @@ sideways false
 status open
 
 \begin_layout Plain Layout
-\align center
 \begin_inset Graphics
 	filename res1.PNG
 	lyxscale 50
-	scale 50
+	scale 70
 
 \end_inset
 
@@ -620,6 +619,10 @@ Modelo de la caja de resonancia.
 \end_inset
 
 
+\begin_inset space \hfill{}
+\end_inset
+
+
 \begin_inset Float figure
 placement H
 wide false
@@ -627,11 +630,10 @@ sideways false
 status open
 
 \begin_layout Plain Layout
-\align center
 \begin_inset Graphics
 	filename res2.PNG
 	lyxscale 50
-	scale 50
+	scale 70
 
 \end_inset
 
@@ -766,10 +768,475 @@ Conociendo entonces estos parámetros podría implementarse un filtro que
 \end_layout
 
 \begin_layout Subsubsection
-Sintonización
+Afinación
 \end_layout
 
 \begin_layout Standard
+Como se comentó en secciones anteriores, el tono de la nota está dado por:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+f=\frac{f_{s}}{N+0.5}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+El hecho de que 
+\begin_inset Formula $N$
+\end_inset
+
+ sea un número entero limita el rango de notas posibles a implementar, hace
+ que los tonos posibles estén cuantizados; principalmente para altas frecuencias
+, ya que para grandes valores de N (tonos bajos), la diferencia entre el
+ tono a 
+\begin_inset Formula $N$
+\end_inset
+
+ y 
+\begin_inset Formula $N+1$
+\end_inset
+
+ es pequeña.
+ Por otro lado, para tonos altos, 
+\begin_inset Formula $N$
+\end_inset
+
+ y 
+\begin_inset Formula $N+1$
+\end_inset
+
+, se relacionan con tonos completamente diferentes, lo que dificulta la
+ afinación o tuning.
+ En un diagrama, se puede visualizar así:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename tuning.PNG
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Tono deseado vs.
+ tono resultante para 
+\begin_inset Formula $f_{s}=50kHz$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Una posible solución visualizada por Jaffe & Smith
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+referenciar bibliografia
+\end_layout
+
+\end_inset
+
+ se refiere un filtro en el lazo de realimentación que introduzca un delay
+ sin alterar la ganancia del lazo.
+ El filtro es un pasatodo de la siguiente forma:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+H_{c}(z)=\frac{C+z^{-1}}{1+Cz^{-1}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+En primer lugar se pide que en valor absoluto C sea menor a la unidad.
+ Se define 
+\begin_inset Formula $P_{c}(z)$
+\end_inset
+
+ como la fase del ya mencionado filtro, y 
+\begin_inset Formula $P_{1}=\frac{f_{s}}{f_{1}}$
+\end_inset
+
+, con 
+\begin_inset Formula $f_{1}$
+\end_inset
+
+ la frecuencia fundamental.
+ En resumen, para un error deseado 
+\begin_inset Formula $\varepsilon$
+\end_inset
+
+, 
+\begin_inset Formula $P_{c}(f_{1})$
+\end_inset
+
+ se aproxima a:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+P_{c}(f_{1})=N-floor(N-\varepsilon)
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Y finalmente:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+C=\frac{\sin\left(\frac{\omega_{1}T_{s}-\omega_{1}T_{s}P_{c}(f_{1})}{2}\right)}{\sin\left(\frac{\omega_{1}T_{s}+\omega_{1}T_{s}P_{c}(f_{1})}{2}\right)}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+subseccion con factor de estiramiento
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Modelo Modificado
+\end_layout
+
+\begin_layout Subsubsection
+Función transferencia
+\end_layout
+
+\begin_layout Standard
+Mediante una modificación al modelo anterior es posible sintetizar instrumentos
+ de percusión.
+ El cambio consiste en realimentar la línea de retardo con ganancia positiva
+ o negativa, de manera aleatoria, de la siguiente manera:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename drum.PNG
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Diagrama en bloques de Karplus-Strong con la variante para la síntesis básica
+ de instrumentos de percusión.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Partiendo del modelo básico, se puede generalizar de la siguiente manera:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+y(n)=\begin{cases}
+\frac{1}{2}\left(y(n-L)+y(n-L-1)\right) & probabilidad=b\\
+-\frac{1}{2}\left(y(n-L)+y(n-L-1)\right) & probabilidad=1-b
+\end{cases}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Resultando en:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+y(n)=\frac{b}{2}\left(y(n-L)+y(n-L-1)\right)\label{eq:KSec3}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+donde si 
+\begin_inset Formula $b=1$
+\end_inset
+
+, es el caso de la sección anterior, para la guitarra.
+\end_layout
+
+\begin_layout Standard
+Además se puede obtener la respuesta en frecuencia:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+H(e^{j\omega/f_{s}})=H(z)=\frac{Y(z)}{X(z)}=\frac{1}{1-\frac{b}{2}z^{-L}(1+z^{-1})}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+De lo que resulta,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+H(e^{j\omega/f_{s}})=\frac{1}{1-\frac{b}{2}\left[e^{-j\omega L/f_{s}}+e^{-j\omega(L+1)/f_{s}}\right]}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+En cuanto a la fase, utilizando la ecuación de Euler para números complejos
+ expresados en forma exponencial 
+\begin_inset Formula $\left(e^{jx}=cosx+jsenx\right)$
+\end_inset
+
+, se tiene:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+H(e^{j\omega/f_{s}})=\frac{1}{1-\frac{b}{2}\left[\cos\left(\omega L/f_{s}\right)\cos\left(\omega(L+1)/f_{s}\right)-j\sin\left(\omega L/f_{s}\right)\sin\left(\omega(L+1)/f_{s}\right)\right]}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+De dicha ecuación se obtiene entonces:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\angle H(e^{j\omega/f_{s}})=\tan\left(\frac{\frac{b}{2}\sin\left(\omega L/f_{s}\right)\sin\left(\omega(L+1)/f_{s}\right)}{1-\frac{b}{2}\cos\left(\omega L/f_{s}\right)\cos\left(\omega(L+1)/f_{s}\right)}\right)
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Diagrama de polos y ceros
+\end_layout
+
+\begin_layout Standard
+De manera análoga para el caso de 
+\begin_inset Formula $b=1$
+\end_inset
+
+, para la guitarra, se graficó el diagrama de polos y ceros tanto para 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:KSec3"
+
+\end_inset
+
+ con b valiendo -1 y 1.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename zpstring.png
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Diagrama de polos y ceros para el caso b=1.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename zpdrum.png
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Diagrama de polos y ceros para b=-1.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Algunos diagramas de polos y ceros posibles.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Como se puede ver, el diagrama de polos y ceros depende de la probabilidad,
+ ya que eso determina la constante b, según la ecuación 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:KSec3"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Desventajas, stretch factor y tuning
+\end_layout
+
+\end_inset
+
 
 \end_layout
 
@@ -777,24 +1244,51 @@ Sintonización
 Modelo Extendido
 \end_layout
 
+\begin_layout Standard
+
+\end_layout
+
 \begin_layout Subsection
 Referencias
 \end_layout
 
 \begin_layout Standard
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-1"
+
+\end_inset
+
+Karplus, K., and A.
+ Strong.
+ 1983 Digital Synthesis of Plucked-String and Drum Timbres.
+ Computer Music Journal 7 (2): 43-55.
+ Cambridge, Massachusetts: MIT Press.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
 el karplus
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 el sullivan
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 el jaffe
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 el de resonancia
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_body
