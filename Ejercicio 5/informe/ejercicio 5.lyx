@@ -466,6 +466,9 @@ A continuación, dos muestras, una con ruido uniforme y la siguiente con
  Si bien, en cuanto a sonido sus diferencias son imperceptibles, se puede
  ver que la muestra con ruido blanco tiene más ármonicos, aunque de menor
  amplitud.
+ Por otro lado, el ruido normal tiene amplitud impredecible, al tener una
+ desviación, pero van a estar mayormente centrados en la media, al contrario
+ con el uniforme.
 \end_layout
 
 \begin_layout Standard
@@ -485,6 +488,8 @@ status open
 \align center
 \begin_inset Graphics
 	filename ruidoUniforme.PNG
+	lyxscale 50
+	scale 50
 
 \end_inset
 
@@ -515,6 +520,8 @@ status open
 \align center
 \begin_inset Graphics
 	filename ruidoNormal.PNG
+	lyxscale 50
+	scale 50
 
 \end_inset
 
@@ -543,6 +550,14 @@ Muestra de ruido uniforme.
 \end_layout
 
 \begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Muestras de Ruido.
+\end_layout
+
+\end_inset
+
 
 \end_layout
 
@@ -551,12 +566,235 @@ Muestra de ruido uniforme.
 
 \end_layout
 
+\begin_layout Subsubsection
+Caja de Resonancia
+\end_layout
+
+\begin_layout Standard
+El cuerpo de la guitarra actúa como un resonador.
+ Su objetivo es matchear impedancias.
+ Las cuerdas son altas impedancias y el aire es un medio de baja impedancia,
+ por lo que se necesita un 'transformador' –la caja– para obtener la máxima
+ transferencia de energía; o un amplificador, en el caso de una guitarra
+ eléctrica.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename res1.PNG
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Modelo de la caja de resonancia.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename res2.PNG
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Red representativa del resonador a bajas frecuencias.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Modelo caja de resonancia.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Donde 
+\begin_inset Formula $S_{1}$
+\end_inset
+
+ en la primera figura representa la superficie activa del resonador, a lo
+ que se le aplica una fuerza externa 
+\begin_inset Formula $F(t)$
+\end_inset
+
+, que excita el resonador.
+ Esto puede representarse también, con el modelo de la derecha, ya que la
+ impedancia mecánica del resonador 
+\begin_inset Formula $Z(t)$
+\end_inset
+
+ puede calcularse de la siguiente manera:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+Z(t)=\frac{F(t)}{U_{1}(t)}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+La onda reflejada del puente de la guitarra se relaciona con esta función.
+ Introduciendo los polos y ceros complejos se obtiene:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+Z(s)=\frac{F(s)}{U_{1}(s)}=m\frac{\left(s^{t}+s\alpha+\omega_{1}^{2}\right)\left(s^{2}+s\alpha_{2}+\omega_{2}^{2}\right)}{s\left(s^{2}+s\alpha_{h}+\omega_{h}^{2}\right)}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+donde 
+\begin_inset Formula $\omega_{1}$
+\end_inset
+
+ y 
+\begin_inset Formula $\omega_{2}$
+\end_inset
+
+ son las frecuencias naturales del resonador, 
+\begin_inset Formula $\omega_{h}$
+\end_inset
+
+ la frecuencia resonante del resonador de Helmholtz, y 
+\begin_inset Formula $\alpha_{1}$
+\end_inset
+
+,
+\begin_inset Formula $\alpha_{2}$
+\end_inset
+
+, 
+\begin_inset Formula $\alpha_{h}$
+\end_inset
+
+ son los parámetros de amortiguación, relacionados con el factor de calidad
+ de la frecuencia característica de la siguiente manera:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\alpha_{j}=\frac{2\pi f_{j}}{Q_{j}}\,\,\,\,\,\,\,\,\,\,\,\,\,\,Q=\frac{f_{j}}{\varDelta f_{j}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Conociendo entonces estos parámetros podría implementarse un filtro que
+ simule la caja de resonancia de la guitarra; en síntesis, lo que se busca
+ es un matchear impedancias de la cuerda y el ambiente (aire), para transmitir
+ la onda, en vez de que se refleje.
+\end_layout
+
+\begin_layout Subsubsection
+Sintonización
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
 \begin_layout Subsection
-Modelo extendido
+Modelo Extendido
 \end_layout
 
 \begin_layout Subsection
 Referencias
+\end_layout
+
+\begin_layout Standard
+el karplus
+\end_layout
+
+\begin_layout Standard
+el sullivan
+\end_layout
+
+\begin_layout Standard
+el jaffe
+\end_layout
+
+\begin_layout Standard
+el de resonancia
 \end_layout
 
 \end_body
