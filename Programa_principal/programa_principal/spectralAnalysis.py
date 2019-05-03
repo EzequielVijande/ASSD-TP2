@@ -16,7 +16,7 @@ def wavSpectralAnalysis(wavPath):
             auxData.append(data[i][0])
         data = auxData   
     data = np.array(data)
-    nMax = 100000
+    nMax = 120000
     if len(data) < nMax:
         nMax = len(data)
     signalTime = np.arange(0,nMax/fs,1/fs)
@@ -73,13 +73,19 @@ def findHarmonic(fftData,fftF,nMax):
 
 def findEnvelopes(fHarmonic,signalData,fs,nMax):
     envelopes = [] # arreglo de arreglos cada arreglo contiene una envolvente para el armonico correspondiente
-    stftF, stftT, stftData = signal.spectrogram(signalData,fs, nperseg=2000,noverlap = 1800,nfft = 4000)
+    stftF, stftT, stftData = signal.spectrogram(signalData,fs, nperseg=512,noverlap = 502,nfft = 512*2)
     signalTime = np.arange(0,nMax/fs,1/fs)
     index = 0
     for i in range(0,len(fHarmonic)):
         for j in range(index,len(stftF)):
             if stftF[j]<=fHarmonic[i] and stftF[j+1]> fHarmonic[i]:
                 auxEnvelope = np.interp(signalTime,stftT,stftData[j])
+                max = np.max(auxEnvelope)
+                initEnvelope = auxEnvelope
+                while auxEnvelope[0] <= max/387:
+                    auxEnvelope = auxEnvelope[1:]
+                while auxEnvelope[auxEnvelope.size-1] <= max/387:
+                    auxEnvelope = auxEnvelope[:auxEnvelope.size-1]
                 envelopes.append(auxEnvelope)
                 index = j
                 break
