@@ -1284,8 +1284,152 @@ noprefix "false"
  bin de frecuencia.
 \end_layout
 
+\begin_layout Standard
+La frecuencia exacta de un bin puede expresarse como:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Formula 
+\begin{equation}
+\omega_{k}=\frac{2\pi}{N}k+\triangle\omega_{a}=\frac{2\pi}{N}k+\stackrel{\epsilon\left[-\pi,\pi\right]}{\frac{\left\lceil \overbrace{\phi_{n+1}-\phi_{n}-\frac{2\pi kHopSize}{N}}\right\rceil }{HopSize}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+La frecuencia exacta puede determinarse a partir del cambio de fase que
+ se observa entre dos bins consecutivos de tiempo y el cambio de fase esperado
+ si la frecuencia exacta fuera un multiplo de 
+\begin_inset Formula $\frac{1}{N}$
+\end_inset
+
+.
+ Para obtener las fases corregidas se define:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Formula $g_{m}=\left\lfloor \frac{\tau^{-1}(\gamma(m))}{HopSize}\right\rfloor $
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $g_{m}$
+\end_inset
+
+ es el mayor indice del vector 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ para el cual el valor devuelto es menor a 
+\begin_inset Formula $\tau^{-1}(\gamma(m))$
+\end_inset
+
+ y a su vez 
+\begin_inset Formula $g_{m}+1$
+\end_inset
+
+ devuelve el menor indice de 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ tal que el valor devuelto es mayor a 
+\begin_inset Formula $\tau^{-1}(\gamma(m))$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+A partir de 
+\begin_inset Formula $g_{m}$
+\end_inset
+
+ se definen los espectros:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Formula $X_{1}(m)=X(g_{m})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Formula $X_{2}(m)=X(g_{m}+1)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+De los espectros anteriores se puede definir la fase corregida del espectro
+ de sintesis como:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Formula $\angle X_{s}(n)=\angle X_{s}(n-1)+(\angle X_{2}(m)-\angle X_{1}(m))$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Formula $\angle X_{s}(1)=\angle X(1)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Con ese ya se tienen las fases y los modulos del espectro corregido por
+ lo que el espectro corregido esta dado por:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Formula 
+\begin{equation}
+X_{s}(n)=|X|.e^{j\angle X_{s}(n)}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Finalmente se antitransforma cada espectro para obtener los bloques de sintesis
+ a la salida y se suman a su posicion correspondiente a la salida.
+\end_layout
+
 \begin_layout Subsubsection
 Ventajas y desventajas
+\end_layout
+
+\begin_layout Standard
+La ventaja principal de este metodo es que garantiza continuidad de fase
+ para todas las frecuencias de la senal de entrada,esto significa que es
+ el mejor de los 3 algoritmos en cuanto a preservacion de contenido armonico
+ y timbre de instrumentos.
+ La desventaja es que es un algoritmo muy lento ya que requiere el calculo
+ de la FFT para cada bloque de analisis, la interpolacion de los espectros,
+ la correcion de las fases, la generacion del espectro de sintesis y finalmente
+ la IFFT de dicho espectro.
+ Asimissmo el phase ocoder no tiene buen desempeno con senales percusivas
+ ya que garantiza la continuidad de fase a lo largo del tiempo (coherencia
+ horizontal de la fase) mientras que para este tipo de senales la continuidad
+ de frecuencias dentro de un mismo bin de tiempo toma mayor relevancia.
 \end_layout
 
 \begin_layout Section
@@ -1294,6 +1438,177 @@ Desempeno y comparacion de cada algoritmo
 
 \begin_layout Section
 Implementacion del sintetizador
+\end_layout
+
+\begin_layout Standard
+A continuacion se presenta una tabla con los instrumentos que se implementaron
+ asi como el algoritmo utilizado para cada uno de ellos:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Float table
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="6" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Instrumento
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Algoritmo empleado
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Bombo
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+OLA
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Guitarra
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Phase Vocoder
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Violin
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Phase Vocoder
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Corno ingles
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Phase Vocoder
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Trompeta
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Phase Vocoder
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Instrumentos y su algoritmo correspondiente
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
 \end_layout
 
 \begin_layout Section
