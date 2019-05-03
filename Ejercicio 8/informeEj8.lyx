@@ -75,11 +75,11 @@
 
 \begin_body
 
-\begin_layout Part
+\begin_layout Section
 Ejercicio 8 - ASSD-TP2
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Introducción
 \end_layout
 
@@ -109,7 +109,7 @@ A continuación se presentarán los efectos que se intentaron realizar, pero
  obtenidos en el programa computacional de esta parte del trabajo.
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Reverberadores
 \end_layout
 
@@ -126,7 +126,7 @@ es en la reverberación, como pueden ser los índices de reflexión de los
  pasa todo, por convolución y el reverberador completo.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Eco Simple
 \end_layout
 
@@ -162,7 +162,7 @@ Siendo M el equivalente al tiempo de retardo.
 .
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Reverberador Plano
 \end_layout
 
@@ -216,7 +216,7 @@ grande
 .
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Reverberador Pasa Bajos
 \end_layout
 
@@ -236,7 +236,7 @@ El reverberador pasabajos, tiene en cuenta que en cada reflexión se produce
  .
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Reverberador Pasa Todo
 \end_layout
 
@@ -259,7 +259,7 @@ El reverberador pasatodo es interesante ya que logra efectos cambiando la
 Siendo esta última transferencia la de un ecualizador de fase.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Reverberador Completo
 \end_layout
 
@@ -298,7 +298,7 @@ comb
 ión de los filtros comb.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Reverberación por Convolución
 \end_layout
 
@@ -327,7 +327,7 @@ En cuanto a la respuesta impusiva del sistema, que es digitalizada, se puede
  que un impulso se puede representar mediante el mismo disparo.
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Otras Distorsiones
 \end_layout
 
@@ -337,7 +337,7 @@ Mediante la aplicación de sistemas que distorsionan, se pueden obtener efectos
  A continuación se presentarán los efectos de robotización, flanger y vibrato.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Robotización
 \end_layout
 
@@ -364,7 +364,7 @@ Hanning
  de la ventana utilizada.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Vibrato
 \end_layout
 
@@ -395,7 +395,7 @@ Con este procesamiento digital se logra un efecto de vibrato generalmente
  suele utilizar para música como el rock.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Flanger
 \end_layout
 
@@ -409,11 +409,11 @@ El efecto flanger, al igual que el de vibrato se logra mediante la modulación
  un efecto audible que, nuevamente, es deseable en ciertos ambientes musicales.
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Efecto 3D con Auriculares
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Conclusión
 \end_layout
 

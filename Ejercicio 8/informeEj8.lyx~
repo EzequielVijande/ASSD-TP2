@@ -428,7 +428,9 @@ Al implementar el programa de procesamiento digital para generación de efectos
  Además, cabe remarcar que los efectos que se han implementado tienen el
  beneficio de ser aplicables en tiempo real, para lo cual fue necesario
  aplicar un criterio de programación que permita la implementación de forma
- eficiente en cuanto a la velocidad de procesamiento de un efecto.
+ eficiente en cuanto a la velocidad de generación de un efecto, teniendo
+ en cuenta además de no sobredimensionar la memoria que se requiere para
+ el programa.
 \end_layout
 
 \end_body
