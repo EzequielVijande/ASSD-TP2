@@ -598,6 +598,7 @@ status open
 \align left
 \begin_inset Graphics
 	filename Imágenes/clarinet_A3_025_forte_normal_tiempo.png
+	lyxscale 70
 	scale 60
 
 \end_inset
@@ -670,6 +671,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename Imágenes/freq_fo.png
+	lyxscale 50
 	scale 40
 
 \end_inset
@@ -833,6 +835,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename Imágenes/clarinet_A3_05_forte_normal.png
+	lyxscale 70
 	scale 60
 
 \end_inset
