@@ -246,7 +246,8 @@ class SampleSynthesizer(synth.Synthesizer):
                 window = MakeWindow(N)
                 stretch_factor = (duration)/t_h[-1]
                 stretch_func = stretch_factor*t_h
-                note= o.OLA(data,window,stretch_func,0.01)
+                #note= o.OLA(data,window,stretch_func,0.01)
+                note= ph.PhVocoder(data,window,stretch_func,int(0.1*N))
             else:
                 if( instrument == synth.GUITAR):
                     fmin = 82 #Frecuencia minima de un semitono de guitarra
