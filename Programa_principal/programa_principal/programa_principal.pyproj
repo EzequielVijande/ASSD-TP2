@@ -28,6 +28,8 @@
     <Compile Include="GraphSpectrogram.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="karplus.py" />
+    <Compile Include="karplus_extras.py" />
     <Compile Include="main_program.py" />
     <Compile Include="OLA.py" />
     <Compile Include="PhaseVocoder.py" />
