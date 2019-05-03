@@ -10,6 +10,8 @@ CORN_ANGLAIS = "corn anglais"
 VIOLIN = "violin"
 SAXO = "saxophone"
 TRUMPET = "trumpet"
+CLARINET = "clarinet"
+BELL = "bell"
 
 class Synthesizer:
 

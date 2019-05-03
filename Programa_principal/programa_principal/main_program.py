@@ -46,9 +46,11 @@ trks = [pattern[i] for i in range(len(pattern))]
 #for s in synths:
 #    s.set_create_notes_callback(s.create_notes_callback)
 
-synths = [sammy.SampleSynthesizer(pattern.resolution) for i in range(len(pattern))]
+synths = [karplus.KarplusSynthesizer(pattern.resolution) for i in range(len(pattern))]
+for s in synths:
+    s.set_create_notes_callback(s.create_notes_callback)
 
-insts = [synth.DRUMS]*len(trks)
+insts = [synth.GUITAR]*len(trks)
 
 synths_trks_insts = [(synths[i], trks[i], insts[i]) for i in range(len(trks))]
 

@@ -5,20 +5,23 @@ import matplotlib.pyplot as plt
 import midi
 import synth
 from scipy import signal
-import KS_synth_Extras
+import karplus_extras
 
 
-class KSSynthesizer(synth.Synthesizer):
+class KarplusSynthesizer(synth.Synthesizer):
     def __init__(self, resolution):
-        self.set_create_notes_callback(self.create_note_array)
-        super(KSSynthesizer, self).__init__(resolution)
+        super(KarplusSynthesizer, self).__init__(resolution)
+        self.set_create_notes_callback(self.make_note)
         # overdrive variables
         self.lp1 = 0.996    # para el low pass
         self.lp0 = .1    # para el low pass
-
+        #self.curr_instrument = synth.GUITAR
         self.a0 = np.float(0)   # dc blocking filter
         self.a1 = np.float(0)   # dc blocking filter
         self.b1 = np.float(0)   # dc blocking filter
+
+    def set_create_notes_callback(self, callback):
+        self.create_notes_callback = callback
 
     def set_dc_blocking_filter(self, pitch):
         freq = 2 ** ((pitch - 69) / 12) * 440
@@ -27,8 +30,8 @@ class KSSynthesizer(synth.Synthesizer):
         self.a1 = -1.0 * self.a0
         self.b1 = self.a0*(1 - wco/2.0)
 
-    # https://en.wikipedia.org/wiki/MIDI_tuning_standard#Frequency_values
-    def create_note_array(self, pitch, duration: int, intensity, instrument: int):
+
+    def make_note(self, pitch, duration: int, intensity, instrument):
         if instrument == synth.GUITAR:
             return self.acoustic_guitar(pitch, duration, intensity)
         elif instrument == synth.DRUMS:
