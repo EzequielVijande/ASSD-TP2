@@ -7,8 +7,6 @@
 #include "stdlib.h"
 #include "stdio.h"
 
-//#include "effectSupport.h"
-
 
 
 #define SAMPLE_RATE         (44100)
@@ -24,9 +22,15 @@ static int PAcallback( const void *inputBuffer, void *outputBuffer,
                          PaStreamCallbackFlags statusFlags,
                          void *userData );
 
+
+void liberateMemory(void * ptr);
+
 ////////////////////////////////////////
 
-audioSupportResults_t implementAudioEffects(int effect, void * userData){
+audioSupportResults_t implementAudioEffects(int effect, audioEffectsParameters_t * userData){
+    
+    printf("se entra con %d\n", effect);
+    userData->destroyEffect = liberateMemory;
     selectCallback(userData, effect); ///////
     
     audioSupportResults_t result;
@@ -76,7 +80,8 @@ audioSupportResults_t implementAudioEffects(int effect, void * userData){
               FRAMES_PER_BUFFER,
               0, /* paClipOff, */  /* we won't output out of range samples so don't bother clipping them */
               PAcallback,
-              userData);
+              (void *) userData);
+    
     if( err != paNoError )
     {
         result.succeded = false;
@@ -84,7 +89,7 @@ audioSupportResults_t implementAudioEffects(int effect, void * userData){
         result.errorNumber = (int) err;
         return result;
     }
-
+    
     err = Pa_StartStream( stream );
     if( err != paNoError ){
         result.succeded = false;
@@ -92,11 +97,13 @@ audioSupportResults_t implementAudioEffects(int effect, void * userData){
         result.errorNumber = (int) err;
         return result;
     }
+    
     result.pDataSupport = stream;
     return result;
+    
 }
 
-audioSupportResults_t uninstallAudioEffects(void * pDataSupport){
+audioSupportResults_t uninstallAudioEffects(void * pDataSupport, audioEffectsParameters_t * pAudioEffects){
     PaStream *stream = pDataSupport;
     PaError err;
     audioSupportResults_t result;
@@ -111,9 +118,13 @@ audioSupportResults_t uninstallAudioEffects(void * pDataSupport){
         return result;
     }
     Pa_Terminate();
+    pAudioEffects->destroyEffect(pAudioEffects->p2effect);
     return result;
 }   
 
+void liberateMemory(void * ptr){
+    free(ptr);
+}
 
 
 
@@ -143,7 +154,7 @@ static int PAcallback( const void *inputBuffer, void *outputBuffer,
     }
     else
     {
-        userData_cast->p2callback(in, out, framesPerBuffer, userData, SAMPLE_RATE);
+        userData_cast->p2callback(in, out, framesPerBuffer, userData_cast->p2effect, SAMPLE_RATE);
     }
     
     return paContinue;

@@ -4,21 +4,28 @@
 #include "userInterface.h"
 #include "presets.h"
 #include "stdio.h"
-#include "hanning.h"
+
+
+
+#define UPPER_LIMIT 10
+#define DOWN_LIMIT 0
 
 #define ENTER '\n' //Carriage return ASCII
 
-void echoRoutine(echoSimple_t * pData);
-void planeReverbRoutine(reverbPlane_t * pData);
-void lowPassReverbRoutine(reverbLowPass_t * pData);
-void convolutionReverbRoutine(reverbConvolution_t * pData);
-void completeReverbRoutine(reverbComplete_t* pData);
-void robotizationRoutine(robotization_t * pData);
-void headPhones3DRoutine(headPhones3D_t * pData);
-void vibratoRoutine(vibrato_t * pData);
-void flangerRoutine(flanger_t * pData);
-void allPassReverbRoutine(reverbAllPass_t * pData);
+void echoRoutine(userPreferences_t * pUserPreferences);
+void planeReverbRoutine(userPreferences_t * pUserPreferences);
+void lowPassReverbRoutine(userPreferences_t * pUserPreferences);
+void convolutionReverbRoutine(userPreferences_t * pUserPreferences);
+void completeReverbRoutine(userPreferences_t * pUserPreferences);
+void robotizationRoutine(userPreferences_t * pUserPreferences);
+void headPhones3DRoutine(userPreferences_t * pUserPreferences);
+void vibratoRoutine(userPreferences_t * pUserPreferences);
+void flangerRoutine(userPreferences_t * pUserPreferences);
+void allPassReverbRoutine(userPreferences_t * pUserPreferences);
 void noneEffectRoutine(void);
+
+void incVar(int * var);
+void decVar(int * var);
 
 void userInteract(userPreferences_t * pUserPreferences){
     pUserPreferences->errorUserInterface = UI_NOERROR;
@@ -48,25 +55,25 @@ void userInteract(userPreferences_t * pUserPreferences){
     else
     {
         switch(c){
-            case '1': echoRoutine(&(pUserPreferences->audioEffectParameters.echoSimple));
+            case '1': echoRoutine(pUserPreferences);
                     break;
-            case '2': planeReverbRoutine(&(pUserPreferences->audioEffectParameters.reverbPlane));
+            case '2': planeReverbRoutine(pUserPreferences);
                     break;
-            case '3': lowPassReverbRoutine(&(pUserPreferences->audioEffectParameters.reverbLowPass));
+            case '3': lowPassReverbRoutine(pUserPreferences);
                     break;
-            case '4': convolutionReverbRoutine(&(pUserPreferences->audioEffectParameters.reverbConvolution));
+            case '4': convolutionReverbRoutine(pUserPreferences);
                     break;
-            case '5': completeReverbRoutine(&(pUserPreferences->audioEffectParameters.reverbComplete));
+            case '5': completeReverbRoutine(pUserPreferences);
                     break;
-            case '6': robotizationRoutine(&(pUserPreferences->audioEffectParameters.robotization));
+            case '6': robotizationRoutine(pUserPreferences);
                     break;
-            case '7': headPhones3DRoutine(&(pUserPreferences->audioEffectParameters.headPhones3D));
+            case '7': headPhones3DRoutine(pUserPreferences);
                     break;
-            case '8': vibratoRoutine(&(pUserPreferences->audioEffectParameters.vibrato));
+            case '8': vibratoRoutine(pUserPreferences);
                     break;
-            case '9': flangerRoutine(&(pUserPreferences->audioEffectParameters.flanger));
+            case '9': flangerRoutine(pUserPreferences);
                     break;
-            case '0': allPassReverbRoutine(&(pUserPreferences->audioEffectParameters.reverbAllPass));
+            case '0': allPassReverbRoutine(pUserPreferences);
                     break;
             default:
                     noneEffectRoutine();
@@ -78,13 +85,34 @@ void userInteract(userPreferences_t * pUserPreferences){
     
 }
 
-void tellUserSucces(void){
-    printf("In this moment is being applied the effect that you choosed\n"
-            "If you want to quit, press only q\n");
+int checkingChangeDecisions(userPreferences_t * pUserPreferences){
+    printf("In this moment is being applied the effect that you choosed, Enjoy it!\n"
+            "(If you want to quit, press only q and then ENTER)\n");
+    int ret = UI_NOERROR;
     char c = '0';
-    do{
-        c = getchar();
-    }while(c != 'q');
+    //do{
+    c = getchar();
+    //}while( (c != QUIT) && (c != INCVAR1) && (c != INCVAR2) && (c != DECVAR1) && (c != DECVAR2) );
+    switch(c){
+        case QUIT: ret = UI_ERROR;
+                break;
+        case INCVAR1: incVar(&(pUserPreferences->var1));
+                    ret = UI_CHANGE;
+                    break;
+        case INCVAR2: incVar(&(pUserPreferences->var2));
+                    ret = UI_CHANGE;
+                    break;
+        case DECVAR1: decVar(&(pUserPreferences->var1));
+                    ret = UI_CHANGE;
+                    break;
+        case DECVAR2: decVar(&(pUserPreferences->var2));
+                    ret = UI_CHANGE;
+                    break;
+        default: ret = UI_NOERROR;
+                break;
+
+    }
+    return ret;
 
 }
 
@@ -96,49 +124,84 @@ void tellUserFailure(char * errorMessage, int errorNumber){
 }
 
 
-void echoRoutine(echoSimple_t * pData){
-    printf("You have choosen Echo Simple!\n");
-    pData->n = 0;
+void echoRoutine(userPreferences_t * pUserPreferences){
+    printf("You have choosen Echo Simple!\n"
+            "enter %c to obtain more eco delay\n"
+            "enter %c to reduce delay\n", INCVAR1, DECVAR1);
+    
+    pUserPreferences->var1 = 5; //preset!
 
 }
-void planeReverbRoutine(reverbPlane_t * pData){
-    printf("You have choosen Plane Reverberator!\n");
-    pData->n = 0;
+void planeReverbRoutine(userPreferences_t * pUserPreferences){
+    printf("You have choosen Plane Reverberator!\n"
+            "enter %c to obtain more delay\n"
+            "enter %c to reduce delay\n", INCVAR1, DECVAR1);
+    pUserPreferences->var1 = 5; //preset!
 
 }
-void lowPassReverbRoutine(reverbLowPass_t * pData){
-    printf("You have choosen Low Pass Reverberator!\n");
-    pData->n = 0;
+void lowPassReverbRoutine(userPreferences_t * pUserPreferences){
+    printf("You have choosen Low Pass Reverberator!\n"
+            "enter %c to obtain more delay\n"
+            "enter %c to reduce delay\n", INCVAR1, DECVAR1);
+    pUserPreferences->var1 = 5; //preset!
 }
-void convolutionReverbRoutine(reverbConvolution_t * pData){
+void convolutionReverbRoutine(userPreferences_t * pUserPreferences){
     printf("You have choosen Reverberetaion through Convolution!\n");
 }
-void completeReverbRoutine(reverbComplete_t * pData){
-    printf("You have choosen Complete Reverberation!\n");
-    pData->n = 0;
+void completeReverbRoutine(userPreferences_t * pUserPreferences){
+    printf("You have choosen Complete Reverberator!\n"
+            "enter %c to obtain more delay\n"
+            "enter %c to reduce delay\n"
+            "enter %c to obtain more attenuation\n"
+            "enter %c to reduce attenuation\n", INCVAR1, DECVAR1, DECVAR1, DECVAR2);
+    pUserPreferences->var1 = 5; //preset!
+    pUserPreferences->var2 = 5;
 }
-void robotizationRoutine(robotization_t * pData){
+void robotizationRoutine(userPreferences_t * pUserPreferences){
     printf("You have choosen Robotization!\n");
-    pData->flag = 0;
-    hanning(FPB, pData->hanning, 0); //ventana de hanning de largo FPB y simetrica (tercer parametro igual a cero).
 }
-void headPhones3DRoutine(headPhones3D_t * pData){
+void headPhones3DRoutine(userPreferences_t * pUserPreferences){
     printf("You have choosen 3D effect with Headphones!\n");
 }
-void vibratoRoutine(vibrato_t * pData){
-    printf("You have choosen Vibrato!\n");
-    pData->n = 0;
+void vibratoRoutine(userPreferences_t * pUserPreferences){
+    printf("You have choosen Vibrato!\n"
+            "enter %c to obtain more delay\n"
+            "enter %c to reduce delay\n"
+            "enter %c to upper frecuency\n"
+            "enter %c to reduce frecuency\n", INCVAR1, DECVAR1, DECVAR1, DECVAR2);
+    pUserPreferences->var1 = 5; //preset!
+    pUserPreferences->var2 = 5;
 
 }
-void flangerRoutine(flanger_t * pData){
-    printf("You have choosen Flanger!\n");
-    pData->n = 0;
+void flangerRoutine(userPreferences_t * pUserPreferences){
+    printf("You have choosen Flanger!\n"
+            "enter %c to obtain more oscilant delay\n"
+            "enter %c to reduce oscilant delay\n"
+            "enter %c to upper stacionary delay\n"
+            "enter %c to reduce stacionary delay\n", INCVAR1, DECVAR1, DECVAR1, DECVAR2);
+    pUserPreferences->var1 = 5; //preset!
+    pUserPreferences->var2 = 5;
 }
+
+void allPassReverbRoutine(userPreferences_t * pUserPreferences){
+    printf("You have choosen All Pass Reverb!\n"
+            "enter %c to obtain more eco delay\n"
+            "enter %c to reduce delay\n", INCVAR1, DECVAR1);
+
+    pUserPreferences->var1 = 5; //preset!
+}
+
 void noneEffectRoutine(void){
 
 }
 
-void allPassReverbRoutine(reverbAllPass_t * pData){
-    printf("You have choosen All Pass Reverb!\n");
-    pData->n = 0;
+void incVar(int * var){
+    if((*var) < UPPER_LIMIT){
+        (*var)++;
+    }
+}
+void decVar(int * var){
+    if((*var) > DOWN_LIMIT){
+        (*var)--;
+    }
 }

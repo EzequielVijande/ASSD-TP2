@@ -18,125 +18,22 @@
 #define FLANGER 9     //ultimo efecto
 
 
-#define L 15000
+
 #define FPB 64
-
-
-
-
 
 typedef int EFFECT_TYPE;
 typedef float SAMPLE;
 
-typedef struct{
-    int a;           //comentar que representan estos parámetros
-    int b;
-    float memoryInputsDer[L];
-    float memoryInputsIzq[L];
-    int n;
-}echoSimple_t;
-
-typedef struct{
-    int a;           //comentar que representan estos parámetros
-    int b;
-    float memoryInputsDer[L];
-    float memoryInputsIzq[L];
-    float memoryOutputsDer[L];
-    float memoryOutputsIzq[L];
-    int n;
-}reverbPlane_t;
-
-typedef struct{
-    int a;           //comentar que representan estos parámetros
-    int b;
-    float memoryInputsDer[L];
-    float memoryInputsIzq[L];
-    float memoryOutputsDer[L];
-    float memoryOutputsIzq[L];
-    int n;
-}reverbAllPass_t;
-
-typedef struct{
-    int a;           //comentar que representan estos parámetros
-    int b;
-    float memoryInputsDer[L];
-    float memoryInputsIzq[L];
-    float memoryOutputsDer[L];
-    float memoryOutputsIzq[L];
-    int n;
-}reverbLowPass_t;
-
-typedef struct{
-    int a;           //comentar que representan estos parámetros
-    int b;
-}reverbConvolution_t;
-
-typedef struct{
-    int a;           //comentar que representan estos parámetros
-    int b;
-    float memoryInputsDer[L];
-    float memoryInputsIzq[L];
-    float memoryOutputsDer[L];
-    float memoryOutputsIzq[L];
-    float memoryWDer[L];
-    float memoryWIzq[L];
-    int n;
-}reverbComplete_t;
-
-typedef struct{
-    int a;           //comentar que representan estos parámetros
-    int b;
-    float memDerOLADer[FPB];
-    float memDerOLAIzqFFT[FPB];
-    float memIzqOLADer[FPB];
-    float memIzqOLAIzqFFT[FPB];
-    float memDerFFTnoOLA[FPB];
-    float memIzqFFTnoOLA[FPB];
-    float hanning[FPB];
-    int flag;
-}robotization_t;
-
-typedef struct{
-    int a;           //comentar que representan estos parámetros
-    int b;
-}headPhones3D_t;
-
-
-typedef struct{
-    int maxDelay;           //comentar que representan estos parámetros
-    int minDelay;
-    int freq;
-    float memoryInputsDer[L];
-    float memoryInputsIzq[L];
-    float memoryOutputsDer[L];
-    float memoryOutputsIzq[L];
-    int n;
-    
-}vibrato_t;
-
-typedef struct{
-    int a;           //comentar que representan estos parámetros
-    int b;
-    int n;
-    float memoryInputsDer[L];
-    float memoryInputsIzq[L];
-}flanger_t;
 
 typedef struct {
     
-    
-    echoSimple_t echoSimple;
-    reverbPlane_t reverbPlane;
-    reverbLowPass_t reverbLowPass;
-    reverbConvolution_t reverbConvolution;
-    reverbComplete_t reverbComplete;
-    robotization_t robotization;
-    headPhones3D_t headPhones3D;
-    vibrato_t vibrato;
-    flanger_t flanger;
-    reverbAllPass_t reverbAllPass;
+    void * p2effect;
+
+    void (*destroyEffect)(void * ptr);
 
     void (*p2callback) (const SAMPLE * in, SAMPLE * out, unsigned long framesPerBuffer, void * userData, int sampleRate);
+
+    void (*p2refresh) (int var1, int var2, void * p2effect);
 
 }audioEffectsParameters_t;
 

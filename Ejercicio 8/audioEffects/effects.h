@@ -1,9 +1,8 @@
 #ifndef EFFECTS_H
 #define EFFECTS_H
 
+#include "effectStructs.h"
 
-void selectCallback(void * userData, int effect);
-
-
+void selectCallback(audioEffectsParameters_t * p2userData, int effect);
 
 #endif //EFFECTS_H

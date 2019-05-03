@@ -11,17 +11,27 @@
 
 #define UI_ERROR -1
 #define UI_NOERROR 1
+#define UI_CHANGE 0
+
+#define INCVAR1 'd'
+#define DECVAR1 'a'
+#define INCVAR2 'c'
+#define DECVAR2 'z'
+
+#define QUIT 'q'
 
 /////
 typedef struct{
     EFFECT_TYPE effect;
     int errorUserInterface;
-    audioEffectsParameters_t audioEffectParameters;
+    
+    int var1;
+    int var2;
 }userPreferences_t;
 
 void userInteract(userPreferences_t * pUserPreferences);
 
-void tellUserSucces(void);
+int checkingChangeDecisions(userPreferences_t * pUserPreferences);
 
 void tellUserFailure(char * errorMessage, int errorNumber);
 
