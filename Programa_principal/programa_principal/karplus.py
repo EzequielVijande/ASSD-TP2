@@ -12,7 +12,6 @@ class KSSynthesizer(synth.Synthesizer):
     def __init__(self, resolution):
         self.set_create_notes_callback(self.create_note_array)
         super(KSSynthesizer, self).__init__(resolution)
-        self.curr_instrument = ""
         # overdrive variables
         self.lp1 = 0.996    # para el low pass
         self.lp0 = .1    # para el low pass
@@ -29,12 +28,18 @@ class KSSynthesizer(synth.Synthesizer):
         self.b1 = self.a0*(1 - wco/2.0)
 
     # https://en.wikipedia.org/wiki/MIDI_tuning_standard#Frequency_values
-    def create_note_array(self, pitch, duration: int, intensity, instrument = int):
-        # if instrument==drum:
-        return self.electric_guitar(pitch, duration, intensity)
+    def create_note_array(self, pitch, duration: int, intensity, instrument: int):
+        if instrument == synth.GUITAR:
+            return self.acoustic_guitar(pitch, duration, intensity)
+        elif instrument == synth.DRUMS:
+            return self.drum(pitch, duration, intensity)
+        elif instrument == synth.ELECTRIC_GUITAR:
+            return self.electric_guitar(pitch, duration, intensity)
+        else:
+            return self.acoustic_guitar(pitch, duration, intensity)
 
 
-    def string(self, pitch, duration: int, intensity):
+    def acoustic_guitar(self, pitch, duration: int, intensity):
         wavetable = self.create_noise(self.frame_rate, pitch)
         wavetable = self.normalize(wavetable)
         notes = []
