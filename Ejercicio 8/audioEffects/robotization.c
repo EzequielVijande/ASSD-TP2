@@ -125,19 +125,11 @@ void robotizationCall(const SAMPLE * in, SAMPLE * out, unsigned long framesPerBu
         memIzqOLADer_auxFFT[i] = (double) memIzqOLADer[i];
     }
     
-    //printf("todo bien transformando...\n%f\n-----------------", auxCenterDer[10]);
-    bool b = Fft_transform(memDerOLADer_auxFFT, auxDerComplexFFTOLADer, FPB); //hago fft del solapamiento derecho
-    bool c = Fft_transform(memIzqOLADer_auxFFT, auxIzqComplexFFTOLADer, FPB);
-    bool d = Fft_transform(auxCenterDer, auxDerComplexFFTCenter, FPB); //preparo la fft del buffer central para proximo uso
-    bool e = Fft_transform(auxCenterIzq, auxIzqComplexFFTCenter, FPB);
+    Fft_transform(memDerOLADer_auxFFT, auxDerComplexFFTOLADer, FPB); //hago fft del solapamiento derecho
+    Fft_transform(memIzqOLADer_auxFFT, auxIzqComplexFFTOLADer, FPB);
+    Fft_transform(auxCenterDer, auxDerComplexFFTCenter, FPB); //preparo la fft del buffer central para proximo uso
+    Fft_transform(auxCenterIzq, auxIzqComplexFFTCenter, FPB);
 
-    if(b && c && d && e){
-        //
-        //printf("todo bien transformando...\n%f\n", auxCenterDer[10]);
-    }
-    else{
-        
-    }
 
     for(i = 0; i < framesPerBuffer; i++){//AHORA TENGO QUE HACER FFT A MEMOLADER Y SUMAR CON LAS FFT CENTER Y MEMFFTOLAIZQ
         memDerOLADer[i] = (float) memDerOLADer_auxFFT[i]; //ESTO ES PARA VOLVER A FLOAT
