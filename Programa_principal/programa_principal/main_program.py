@@ -197,6 +197,7 @@ def GetSynthAndInsts(tracks,resolution):
         else:
             synths.append(sammy.SampleSynthesizer(resolution))
             insts.append(synth.CORN_ANGLAIS)
+        i += 1
     return synths,insts
 
 waver = wav_gen.WaveManagement()
