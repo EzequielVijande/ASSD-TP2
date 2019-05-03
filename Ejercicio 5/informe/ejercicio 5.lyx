@@ -89,6 +89,10 @@ Síntesis mediante modelo físico (Karplus-Strong)
 Modelo Básico
 \end_layout
 
+\begin_layout Subsubsection
+Función Transferencia
+\end_layout
+
 \begin_layout Standard
 El algoritmo de Karplus-Strong se utiliza para modelar isntrumentos a partir
  de la simulación del modelo físico del mismo.
@@ -103,7 +107,7 @@ La siguiente figura ilustra el modelo conceptual del algoritmo.
 placement H
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
@@ -321,7 +325,7 @@ Y luego, reemplazando
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-H(e^{j\omega})=\frac{1}{1-\frac{R_{L}}{2}e^{-j\omega L/f_{s}}\left(1+e^{-j\omega/f_{s}}\right)}
+H(e^{j\omega/f_{s}})=\frac{1}{1-\frac{R_{L}}{2}e^{-j\omega L/f_{s}}\left(1+e^{-j\omega/f_{s}}\right)}
 \end{equation}
 
 \end_inset
@@ -339,6 +343,10 @@ El tono resultante de este algoritmo posee un período de
 \end_inset
 
 .
+\end_layout
+
+\begin_layout Subsubsection
+Diagrama de polos y ceros
 \end_layout
 
 \begin_layout Standard
@@ -367,6 +375,12 @@ reference "eq:KSec2"
 
 , y el sistema es estable, como se puede observar, pues los polos se encuentran
  dentro de la circunferencia unitaria.
+ Algo que no se observa en el gráfico es la cantidad de ceros en el origen
+ que tiene; el sistema cuenta con 
+\begin_inset Formula $N+1$
+\end_inset
+
+ ceros en el origen.
 \end_layout
 
 \begin_layout Standard
@@ -380,7 +394,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename zpstring.png
-	scale 50
+	scale 70
 
 \end_inset
 
@@ -401,6 +415,1268 @@ Diagrama de polos y ceros para el modelo básico, con
 \end_inset
 
 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Ruido
+\end_layout
+
+\begin_layout Standard
+El paper en el que se basa este análisis, mencionado en la sección '
+\shape italic
+Referencias
+\shape default
+', menciona que el ruido utilizado como excitación de la cuerda debe tener
+ la siguiente forma:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+X_{t}=\begin{cases}
+A & probabilidad=\frac{1}{2}\\
+-A & probabilidad=\frac{1}{2}
+\end{cases}\,\quad\quad\quad-p\leq t\leq0
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Sin embargo, se implementó tanto con ruido uniforme como con normal.
+ Se decidió utilizar ruido uniforme pues es el que más se asemeja al mencionado
+ en el paper, ya que cada 
+\begin_inset Formula $X_{t}$
+\end_inset
+
+ tendrá igual probabilidad de ocurrencia, en contraposición al normal, con
+ su respectiva campana gaussiana.
+\end_layout
+
+\begin_layout Standard
+A continuación, dos muestras, una con ruido uniforme y la siguiente con
+ normal.
+ Si bien, en cuanto a sonido sus diferencias son imperceptibles, se puede
+ ver que la muestra con ruido blanco tiene más ármonicos, aunque de menor
+ amplitud.
+ Por otro lado, el ruido normal tiene amplitud impredecible, al tener una
+ desviación, pero van a estar mayormente centrados en la media, al contrario
+ con el uniforme.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename ruidoUniforme.PNG
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Muestra de ruido uniforme.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename ruidoNormal.PNG
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Muestra de ruido uniforme.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Muestras de Ruido.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Caja de Resonancia
+\end_layout
+
+\begin_layout Standard
+El cuerpo de la guitarra actúa como un resonador.
+ Su objetivo es matchear impedancias.
+ Las cuerdas son altas impedancias y el aire es un medio de baja impedancia,
+ por lo que se necesita un 'transformador' –la caja– para obtener la máxima
+ transferencia de energía; o un amplificador, en el caso de una guitarra
+ eléctrica.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename res1.PNG
+	lyxscale 50
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Modelo de la caja de resonancia.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename res2.PNG
+	lyxscale 50
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Red representativa del resonador a bajas frecuencias.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Modelo caja de resonancia.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Donde 
+\begin_inset Formula $S_{1}$
+\end_inset
+
+ en la primera figura representa la superficie activa del resonador, a lo
+ que se le aplica una fuerza externa 
+\begin_inset Formula $F(t)$
+\end_inset
+
+, que excita el resonador.
+ Esto puede representarse también, con el modelo de la derecha, ya que la
+ impedancia mecánica del resonador 
+\begin_inset Formula $Z(t)$
+\end_inset
+
+ puede calcularse de la siguiente manera:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+Z(t)=\frac{F(t)}{U_{1}(t)}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+La onda reflejada del puente de la guitarra se relaciona con esta función.
+ Introduciendo los polos y ceros complejos se obtiene:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+Z(s)=\frac{F(s)}{U_{1}(s)}=m\frac{\left(s^{t}+s\alpha+\omega_{1}^{2}\right)\left(s^{2}+s\alpha_{2}+\omega_{2}^{2}\right)}{s\left(s^{2}+s\alpha_{h}+\omega_{h}^{2}\right)}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+donde 
+\begin_inset Formula $\omega_{1}$
+\end_inset
+
+ y 
+\begin_inset Formula $\omega_{2}$
+\end_inset
+
+ son las frecuencias naturales del resonador, 
+\begin_inset Formula $\omega_{h}$
+\end_inset
+
+ la frecuencia resonante del resonador de Helmholtz, y 
+\begin_inset Formula $\alpha_{1}$
+\end_inset
+
+,
+\begin_inset Formula $\alpha_{2}$
+\end_inset
+
+, 
+\begin_inset Formula $\alpha_{h}$
+\end_inset
+
+ son los parámetros de amortiguación, relacionados con el factor de calidad
+ de la frecuencia característica de la siguiente manera:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\alpha_{j}=\frac{2\pi f_{j}}{Q_{j}}\,\,\,\,\,\,\,\,\,\,\,\,\,\,Q=\frac{f_{j}}{\varDelta f_{j}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Conociendo entonces estos parámetros podría implementarse un filtro que
+ simule la caja de resonancia de la guitarra; en síntesis, lo que se busca
+ es un matchear impedancias de la cuerda y el ambiente (aire), para transmitir
+ la onda, en vez de que se refleje.
+\end_layout
+
+\begin_layout Subsubsection
+Afinación
+\end_layout
+
+\begin_layout Standard
+Como se comentó en secciones anteriores, el tono de la nota está dado por:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+f=\frac{f_{s}}{N+0.5}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+El hecho de que 
+\begin_inset Formula $N$
+\end_inset
+
+ sea un número entero limita el rango de notas posibles a implementar, hace
+ que los tonos posibles estén cuantizados; principalmente para altas frecuencias
+, ya que para grandes valores de N (tonos bajos), la diferencia entre el
+ tono a 
+\begin_inset Formula $N$
+\end_inset
+
+ y 
+\begin_inset Formula $N+1$
+\end_inset
+
+ es pequeña.
+ Por otro lado, para tonos altos, 
+\begin_inset Formula $N$
+\end_inset
+
+ y 
+\begin_inset Formula $N+1$
+\end_inset
+
+, se relacionan con tonos completamente diferentes, lo que dificulta la
+ afinación o tuning.
+ En un diagrama, se puede visualizar así:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename tuning.PNG
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Tono deseado vs.
+ tono resultante para 
+\begin_inset Formula $f_{s}=50kHz$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Una posible solución visualizada por Jaffe & Smith
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+referenciar bibliografia
+\end_layout
+
+\end_inset
+
+ se refiere un filtro en el lazo de realimentación que introduzca un delay
+ sin alterar la ganancia del lazo.
+ El filtro es un pasatodo de la siguiente forma:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+H_{c}(z)=\frac{C+z^{-1}}{1+Cz^{-1}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+En primer lugar se pide que en valor absoluto C sea menor a la unidad.
+ Se define 
+\begin_inset Formula $P_{c}(z)$
+\end_inset
+
+ como la fase del ya mencionado filtro, y 
+\begin_inset Formula $P_{1}=\frac{f_{s}}{f_{1}}$
+\end_inset
+
+, con 
+\begin_inset Formula $f_{1}$
+\end_inset
+
+ la frecuencia fundamental.
+ En resumen, para un error deseado 
+\begin_inset Formula $\varepsilon$
+\end_inset
+
+, 
+\begin_inset Formula $P_{c}(f_{1})$
+\end_inset
+
+ se aproxima a:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+P_{c}(f_{1})=N-floor(N-\varepsilon)
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Y finalmente:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+C=\frac{\sin\left(\frac{\omega_{1}T_{s}-\omega_{1}T_{s}P_{c}(f_{1})}{2}\right)}{\sin\left(\frac{\omega_{1}T_{s}+\omega_{1}T_{s}P_{c}(f_{1})}{2}\right)}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+subseccion con factor de estiramiento
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Modelo Modificado
+\end_layout
+
+\begin_layout Subsubsection
+Función transferencia
+\end_layout
+
+\begin_layout Standard
+Mediante una modificación al modelo anterior es posible sintetizar instrumentos
+ de percusión.
+ El cambio consiste en realimentar la línea de retardo con ganancia positiva
+ o negativa, de manera aleatoria, de la siguiente manera:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename drum.PNG
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Diagrama en bloques de Karplus-Strong con la variante para la síntesis básica
+ de instrumentos de percusión.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Partiendo del modelo básico, se puede generalizar de la siguiente manera:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+y(n)=\begin{cases}
+\frac{1}{2}\left(y(n-L)+y(n-L-1)\right) & probabilidad=b\\
+-\frac{1}{2}\left(y(n-L)+y(n-L-1)\right) & probabilidad=1-b
+\end{cases}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Resultando en:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+y(n)=\frac{b}{2}\left(y(n-L)+y(n-L-1)\right)\label{eq:KSec3}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+donde si 
+\begin_inset Formula $b=1$
+\end_inset
+
+, es el caso de la sección anterior, para la guitarra.
+\end_layout
+
+\begin_layout Standard
+Además se puede obtener la respuesta en frecuencia:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+H(e^{j\omega/f_{s}})=H(z)=\frac{Y(z)}{X(z)}=\frac{1}{1-\frac{b}{2}z^{-L}(1+z^{-1})}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+De lo que resulta,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+H(e^{j\omega/f_{s}})=\frac{1}{1-\frac{b}{2}\left[e^{-j\omega L/f_{s}}+e^{-j\omega(L+1)/f_{s}}\right]}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+En cuanto a la fase, utilizando la ecuación de Euler para números complejos
+ expresados en forma exponencial 
+\begin_inset Formula $\left(e^{jx}=cosx+jsenx\right)$
+\end_inset
+
+, se tiene:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+H(e^{j\omega/f_{s}})=\frac{1}{1-\frac{b}{2}\left[\cos\left(\omega L/f_{s}\right)\cos\left(\omega(L+1)/f_{s}\right)-j\sin\left(\omega L/f_{s}\right)\sin\left(\omega(L+1)/f_{s}\right)\right]}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+De dicha ecuación se obtiene entonces:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\angle H(e^{j\omega/f_{s}})=\tan\left(\frac{\frac{b}{2}\sin\left(\omega L/f_{s}\right)\sin\left(\omega(L+1)/f_{s}\right)}{1-\frac{b}{2}\cos\left(\omega L/f_{s}\right)\cos\left(\omega(L+1)/f_{s}\right)}\right)
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Es válido destacar que esta función no es lineal, ya que depende trigonométricam
+ente de la frecuencia.
+\end_layout
+
+\begin_layout Subsubsection
+Diagrama de polos y ceros
+\end_layout
+
+\begin_layout Standard
+De manera análoga para el caso de 
+\begin_inset Formula $b=1$
+\end_inset
+
+, para la guitarra, se graficó el diagrama de polos y ceros tanto para 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:KSec3"
+
+\end_inset
+
+ con b valiendo -1 y 1.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename zpstring.png
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Diagrama de polos y ceros para el caso b=1.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename zpdrum.png
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Diagrama de polos y ceros para b=-1.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Algunos diagramas de polos y ceros posibles.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Como se puede ver, el diagrama de polos y ceros depende de la probabilidad,
+ ya que eso determina la constante b, según la ecuación 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:KSec3"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Desventajas, stretch factor y tuning
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Modelo Extendido
+\end_layout
+
+\begin_layout Standard
+Esta sección está basada en el paper de Sullivan
+\begin_inset CommandInset citation
+LatexCommand cite
+key "sullivan"
+literal "false"
+
+\end_inset
+
+.
+ Si se quiere implementar una guitarra con distorsión, el sistema debe tener
+ retardo de grupo constante, es decir su fase debe ser lineal.
+ La necesidad de basarse en este paper y no modificar el modelo básico de
+ Karplus-Strong es que si recordamos, la fase de este último estaba dada
+ por:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\angle H(e^{j\omega/f_{s}})=\tan\left(\frac{\frac{b}{2}\sin\left(\omega L/f_{s}\right)\sin\left(\omega(L+1)/f_{s}\right)}{1-\frac{b}{2}\cos\left(\omega L/f_{s}\right)\cos\left(\omega(L+1)/f_{s}\right)}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Esta última expresión no es lineal, lo que resultará en una distorsión indeseabl
+e.
+\end_layout
+
+\begin_layout Standard
+El modelo propuesto por Sullivan
+\begin_inset CommandInset citation
+LatexCommand cite
+key "sullivan"
+literal "false"
+
+\end_inset
+
+ se basa en el siguiente diagrama de bloques:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename sullivan.PNG
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Diagrama en bloques de Sullivan para guitarra eléctrica con distorsión y
+ feedback.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Note Note
+status open
+
+\begin_layout Subsubsection
+Ruido
+\end_layout
+
+\begin_layout Plain Layout
+La excitación inicial fue de ruido blanco, 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Generación de la cuerda
+\end_layout
+
+\begin_layout Standard
+El bloque 
+\shape italic
+string
+\shape default
+ está compuesto por:
+\end_layout
+
+\begin_layout Itemize
+Filtro pasabajos
+\end_layout
+
+\begin_layout Itemize
+Filtro para bloquear DC
+\end_layout
+
+\begin_layout Standard
+En primer lugar, el filtro pasabajos es necesario para controlar la respuesta
+ de frecuencias altas y bajas, la rapidez a la que decaen la fundamental
+ y sus armónicos.
+ Lo que permite un mayor control del timbre del instrumento.
+ Pensando en que se quiere distorsión, se busca un filtro cuya fase sea
+ lineal.
+ Uno filtro FIR descrito por la siguiente ecuación cumple esta característica:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+y(n)=a_{0}x(n)+a_{1}x(n-1)+a_{0}x(n-2)
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+donde 
+\begin_inset Formula $x(n)$
+\end_inset
+
+ es la entrada, 
+\begin_inset Formula $y(n)$
+\end_inset
+
+ la salida, y los 
+\begin_inset Formula $a_{i}$
+\end_inset
+
+ factores multiplicativos.
+ Una manera sencilla de calcularlos es elegir tal que 
+\begin_inset Formula $a_{1}\geq2a_{0}\geq0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Un problema de este filtro es que tiene ganancia en continua, por lo que
+ puede ocasionar que la señal nunca se atenúe.
+ Para esto, se necesita un filtro que bloquee la misma.
+\end_layout
+
+\begin_layout Standard
+Esto nos lleva a un filtro pasa altos descrito por la siguiente ecuación:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+y(n)=\hat{a_{0}}x(n)+\hat{a_{1}}x(n-1)+b_{1}y(n-1)
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Eligiendo:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\begin{cases}
+\hat{a_{0}}=\frac{1}{1+w_{co}/2}\\
+\hat{a_{1}}=-\hat{a_{0}}\\
+b_{1}=\hat{a_{0}}(1-w_{co}/2)
+\end{cases}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+donde 
+\begin_inset Formula $w_{co}$
+\end_inset
+
+ es la frecuencia de corte muy por debajo de la frecuencia fundamental de
+ la nota a tocar (se puede elegir unas diez veces menor).
+\end_layout
+
+\begin_layout Standard
+Pasando varias veces la entrada por el pasabajos ya mencionado se puede
+ calibrar cuan suave se quiere la nota, es decir, si por ejemplo, se tocó
+ con la púa, lo que resultaría en un sonido más 'metálico' o con el dedo
+ (varias pasadas por el filtro).
+\end_layout
+
+\begin_layout Standard
+La salida del sistema se pasó nuevamente por el pasabajos en cuestión ya
+ que resultaba en sonidos más agradables.
+\end_layout
+
+\begin_layout Subsubsection
+Distorsión
+\end_layout
+
+\begin_layout Standard
+Resta ahora la distorsión.
+ Una función que da muy buenos resultados es la que vendría a ser un soft-clippi
+ng de la entrada, dada por:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+f(x)=\begin{cases}
+2/3 & x\geq1\\
+x-x^{3}/3 & -1<x<1\\
+-2/3 & x\leq-1
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename softclip.PNG
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Función elegida para la distorsión.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Feedback
+\end_layout
+
+\begin_layout Standard
+El feedback suele utilizarse para que la nota se sostenga indefinidamente
+ una vez que la distorsión alcanza un nivel estable.
+ Puede utilizarse un filtro en el feedback loop, como se menciona en 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "jaffe"
+literal "false"
+
+\end_inset
+
+, que estará dado por:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+y(n)=x(n)-Qx(n-1)+Qy(n-1)+(1-Q)y(n-N)
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Conclusiones
+\end_layout
+
+\begin_layout Standard
+Se vieron varios métodos para sintetizar tanto una guitarra acústica, como
+ una eléctrica, pasando por instrumentos de percusión.
+\end_layout
+
+\begin_layout Standard
+Los resultados con Karplus-Strong tanto para cuerdas (guitarra acústica)
+ y percusión resultaron muy acertados a la realidad.
+ Logró implementarse un factor de estiramiento para simular el efecto de
+ atenuación de la nota en el tiempo.
+\end_layout
+
+\begin_layout Standard
+Por otro lado, también, se consiguió un sonido bastante fiel en cuanto a
+ una guitarra distorsionada, sin embargo no se logró implementar en código,
+ correctamente la realimentación, el feedback per se.
+ 
+\end_layout
+
+\begin_layout Standard
+En principio, quedan muchas posibilidades de desarrollo a futuro, variedades
+ de filtros por implementar, algunos, son: un filtro pasabajos relacionado
+ a la dinámica –intensidad de cada nota–, un filtro que simule la resistencia
+ de cada cuerda, y otro que simule la caja de resonancia de la guitarra.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "karplus"
+literal "false"
+
+\end_inset
+
+Karplus, K., and A.
+ Strong.
+ 1983 
+\begin_inset Quotes eld
+\end_inset
+
+Digital Synthesis of Plucked-String and Drum Timbres
+\begin_inset Quotes erd
+\end_inset
+
+.
+ Computer Music Journal 7 (2): 43-55.
+ Cambridge, Massachusetts: The MIT Press.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "sullivan"
+literal "false"
+
+\end_inset
+
+Sullivan R.
+ C.
+ 1990.
+ 
+\begin_inset Quotes eld
+\end_inset
+
+Extending the Karplus-Strong Algorithm to Synthesize Electric Guitar Timbres
+ with Distortion and Feedback
+\begin_inset Quotes erd
+\end_inset
+
+.
+ Computer Music Journal, Vol.
+ 14, No.
+ 3 (Autumn, 1990), pp.
+ 26-37.
+ Princeton, New Jersey: The MIT Press.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "jaffe"
+literal "false"
+
+\end_inset
+
+Jaffe, D.
+ A., and J.
+ O.
+ Smith.
+ 1983.
+ 
+\begin_inset Quotes eld
+\end_inset
+
+Extensions of the Karplus-Strong Plucked-String Algorithm
+\begin_inset Quotes erd
+\end_inset
+
+.
+ Computer Music Journal 7 (2): 76-87.
+ Cambridge, Massachusetts: The MIT Press.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+el karplus
+\end_layout
+
+\begin_layout Plain Layout
+el sullivan
+\end_layout
+
+\begin_layout Plain Layout
+el jaffe
+\end_layout
+
+\begin_layout Plain Layout
+el de resonancia
 \end_layout
 
 \end_inset

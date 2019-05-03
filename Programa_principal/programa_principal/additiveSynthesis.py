@@ -5,6 +5,8 @@ from pathlib import Path
 import spectralAnalysis as sa
 import OLA as ola
 
+import matplotlib.pyplot as plt
+
 # envelope files
 GUITAR_ENVELOPE = "guitarSample.wav"
 VIOLIN_ENVELOPE = "violinSample.wav"
@@ -35,7 +37,7 @@ def initEnvelopes(files,maxNumber):
         data_folder = Path("all-samples/")
         file_to_open = data_folder / files[i]
         fs, signalTime, signalData, fftF, fftData, nMax = sa.wavSpectralAnalysis(file_to_open)
-        fHarmonic = sa.findHarmonic(fftData,fftF, nMax)
+        fHarmonic = sa.findHarmonic(fftData,fftF, nMax) #acortar
         auxEnvelopes = sa.findEnvelopes(fHarmonic,signalData,fs,nMax)
         if len(auxEnvelopes) > maxNumber:
             auxEnvelopes = auxEnvelopes[:maxNumber] 
@@ -54,7 +56,7 @@ class additiveSynthesis(synth.Synthesizer):
         files.append(VIOLIN_ENVELOPE)
         files.append(SAXO_ENVELOPE)
         files.append(TRUMPET_ENVELOPE)
-        self.originalEnvelopes = initEnvelopes(files,30)
+        self.originalEnvelopes = initEnvelopes(files,15)
 
     # Asume duracion total igual al largo de la envolvente
     # Suma armonicos con su envolvente correspondiente
@@ -98,20 +100,20 @@ class additiveSynthesis(synth.Synthesizer):
             scaledEnvelope = np.int16(scaledEnvelope)
         return scaledEnvelope
 
-    def defineFrequencies(self,fundamentalFreq,instrument):
+    def defineFrequencies(self,fundamentalFreq):
         frequencies = []
-        harmonics = 30
+        harmonics = 10
         frequencies = np.arange(fundamentalFreq,fundamentalFreq*harmonics+1,fundamentalFreq)
         return frequencies
 
     def getEnvelopes(self,amount_of_ns,instrument):
         instNumber = getInstNumber(instrument)
         envelopes = self.originalEnvelopes[instNumber]
-        envLength = len(envelopes[0])
-        t = np.linspace(0,envLength,envLength)
-        scale = amount_of_ns/envLength
-        t_func = scale*t
         for i in range(0,len(envelopes)):
+            envLength = len(envelopes[i])
+            t = np.linspace(0,envLength,envLength)
+            scale = amount_of_ns/envLength
+            t_func = scale*t
             envelopes[i] = ola.OLA(envelopes[i],np.ones(250),t_func,0)
         return envelopes
 
@@ -119,11 +121,11 @@ class additiveSynthesis(synth.Synthesizer):
         fundamentalFreq =  2**((pitch - 69) / 12)*440
         intensity = velocity/127
         fs = self.frame_rate
-        frequencies = self.defineFrequencies(fundamentalFreq,instrument)
+        frequencies = self.defineFrequencies(fundamentalFreq)
         envelopes = self.getEnvelopes(amount_of_ns,instrument)
         note = self.additiveSynthesis(frequencies,envelopes, fs,False)
-        if intensity < 1:
-            note = self.scaleEnvelope(note,intensity,False)
+#        if intensity < 1:
+#            note = self.scaleEnvelope(note,intensity,False)
         return note
 
 

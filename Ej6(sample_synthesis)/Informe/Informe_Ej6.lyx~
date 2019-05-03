@@ -84,58 +84,58 @@
 
 \begin_body
 
-\begin_layout Part
-Sintesis basada en muestras
-\end_layout
-
 \begin_layout Section
-Introduccion
+Síntesis basada en muestras
+\end_layout
+
+\begin_layout Subsection
+Introducción
 \end_layout
 
 \begin_layout Standard
-La sintesis basada en muestras consiste en la realizacion de un audio a
- partir de un numero reducido de archivos de audios que ya se tenian almacenadas.
+La síntesis basada en muestras consiste en la realización de un audio a
+ partir de un numero reducido de archivos de audios que ya se tenían almacenadas.
 Los sonidos que puedan llegar a requerirse que no se tengan almacenados(ya
- sea porque no coincide la duracion,pitch,volumen,etc) se generan a partir
- de la modificacion de las muestras que se tienen almacenadas.La ventaja
- de este tipo de sintesis es que permite sintetizar canciones que suenan
+ sea porque no coincide la duración,pitch,volumen,etc) se generan a partir
+ de la modificación de las muestras que se tienen almacenadas.La ventaja
+ de este tipo de síntesis es que permite sintetizar canciones que suenan
  muy similares a lo que serian si se hubieran realizado con instrumentos
- fisicos.
+ físicos.
 \end_layout
 
 \begin_layout Standard
-A lo largo de esta seccion se presenta cuales son las principales dificultades
- de la sintesis basada en muestras y los algoritmos que existen para lidiar
+A lo largo de esta sección se presenta cuales son las principales dificultades
+ de la síntesis basada en muestras y los algoritmos que existen para lidiar
  con estas dificultades.Asimismo, se compara las diferencias, ventajas y
  desventajas de cada uno de estos algoritmos, y a partir de esto se discute
  cual fue el razonamiento que llevo al sintetizador implementado.
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Time Scaling Algorithms
 \end_layout
 
 \begin_layout Standard
-El mayor problema a enfrentar en este tipo de sintesis es como generar los
+El mayor problema a enfrentar en este tipo de síntesis es como generar los
  sonidos que se necesitan para los cuales no se tiene una muestra de audio.Por
  ejemplo, si se tiene un audio almacenado de como suena la tecla correspondiente
  al 
 \begin_inset Formula $do_{4}$
 \end_inset
 
-en un piano con una duracion de un segundo.Es posible obtener la nota correspondi
+en un piano con una duración de un segundo.Es posible obtener la nota correspondi
 ente a un semitono mas alto 
 \begin_inset Formula $do_{4}\#$
 \end_inset
 
- de la misma duracion que la muestra almacenada?
+ de la misma duración que la muestra almacenada?
 \end_layout
 
 \begin_layout Standard
 Para ajustar la 'altura'(pitch),que tan grave o aguda se escucha la nota,
  se puede remuestrear el audio de una nota que se tenga a una frecuencia
- de muestreo distinta y reinterpretar la senal obtenida con la misa frecuencia
- de muestreo original.Esto se puede describir matematica como el siguiente
+ de muestreo distinta y re-interpretar la señal obtenida con la misa frecuencia
+ de muestreo original.Esto se puede describir matemática como el siguiente
  sistema:
 \end_layout
 
@@ -152,30 +152,36 @@ y(nT)=x(n.m.T)
 \end_layout
 
 \begin_layout Standard
-Se pueden distinguir dos casos posibles, cuand m<0 se toman muestras...
+Se pueden distinguir dos casos posibles, cuando m<0 se interpolan muestras
+ para obtener todas las muestras del vector y(nT) lo que resulta en un audio
+ de mayor duracion en el tiempo debido al incremento de muestras ademas
+ de un pitch mas 'bajo' en un factor m que el que se tenia previamente.
+ El otro caso es para m>1, en este caso se toman menos muestras de las qque
+ se tenian originalmente en el input por o que disminuye la duracion del
+ audio, a su vez sube el pitch del audio en un factor m.
 \end_layout
 
 \begin_layout Standard
 El problema con remuestrear el audio es que ademas de cambiar el contenido
- armonico de la senal tambien cambia su extenson en el tiempo.Para lograr
+ armónico de la señal también cambia su extensión en el tiempo.Para lograr
  de independizar el escalamiento en frecuencia del escalamiento en tiempo
- de una senal existen lossdenominados algoritmos de TSM(TimeScaleModification).Si
- se puede lograr cambiar la extension temporal de una senal de audio sin
- distorsionar su contenido armonico(conservar su pitch) entonces simplemente
+ de una señal existen los denominados algoritmos de TSM(TimeScaleModification).Si
+ se puede lograr cambiar la extensión temporal de una señal de audio sin
+ distorsionar su contenido armónico(conservar su pitch) entonces simplemente
  se puede remuestrear una muestra almacenada para obtener el pitch deseado
- y luego aplicar un algoritmo TSM para corregir la extension temporal a
+ y luego aplicar un algoritmo TSM para corregir la extensión temporal a
  la cual se desea.
 \end_layout
 
 \begin_layout Standard
-Hay un par de nociones basicas que se suelen utilizar en todos los algoritmos
+Hay un par de nociones básicas que se suelen utilizar en todos los algoritmos
  TSM.
- En general estos algoritmos consisten en dividir la senal de entrada en
- bloques centrados en una determinada posicion(comunmente se los denomina
- 'bloques de analisis), aplicar algun tipo de operacion matematica sobre
- estos bloques y copiarlos a otro bloque en la salida(denominnados 'bloques
- de sintesis').
- Se define la funcion de mappeo(concida generalmente como 'time stretch
+ En general estos algoritmos consisten en dividir la señal de entrada en
+ bloques centrados en una determinada posición(comúnmente se los denomina
+ 'bloques de análisis), aplicar algún tipo de operación matemática sobre
+ estos bloques y copiarlos a otro bloque en la salida(denominados 'bloques
+ de síntesis).
+ Se define la función de mappeo(conocida generalmente como 'time stretch
  function') a:
 \end_layout
 
@@ -192,7 +198,7 @@ Hay un par de nociones basicas que se suelen utilizar en todos los algoritmos
 \begin_inset Formula $n\epsilon\left[0,N-1\right]$
 \end_inset
 
-, donde N es el numero de muestras de la senal de entrada
+, donde N es el numero de muestras de la señal de entrada
 \end_layout
 
 \begin_layout Standard
@@ -201,12 +207,12 @@ Hay un par de nociones basicas que se suelen utilizar en todos los algoritmos
 \end_layout
 
 \begin_layout Standard
-En principio la funcion de mappeo 
+En principio la función de mappeo 
 \begin_inset Formula $\tau$
 \end_inset
 
- no tiene porque ser una funcion lineal,solo se asume que la funcion es
- monotona creciente y que 
+ no tiene porque ser una función lineal,solo se asume que la función es
+ monótona creciente y que 
 \begin_inset Formula $\tau(0)=0$
 \end_inset
 
@@ -214,7 +220,7 @@ En principio la funcion de mappeo
 \end_layout
 
 \begin_layout Standard
-La funcion de mappeo definida en (
+La función de mappeo definida en (
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "eq:tau"
@@ -224,9 +230,9 @@ noprefix "false"
 
 \end_inset
 
-) sirve como parametro para todos los algoritmos de TSM que se desarrollaran
- a continuacion.El rol de esta funcion es la de asignar que posicion le correspon
-de a la salida a un valor de la entrada tomado en el timpo 
+) sirve como parámetro para todos los algoritmos de TSM que se desarrollaran
+ a continuación.El rol de esta función es la de asignar que posición le correspon
+de a la salida a un valor de la entrada tomado en el tiempo 
 \begin_inset Formula $nT$
 \end_inset
 
@@ -235,23 +241,23 @@ de a la salida a un valor de la entrada tomado en el timpo
 
 \begin_layout Standard
 Existen una gran variedad de algoritmos TSM,generalmente se distinguen entre
- los que trabajan en el dominio de la freccuencia y los que trabajan en
- el dominio del tiempo.
- A continuacion se presntaran y discutiran los tres algoritmos implementados
+ los que trabajan en el dominio de la frecuencia y los que trabajan en el
+ dominio del tiempo.
+ A continuación se presentaran y discutirán los tres algoritmos implementados
  en nuestro sintetizador.
  Los primeros dos (OLA y WSOLA) corresponden a algoritmos que trabajan en
  el dominio del tiempo, el ultimo y tercer algoritmo(Phase Vocoder) trabaja
  en el dominio de la frecuencia.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Overlap and Add(OLA)
 \end_layout
 
 \begin_layout Standard
 OLA corresponde al algoritmo TSM mas simple y posiblemente el mas intuitivo.Exist
-en una gran variedad de algoritmos TSM que se basan en una version modificada
- del metodo OLA
+en una gran variedad de algoritmos TSM que se basan en una versión modificada
+ del método OLA
 \begin_inset Foot
 status collapsed
 
@@ -266,10 +272,10 @@ Algunos ejemplos notables son SOLA, PSOLA y WSOLA(el cual se analiza en
 \end_layout
 
 \begin_layout Standard
-En definitiva consiste en dividir la senal que se desea modificar en segmentos(d
-enominados grains o slots) de una longitud determinada mediante la aplicacion
- de ventanas,y luego copiar estos segmentos a una ubicacion determinada
- en el output dada por una funcion de mappeo(la misma que se definio en
+En definitiva consiste en dividir la señal que se desea modificar en segmentos(d
+enominados grains o slots) de una longitud determinada mediante la aplicación
+ de ventanas,y luego copiar estos segmentos a una ubicación determinada
+ en el output dada por una función de mappeo(la misma que se definió en
  (
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -281,7 +287,7 @@ noprefix "false"
 \end_inset
 
 )).
- Graficamente el esquema seria el siguiente:
+ Gráficamente el esquema seria el siguiente:
 \end_layout
 
 \begin_layout Standard
@@ -290,7 +296,7 @@ noprefix "false"
 placement H
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
@@ -313,7 +319,7 @@ name "fig:OLA-grafica"
 
 \end_inset
 
-Representacion grafica del metodo OLA.a)Muestra el segmento m-esimo de la
+Representación grafica del metodo OLA.a)Muestra el segmento m-esimo de la
  entrada que se copiara a la salida.b)Se aplica la ventana a dicho segmento
  y se lo copia a la salida.c)Toma el proximo segemento a copiar que se encuentra
  a una distancia 
@@ -339,20 +345,20 @@ del bloque de sintesis anterior.
 \end_layout
 
 \begin_layout Subsubsection
-Parametros utilizados
+Parámetros utilizados
 \end_layout
 
 \begin_layout Standard
-El algoritmo necesita recibir tres parametros (ademas del vector con la
- senal de entrada),los cuales son:
+El algoritmo necesita recibir tres parámetros (ademas del vector con la
+ señal de entrada),los cuales son:
 \end_layout
 
 \begin_layout Itemize
-La ventana que se desea apliccarle a cada uno de los segmentos del input
+La ventana que se desea aplicarle a cada uno de los segmentos del input
 \end_layout
 
 \begin_layout Itemize
-La funcion de mappeo definida en (
+La función de mappeo definida en (
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "eq:tau"
@@ -370,9 +376,9 @@ El factor de overlap.
 \end_layout
 
 \begin_layout Standard
-Los primeros dos parametros ya se presentaron brevemente.El factor de overlap
+Los primeros dos parámetros ya se presentaron brevemente.El factor de overlap
  es un numero que toma valores entre 0 y 1(no inclusive).Este factor decide
- la separacion 
+ la separación 
 \begin_inset Formula $H_{s}$
 \end_inset
 
@@ -387,11 +393,11 @@ noprefix "false"
 
 \end_inset
 
-).La separacion 
+).La separación 
 \begin_inset Formula $H_{s}$
 \end_inset
 
- entre bloques de sintesis esta dada por la reacion:
+ entre bloques de síntesis esta dada por la relación:
 \end_layout
 
 \begin_layout Standard
@@ -407,17 +413,17 @@ Donde
 \begin_inset Formula $OF$
 \end_inset
 
- es el overlap factor.Como se puede ver de la relacion anterior, cuando 
+ es el overlap factor.Como se puede ver de la relación anterior, cuando 
 \begin_inset Formula $OF$
 \end_inset
 
- toma el valor extemo 
+ toma el valor extremo 
 \begin_inset Formula $OF=0$
 \end_inset
 
- entonces los bloques de sintesis estan separados por la misma distancia
- que el largo de la ventana,lo que quiere decir que no hay superposicion
- entre bloques de sintesis.En el caso extremo en el que 
+ entonces los bloques de síntesis están separados por la misma distancia
+ que el largo de la ventana,lo que quiere decir que no hay superposición
+ entre bloques de síntesis.En el caso extremo en el que 
 \begin_inset Formula $OF=1$
 \end_inset
 
@@ -425,8 +431,8 @@ Donde
 \begin_inset Formula $H_{s}=0$
 \end_inset
 
- por lo que no habria separacion entre bloques de sintesis sino que habria
- una superposicion del 100% y estarian todos centrados en la misma posicion
+ por lo que no habría separación entre bloques de síntesis sino que habría
+ una superposición del 100% y estarían todos centrados en la misma posición
  a la salida.
 \end_layout
 
@@ -435,10 +441,10 @@ Algoritmo
 \end_layout
 
 \begin_layout Standard
-Una vez definidos los parametros el metodo consiste en formar un vector
- con las posiciones en las cuales estan centrados cada bloque de sintesis
- a la salida.Esto es trivial ya que se conoce la separacion entre bloques
- de sintesis y que 
+Una vez definidos los parámetros el método consiste en formar un vector
+ con las posiciones en las cuales están centrados cada bloque de síntesis
+ a la salida.Esto es trivial ya que se conoce la separación entre bloques
+ de síntesis y que 
 \begin_inset Formula $\tau(0)=0$
 \end_inset
 
@@ -449,7 +455,7 @@ Una vez definidos los parametros el metodo consiste en formar un vector
 \begin_inset Formula $\gamma(1)=0$
 \end_inset
 
-, El primer bloque de sintesis esta centrado en 0, dado que 
+, El primer bloque de síntesis esta centrado en 0, dado que 
 \begin_inset Formula $\tau(0)=0$
 \end_inset
 
@@ -472,18 +478,18 @@ Una vez definidos los parametros el metodo consiste en formar un vector
 
 \begin_layout Standard
 Una vez que se tienen los valores de este vector se puede utilizar conjuntamente
- con la funcion de mappeo 
+ con la función de mappeo 
 \begin_inset Formula $\tau$
 \end_inset
 
- para obtener las posiciones en las que estan centrados cada bloque de analisis
- necesario para obtener los bloques de sintesis dados por 
+ para obtener las posiciones en las que están centrados cada bloque de análisis
+ necesario para obtener los bloques de síntesis dados por 
 \begin_inset Formula $\gamma$
 \end_inset
 
 .
- Se denotara el vector con las posiciones en las que estan centrados los
- bloques de analisis con la letra 
+ Se denotara el vector con las posiciones en las que están centrados los
+ bloques de análisis con la letra 
 \begin_inset Formula $\sigma$
 \end_inset
 
@@ -513,7 +519,7 @@ Una vez que se tienen los valores de este vector se puede utilizar conjuntamente
 \begin_inset Formula $\tau^{-1}$
 \end_inset
 
-es la funcion inversa de la time stretch function.
+es la función inversa de la time stretch function.
 \end_layout
 
 \begin_layout Itemize
@@ -524,8 +530,8 @@ es la funcion inversa de la time stretch function.
 \end_layout
 
 \begin_layout Standard
-El rol de estos vectores queda mucho mas claro con una representacion grafica,
- por lo que aqui se presenta un esquema de como es la relacion entre estos
+El rol de estos vectores queda mucho mas claro con una representación gráfica,
+ por lo que aquí se presenta un esquema de como es la relación entre estos
  dos vectores.
 \end_layout
 
@@ -557,7 +563,7 @@ name "fig:Posicion-de-los-VectoresOLA"
 
 \end_inset
 
-Posicion de los bloques de analisis y sintesis dados por 
+Posición de los bloques de analisis y sintesis dados por 
 \begin_inset Formula $\sigma$
 \end_inset
 
@@ -583,9 +589,9 @@ Posicion de los bloques de analisis y sintesis dados por
 \end_layout
 
 \begin_layout Standard
-Los rectangulos azules en el input y en el ouput simbolizan las muestras
- de audio.En el caso anterior se muestra que el rectangulo azul en el output
- es de menor extension que el del input, lo que significa que se esta usando
+Los rectángulos azules en el input y en el ouput simbolizan las muestras
+ de audio.En el caso anterior se muestra que el rectángulo azul en el output
+ es de menor extensión que el del input, lo que significa que se esta usando
  el algoritmo OLA para comprimir en el tiempo el input.Sin embargo, la figura
  (
 \begin_inset CommandInset ref
@@ -597,7 +603,7 @@ noprefix "false"
 
 \end_inset
 
-) se presenta para mostrar la funcion de los vectores 
+) se presenta para mostrar la función de los vectores 
 \begin_inset Formula $\sigma$
 \end_inset
 
@@ -606,11 +612,11 @@ noprefix "false"
 \end_inset
 
 , la cual es la misma tanto para comprimir como para extender en el tiempo
- una senal.
+ una señal.
 \end_layout
 
 \begin_layout Standard
-Finalemente el audio a la slaida esta dado por la siguiente relacion matematica:
+Finalmente el audio a la salida esta dado por la siguiente relación matemática:
 \end_layout
 
 \begin_layout Standard
@@ -629,14 +635,14 @@ output=\frac{\stackrel[k=1]{largo(\sigma)}{\sum}\omega(n-\gamma(k))input(n-\gamm
 \begin_inset Formula $\omega$
 \end_inset
 
- hace referencia a la funcion ventanna que se recibe como parametro.La funcion
+ hace referencia a la función ventana que se recibe como parámetro.La función
  
 \begin_inset Formula $A(n)$
 \end_inset
 
- que se encuentra dividiendo abajao se utiliza para normalizar la salida
- ya que la aplicacion de ventanas puede causar distorsiones de amplitud
- no deseadas en la senal de salida.Para obtener la funcion 
+ que se encuentra dividiendo abajo se utiliza para normalizar la salida
+ ya que la aplicación de ventanas puede causar distorsiones de amplitud
+ no deseadas en la señal de salida.Para obtener la función 
 \begin_inset Formula $A(n)$
 \end_inset
 
@@ -645,7 +651,7 @@ output=\frac{\stackrel[k=1]{largo(\sigma)}{\sum}\omega(n-\gamma(k))input(n-\gamm
 \end_inset
 
  se parte de la base de que en un caso ideal se desea que la suma de las
- ventanas a la salida sea la funcion unitaria:
+ ventanas a la salida sea la función unitaria:
 \end_layout
 
 \begin_layout Standard
@@ -665,10 +671,10 @@ En este caso
 \begin_inset Formula $A(n)$
 \end_inset
 
- no introduce ningun cambio a la salida.Sin embargo cuando la suma de la
- suerpoicion de ventanas a la salida es distinto de la funcion unitaria
+ no introduce ningún cambio a la salida.Sin embargo cuando la suma de la
+ superposición de ventanas a la salida es distinto de la función unitaria
  es necesario normalizar la salida para compensar distorsiones de amplitud,
- y la funcion de normalizacion esta dada por:
+ y la función de normalizacion esta dada por:
 \end_layout
 
 \begin_layout Standard
@@ -686,20 +692,20 @@ Ventajas y desventajas
 \begin_layout Standard
 La principal ventaja de OLA es que es el algoritmo mas simple de todos los
  implementados tanto conceptualmente como computacionalmente, por lo que
- es posible realizar sintesis de notas musicales de manera muy rapida si
+ es posible realizar síntesis de notas musicales de manera muy rápida si
  se utiliza OLA.
- Sin embargo, el audio obtenido es de una calidad muy baja.Para sintesis
- de instrumentos con contenido armonico importante(por ejemplo el violin)
- la distorsion introducida tapa casi por completo el sonido original del
+ Sin embargo, el audio obtenido es de una calidad muy baja.Para síntesis
+ de instrumentos con contenido armónico importante(por ejemplo el violín)
+ la distorsión introducida tapa casi por completo el sonido original del
  instrumento, ademas para extensiones o compresiones de tiempo grandes(por
- lo menos duplicar la longitud o acortarla a la mitad) la distorsion para
+ lo menos duplicar la longitud o acortarla a la mitad) la distorsión para
  cualquier instrumento es apreciable.
 \end_layout
 
 \begin_layout Standard
-Esto se debe a que OLA siplemente copia un bloque de analisis de la entrada
+Esto se debe a que OLA simplemente copia un bloque de análisis de la entrada
  y lo pega a la salida, esta mecanismo simple no tiene en cuenta factores
- importantes para la preservacion del contenido armonico, como la continuidad
+ importantes para la preservación del contenido armónico, como la continuidad
  de la fase.
 \end_layout
 
@@ -726,7 +732,7 @@ status collapsed
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Distorsion armonica introducida por OLA(extendiendo la duracion de la entrada
+Distorsión armonica introducida por OLA(extendiendo la duracion de la entrada
  el doble)
 \end_layout
 
@@ -741,34 +747,34 @@ Distorsion armonica introducida por OLA(extendiendo la duracion de la entrada
 \end_layout
 
 \begin_layout Standard
-A pesar de la pesima calidad de OLA para preservar el contenido armonico
- de un audio, el algoritmo puede ser sumamente util para modificar las duracione
-s de muestras tomadas de instrumentos percusivos(tambien referidos como
- 'no armonicos').Esto se debe a que en los instrmentos percusivos toma mucha
- mayor importancia el ritmo y las caracteristicas temporales del sonido
- que su contenido armonico(la introduccion de armonicos a causa de discontinuida
-des no es tan perceptible como para los instrumentos con armonicos bien
+A pesar de la pésima calidad de OLA para preservar el contenido armónico
+ de un audio, el algoritmo puede ser sumamente útil para modificar las duracione
+s de muestras tomadas de instrumentos percusivos(también referidos como
+ 'no armonicos').Esto se debe a que en los instrumentos percusivos toma mucha
+ mayor importancia el ritmo y las características temporales del sonido
+ que su contenido armónico(la introducción de armónicos a causa de discontinuida
+des no es tan perceptible como para los instrumentos con armónicos bien
  definidos).
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Waveform Synchronous Overlap and Add(WSOLA)
 \end_layout
 
 \begin_layout Standard
-Este algoritmo pertence a la familia de algoritmos que son una derivacion
+Este algoritmo pertenece a la familia de algoritmos que son una derivación
  de OLA.
  En principio el algoritmo sigue exactamente el mismo procedimiento que
- OLA.La unica diferencia entre los dos es que para WSOLA se agrega un parametro
+ OLA.La única diferencia entre los dos es que para WSOLA se agrega un parámetro
  mas definido como 'tolerancia'.
 \end_layout
 
 \begin_layout Standard
 Se menciono en la subseccion anterior, como el problema principal de OLA
  es que introduce discontinuidades en la fase a la salida que generan nuevos
- armonicos y distorsian notablemente el sonido resultante.Como solucion a
- este problema, el parametro adicional de WSOLA permite tomar cada bloque
- de analisis en un rango posible de ubicaciones a la entrada dado por:
+ armónicos y distorsión notablemente el sonido resultante.Como solución a
+ este problema, el parámetro adicional de WSOLA permite tomar cada bloque
+ de análisis en un rango posible de ubicaciones a la entrada dado por:
 \end_layout
 
 \begin_layout Standard
@@ -787,7 +793,7 @@ Se menciono en la subseccion anterior, como el problema principal de OLA
 \begin_inset Formula $\sigma$
 \end_inset
 
- tiene el mismo significado aqui que el que se le dio en la subseccion anterior.
+ tiene el mismo significado aquí que el que se le dio en la subseccion anterior.
  El 
 \begin_inset Formula $\triangle_{k}$
 \end_inset
@@ -800,29 +806,29 @@ Se menciono en la subseccion anterior, como el problema principal de OLA
 \begin_inset Formula $\triangle_{max}$
 \end_inset
 
- es el nuevo parametro llamado 'tolerancia' que se menciono previamente.
+ es el nuevo parámetro llamado 'tolerancia' que se menciono previamente.
 \end_layout
 
 \begin_layout Standard
-Lo que se esta realizando es permitir centrar el bloque de analisis en un
+Lo que se esta realizando es permitir centrar el bloque de análisis en un
  rango de posiciones cercanas a la dada por 
 \begin_inset Formula $\sigma(k)$
 \end_inset
 
- con el fin de preservar lo mejor posible las caracteristicas armonicas
- de la senal original.El unico problema restante es como conseguir el valor
+ con el fin de preservar lo mejor posible las características armónicas
+ de la señal original.El único problema restante es como conseguir el valor
  de 
 \begin_inset Formula $\triangle_{k}$
 \end_inset
 
  optimo que minimice las discontinuidades a la salida.
- Para ello se define como 'progresion natural' de un blolque de analisis
- a aquel bloque que colocado a una distancia 
+ Para ello se define como progresión natural de un bloque de análisis a
+ aquel bloque que colocado a una distancia 
 \begin_inset Formula $H_{s}$
 \end_inset
 
- del bloque de sintesis anterior no presente ninguna discontinuidad de fase.Esto
- se cumple siempre para el bloque de analisis cuyo centro esta dado por:
+ del bloque de síntesis anterior no presente ninguna discontinuidad de fase.Esto
+ se cumple siempre para el bloque de análisis cuyo centro esta dado por:
 \end_layout
 
 \begin_layout Standard
@@ -838,8 +844,8 @@ Por lo que
 \begin_inset Formula $\triangle_{k}$
 \end_inset
 
- debe ser tal que el bloque de analisis k-esimo tomado sea lo mas similar
- posible a la progresion natural del bloque de analisis anterior.
+ debe ser tal que el bloque de análisis k-esimo tomado sea lo mas similar
+ posible a la progresión natural del bloque de análisis anterior.
 \end_layout
 
 \begin_layout Standard
@@ -848,7 +854,7 @@ Por lo que
 placement H
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
@@ -871,7 +877,7 @@ name "fig:Grafica-de-WSOLA"
 
 \end_inset
 
-Grafica del metodo WSOLA.a)Se muestra el bloque de analisis m-esimo ya elegido
+Gráfica del metodo WSOLA.a)Se muestra el bloque de analisis m-esimo ya elegido
  y desplazado un 
 \begin_inset Formula $\triangle_{m}$
 \end_inset
@@ -940,10 +946,10 @@ Previamente se menciono que el
 \begin_inset Formula $\triangle_{k}$
 \end_inset
 
- optimo es aquel que maximiza la similitud entre el bloque de analisis actual
- y la progresion natural del ultimo bloque de analisis elegido.
- Para encontrar dicho bloque de analisis, realizamos la correlacion entre
- el bloque correspondiente a la progresion natural y el rectangulo azul
+ optimo es aquel que maximiza la similitud entre el bloque de análisis actual
+ y la progresión natural del ultimo bloque de análisis elegido.
+ Para encontrar dicho bloque de análisis, realizamos la correlación entre
+ el bloque correspondiente a la progresión natural y el rectángulo azul
  de la derecha presentado en la figura( 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -954,7 +960,7 @@ noprefix "false"
 
 \end_inset
 
-(b)).Donde la correlacion entre dos bloques esta defindida como:
+(b)).Donde la correlación entre dos bloques esta definida como:
 \end_layout
 
 \begin_layout Standard
@@ -970,7 +976,7 @@ correlacion\{x,y\}(n)=\stackrel[k=0]{largo(ventana)}{\sum}x(k+n)y(k)
 \end_layout
 
 \begin_layout Standard
-La correlacion es maxima donde la suma de los productos es maxima,lo cual
+La correlación es máxima donde la suma de los productos es máxima,lo cual
  ocurre cuando los dos bloques son similares, entonces el 
 \begin_inset Formula $\triangle_{k}$
 \end_inset
@@ -991,14 +997,14 @@ Ventajas y desventajas
 \end_layout
 
 \begin_layout Standard
-WSOLA soluciona considerablemente bien el problema de la distorsion armonica
- que se encuentra en OLA.El algoritmo sigue siendo relativamente rapido,
- aunque menos que OLA ya que se debe realizar una correlacion entre dos
- bloques por cada bloque de sintesis en la salida.
+WSOLA soluciona considerablemente bien el problema de la distorsión armónica
+ que se encuentra en OLA.El algoritmo sigue siendo relativamente rápido,
+ aunque menos que OLA ya que se debe realizar una correlación entre dos
+ bloques por cada bloque de síntesis en la salida.
  Sin embargo, el problema principal de WSOLA es que selecciona los bloques
- de analisis con tal de minimizar la discontinuidades de fase de la frecuencia
+ de análisis con tal de minimizar la discontinuidades de fase de la frecuencia
  fundamental del audio.Para instrumentos compuestos por varias frecuencias
- o efectos sutiles de modulacion de amplitud(como el violin o la flauta)
+ o efectos sutiles de modulación de amplitud(como el violín o la flauta)
  WSOLA solo preserva la continuidad de fase para una frecuencia por lo que
  se distorsiona el timbre del instrumento.
 \end_layout
@@ -1010,29 +1016,29 @@ Phase Vocoder
 \begin_layout Standard
 El ultimo algoritmo implementado fue el phase vocoder.
  Aunque el funcionamiento del phase vocoder es similar a OLA y WSOLA en
- que descompone a la senal de entrada en bloques de analisis por medio de
- la aplicacion de ventanas y luego coloca la suma de los bloques de sintesis
+ que descompone a la señal de entrada en bloques de análisis por medio de
+ la aplicación de ventanas y luego coloca la suma de los bloques de síntesis
  a la salida, este algoritmo es muy distinto a los anteriores conceptualmente.
 \end_layout
 
 \begin_layout Standard
 En primer lugar, el phase vocoder es uno de los algoritmos de TSM que trabaja
  en el dominio de la frecuencia.Como se vio previamente, el principal problema
- de OLA y WSOLA es su desempeno para instrumentos armonicos y con timbres
- complejos debido a la distorsion armonica que generan.
+ de OLA y WSOLA es su desempeño para instrumentos armónicos y con timbres
+ complejos debido a la distorsión armónica que generan.
  El phase vocoder busca minimizar eso buscando que se mantenga la continuidad
- de fase a la salida para todos los armonicos que componen a la senal.
+ de fase a la salida para todos los armónicos que componen a la señal.
 \end_layout
 
 \begin_layout Standard
 El algoritmo consiste en aplicarle la FFT(Fast Fourier Transform) a cada
- bloque de analisis que se toma del input.
+ bloque de análisis que se toma del input.
  El resultado que se obtiene es una STFT(Short Time Fourier Transform) de
- la entrada, donde cada intervalo de tiempo es un bloque de analisis.Luego,se
+ la entrada, donde cada intervalo de tiempo es un bloque de análisis.Luego,se
  ajustan las fases de los espectros obtenidos de forma tal que al superponer
  la suma de los espectros a la salida no haya discontinuidades en la fase.Finalme
 nte se aplica la IFFT a cada uno de los espectros modificados y se obtienen
- los bloques de sintesis los cuales son multiplicados nuevamente por una
+ los bloques de síntesis los cuales son multiplicados nuevamente por una
  ventana antes de ser superpuestos a la salida.
 \end_layout
 
@@ -1064,7 +1070,7 @@ Esquema del funcionamiento del Phase Vocoder.a)Se tienen dos arreglos uno
 \begin_inset Formula $X_{m}$
 \end_inset
 
-el cual se obtiene de aplicarle la fft al bloque de analisis 
+el cual se obtiene de aplicarle la fft al bloque de análisis 
 \begin_inset Formula $x_{m}$
 \end_inset
 
@@ -1099,12 +1105,12 @@ ientes a la salida.
 \end_layout
 
 \begin_layout Subsubsection
-Parametros
+Parámetros
 \end_layout
 
 \begin_layout Standard
-Al igual que los dos algoritmos previos recibe como parametros la funcion
- de estiramiento presentada en la ecuacion(
+Al igual que los dos algoritmos previos recibe como parámetros la función
+ de estiramiento presentada en la ecuación(
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "eq:tau"
@@ -1114,7 +1120,7 @@ noprefix "false"
 
 \end_inset
 
-), y la ventana que se desea utilizar.Sin embargo, en nuestra implementacion
+), y la ventana que se desea utilizar.Sin embargo, en nuestra implementación
  no recibe el factor de overlap sino que partimos de la base de que 
 \begin_inset Formula $H_{a}=H_{s}=HopSize$
 \end_inset
@@ -1123,9 +1129,9 @@ noprefix "false"
 \begin_inset Formula $HopSize$
 \end_inset
 
- es un parametro que eige el usuario y es la separacion en muestras tanto
- de los bloques de analisis como de los de sintesis.
- Esto cambia ligeramente la defincion de los vectores 
+ es un parámetro que elige el usuario y es la separación en muestras tanto
+ de los bloques de análisis como de los de síntesis.
+ Esto cambia ligeramente la definición de los vectores 
 \begin_inset Formula $\gamma$
 \end_inset
 
@@ -1133,8 +1139,8 @@ noprefix "false"
 \begin_inset Formula $\sigma$
 \end_inset
 
- introducidos previamente en que estos dos ya no tendran la missma longitud
- y sus valores estaran dados por:
+ introducidos previamente en que estos dos ya no tendrán la misma longitud
+ y sus valores estarán dados por:
 \end_layout
 
 \begin_layout Itemize
@@ -1166,23 +1172,716 @@ noprefix "false"
 \end_layout
 
 \begin_layout Subsubsection
-Propagacion de fase
+Algoritmo y propagación de fase
+\end_layout
+
+\begin_layout Standard
+El método consiste en aplicarle la fft a cada bloque de análisis dado por
+ 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ y a partir de estos espectro conseguir un numero de espectros igual a la
+ cantidad de bloques de síntesis,modificar los mismos para corregir las
+ discontinuidades de fase y finalmente sumar y superponer la anti-transformada
+ de los espectros a la salida.
+\end_layout
+
+\begin_layout Standard
+El primer paso es obtener una cantidad de espectros igual a la cantidad
+ de bloques de síntesis a partir de los espectros de los bloques de análisis.Esto
+ se puede hacer simplemente mediante una simple interpolacion de los espectros
+ que se tienen según:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Formula 
+\begin{equation}
+X_{interp}(k)=f(\tau^{-1}(k))
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Formula 
+\begin{equation}
+f(t)=\frac{t-\sigma(n)}{\sigma(n+1)-\sigma(n)}X(n+1)+\frac{\sigma(n+1)-t}{\sigma(n+1)-\sigma(n)}X(n),\sigma(n)\leqslant t\leqslant\sigma(n+1)
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Las magnitudes del espectro final son iguales a las interpoladas.Sin embargo,
+ es necesario ajustar la fase del siguiente paso es corregir los espectros
+ para que no haya discontinuidades de fase.El objetivo es asegurar que la
+ fase de cada bin de frecuencia sea continua y lineal a través de los bins
+ de tiempo(en este caso son los bloques de síntesis).
+\end_layout
+
+\begin_layout Standard
+La fase debe ser lineal ya que asumiendo que el espectro en un bin de tiempo
+ es una suma de senoidales se tiene:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Formula $X_{nH_{s}}(k)=A_{k}e^{j(\omega_{k}nH_{s}+\phi_{k})}=A_{k}e^{j(\frac{2\pi k}{N}nH_{s}+\phi_{k})}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+De la expresión anterior se tiene que la diferencia de fase entre dos bins
+ de tiempo consecutivos es:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Formula 
+\begin{equation}
+\phi_{n+1}-\phi_{n}=\triangle\phi=\frac{2\pi}{N}H_{s}\label{eq:diferencia de fase}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Donde en nuestro caso 
+\begin_inset Formula $H_{s}$
+\end_inset
+
+es 
+\begin_inset Formula $HopSize$
+\end_inset
+
+ y 
+\begin_inset Formula $N$
+\end_inset
+
+ es igual al largo de la ventana de análisis.Con la ecuación (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:diferencia de fase"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) en teoría se podría obtener la fase en todos los bins de tiempo con solo
+ conocer la fase inicial para el bin de frecuencia dado.Sin embargo,en la
+ realidad las señales con las que se trabaja no están formadas por armónicos
+ de periodo fundamental 
+\begin_inset Formula $\frac{1}{N}$
+\end_inset
+
+, por lo que también es necesario estimar la frecuencia exacta para cada
+ bin de frecuencia.
+\end_layout
+
+\begin_layout Standard
+La frecuencia exacta de un bin puede expresarse como:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Formula 
+\begin{equation}
+\omega_{k}=\frac{2\pi}{N}k+\triangle\omega_{a}=\frac{2\pi}{N}k+\stackrel{\epsilon\left[-\pi,\pi\right]}{\frac{\left\lceil \overbrace{\phi_{n+1}-\phi_{n}-\frac{2\pi kHopSize}{N}}\right\rceil }{HopSize}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+La frecuencia exacta puede determinarse a partir del cambio de fase que
+ se observa entre dos bins consecutivos de tiempo y el cambio de fase esperado
+ si la frecuencia exacta fuera un múltiplo de 
+\begin_inset Formula $\frac{1}{N}$
+\end_inset
+
+.
+ Para obtener las fases corregidas se define:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Formula $g_{m}=\left\lfloor \frac{\tau^{-1}(\gamma(m))}{HopSize}\right\rfloor $
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $g_{m}$
+\end_inset
+
+ es el mayor indice del vector 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ para el cual el valor devuelto es menor a 
+\begin_inset Formula $\tau^{-1}(\gamma(m))$
+\end_inset
+
+ y a su vez 
+\begin_inset Formula $g_{m}+1$
+\end_inset
+
+ devuelve el menor indice de 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ tal que el valor devuelto es mayor a 
+\begin_inset Formula $\tau^{-1}(\gamma(m))$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+A partir de 
+\begin_inset Formula $g_{m}$
+\end_inset
+
+ se definen los espectros:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Formula $X_{1}(m)=X(g_{m})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Formula $X_{2}(m)=X(g_{m}+1)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+De los espectros anteriores se puede definir la fase corregida del espectro
+ de síntesis como:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Formula $\angle X_{s}(n)=\angle X_{s}(n-1)+(\angle X_{2}(m)-\angle X_{1}(m))$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Formula $\angle X_{s}(1)=\angle X(1)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Con ese ya se tienen las fases y los módulos del espectro corregido por
+ lo que el espectro corregido esta dado por:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Formula 
+\begin{equation}
+X_{s}(n)=|X|.e^{j\angle X_{s}(n)}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Finalmente se antitransforma cada espectro para obtener los bloques de síntesis
+ a la salida y se suman a su posición correspondiente a la salida.
 \end_layout
 
 \begin_layout Subsubsection
 Ventajas y desventajas
 \end_layout
 
-\begin_layout Section
-Desempeno y comparacion de cada algoritmo
+\begin_layout Standard
+La ventaja principal de este método es que garantiza continuidad de fase
+ para todas las frecuencias de la señal de entrada,esto significa que es
+ el mejor de los 3 algoritmos en cuanto a preservación de contenido armónico
+ y timbre de instrumentos.
+ La desventaja es que es un algoritmo muy lento ya que requiere el calculo
+ de la FFT para cada bloque de análisis, la interpolacion de los espectros,
+ la corrección de las fases, la generación del espectro de síntesis y finalmente
+ la IFFT de dicho espectro.
+ Asimismo el phase vocoder no tiene buen desempeño con señales percusivas
+ ya que garantiza la continuidad de fase a lo largo del tiempo (coherencia
+ horizontal de la fase) mientras que para este tipo de señales la continuidad
+ de frecuencias dentro de un mismo bin de tiempo toma mayor relevancia.
 \end_layout
 
 \begin_layout Section
-Implementacion del sintetizador
+Desempeño y comparación de cada algoritmo
+\end_layout
+
+\begin_layout Standard
+A continuación se presenta una tabla en la que se muestra el desempeño en
+ tiempo de cada algoritmo para distintos instrumentos:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Instrumento
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+OLA(seg)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+WSOLA(seg)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Phase Vocoder(seg)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Violín(Makar)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+69
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Bombo(Piratas)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+19
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+22
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Corn Anglais(Piratas)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+26
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+28
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+218
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Trumpet(Mario)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+92
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+96
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+772
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Tabla con lo tiempos de ejecución para cada algoritmo
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Cada uno de los audios sintetizados mostrados en la tabla se encuentran
+ dentro de la carpeta titulada AudiosEj6.Se puede notar al escuchar los audios
+ que el phase vocoder provee definitivamente el audio de mejor calidad para
+ todos los instrumentos salvo para los bombos.
+\end_layout
+
+\begin_layout Section
+Implementación del sintetizador
+\end_layout
+
+\begin_layout Standard
+A continuación se presenta una tabla con los instrumentos que se implementaron
+ así como el algoritmo utilizado para cada uno de ellos:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Float table
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="6" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Instrumento
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Algoritmo empleado
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Bombo
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+OLA
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Guitarra
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Phase Vocoder
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Violín
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Phase Vocoder
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Corno ingles
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Phase Vocoder
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Trompeta
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Phase Vocoder
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Instrumentos y su algoritmo correspondiente
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Se guardaron 3 notas por octava para cada instrumento.Para cada una de esas
+ notas, en lo posible se guardaron tres duraciones posibles(0.25seg,1seg
+ y 1.25 seg) y para cada una de esas duraciones se guardaron dos intensidades
+ distintas(forte y piano).Con lo que aproximadamente se tienen alrededor
+ de 18 muestras por octava por instrumento.La excepcion a esto es el bombo
+ dado que el mismo no tiene notas, por loque solo se almacenaron 9 muestras
+ de 5 duraciones distintas.
 \end_layout
 
 \begin_layout Section
 Conclusiones
+\end_layout
+
+\begin_layout Standard
+Se puede concluir que hay una relacion de compromiso notable entre tiempo
+ de ejecucion de la sintesis y calidad del audio obtenido.Utilizando los
+ algoritmos OLA y WSOLA se obtienen tiempos de sintesis rapidos, pero la
+ calidad del audio esta bastante distorsionda salvo para el caso de la percusion.
+Por otro lado, al sintetizar con el phase vocoder se obtienen tiempos de
+ sintesis considerablamente largos pero a cambio de un audio de una calidad
+ notablemente superior a OLA y WSOLA, nuevamente sin tener en cuenta la
+ sintesis del bombo.
 \end_layout
 
 \end_body

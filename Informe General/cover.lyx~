@@ -309,7 +309,7 @@ Large 22.05 Análisis de Señales y Sistemas Digitales}
 \backslash
 textsc{
 \backslash
-large Trabajo Práctico de Laboratorio N°1}
+large Trabajo Práctico de Laboratorio N°2}
 \backslash
 
 \backslash
@@ -355,7 +355,7 @@ HRule
 \backslash
 huge 
 \backslash
-bfseries TP1}
+bfseries Análisis y Síntesis de Audio digital}
 \backslash
 
 \backslash
@@ -646,7 +646,7 @@ vfill
 
 {
 \backslash
-large Entregado: 5 de Abril de 2019}
+large Entregado: 3 de Mayo de 2019}
 \backslash
 
 \backslash

@@ -1993,6 +1993,8 @@ status open
 \align center
 \begin_inset Graphics
 	filename Imágenes/trumpet_sample.png
+	lyxscale 50
+	scale 50
 
 \end_inset
 
