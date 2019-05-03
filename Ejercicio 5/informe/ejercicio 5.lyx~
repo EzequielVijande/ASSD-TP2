@@ -89,6 +89,10 @@ Síntesis mediante modelo físico (Karplus-Strong)
 Modelo Básico
 \end_layout
 
+\begin_layout Subsubsection
+Función Transferencia
+\end_layout
+
 \begin_layout Standard
 El algoritmo de Karplus-Strong se utiliza para modelar isntrumentos a partir
  de la simulación del modelo físico del mismo.
@@ -341,6 +345,10 @@ El tono resultante de este algoritmo posee un período de
 .
 \end_layout
 
+\begin_layout Subsubsection
+Diagrama de polos y ceros
+\end_layout
+
 \begin_layout Standard
 Partiendo de 
 \begin_inset CommandInset ref
@@ -359,7 +367,407 @@ reference "eq:KSec2"
 \end_inset
 
  el sistema es estable.
- Ésto se comprobó 
+ Ésto se comprobó gráficamente mediante software.
+ A continuación, se muestra el diagrama de polos y ceros del sistema.
+ En este caso, 
+\begin_inset Formula $R_{L}=0.996$
+\end_inset
+
+, y el sistema es estable, como se puede observar, pues los polos se encuentran
+ dentro de la circunferencia unitaria.
+ Algo que no se observa en el gráfico es la cantidad de ceros en el origen
+ que tiene; el sistema cuenta con 
+\begin_inset Formula $N+1$
+\end_inset
+
+ ceros en el origen.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename zpstring.png
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Diagrama de polos y ceros para el modelo básico, con 
+\begin_inset Formula $R_{L}=0.996$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Ruido
+\end_layout
+
+\begin_layout Standard
+El paper en el que se basa este análisis, mencionado en la sección '
+\shape italic
+Referencias
+\shape default
+', menciona que el ruido utilizado como excitación de la cuerda debe tener
+ la siguiente forma:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+X_{t}=\begin{cases}
+A & probabilidad=\frac{1}{2}\\
+-A & probabilidad=\frac{1}{2}
+\end{cases}\,\quad\quad\quad-p\leq t\leq0
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Sin embargo, se implementó tanto con ruido uniforme como con normal.
+ Se decidió utilizar ruido uniforme pues es el que más se asemeja al mencionado
+ en el paper, ya que cada 
+\begin_inset Formula $X_{t}$
+\end_inset
+
+ tendrá igual probabilidad de ocurrencia, en contraposición al normal, con
+ su respectiva campana gaussiana.
+\end_layout
+
+\begin_layout Standard
+A continuación, dos muestras, una con ruido uniforme y la siguiente con
+ normal.
+ Si bien, en cuanto a sonido sus diferencias son imperceptibles, se puede
+ ver que la muestra con ruido blanco tiene más ármonicos, aunque de menor
+ amplitud.
+ Por otro lado, el ruido normal tiene amplitud impredecible, al tener una
+ desviación, pero van a estar mayormente centrados en la media, al contrario
+ con el uniforme.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename ruidoUniforme.PNG
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Muestra de ruido uniforme.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename ruidoNormal.PNG
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Muestra de ruido uniforme.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Muestras de Ruido.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Caja de Resonancia
+\end_layout
+
+\begin_layout Standard
+El cuerpo de la guitarra actúa como un resonador.
+ Su objetivo es matchear impedancias.
+ Las cuerdas son altas impedancias y el aire es un medio de baja impedancia,
+ por lo que se necesita un 'transformador' –la caja– para obtener la máxima
+ transferencia de energía; o un amplificador, en el caso de una guitarra
+ eléctrica.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename res1.PNG
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Modelo de la caja de resonancia.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename res2.PNG
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Red representativa del resonador a bajas frecuencias.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Modelo caja de resonancia.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Donde 
+\begin_inset Formula $S_{1}$
+\end_inset
+
+ en la primera figura representa la superficie activa del resonador, a lo
+ que se le aplica una fuerza externa 
+\begin_inset Formula $F(t)$
+\end_inset
+
+, que excita el resonador.
+ Esto puede representarse también, con el modelo de la derecha, ya que la
+ impedancia mecánica del resonador 
+\begin_inset Formula $Z(t)$
+\end_inset
+
+ puede calcularse de la siguiente manera:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+Z(t)=\frac{F(t)}{U_{1}(t)}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+La onda reflejada del puente de la guitarra se relaciona con esta función.
+ Introduciendo los polos y ceros complejos se obtiene:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+Z(s)=\frac{F(s)}{U_{1}(s)}=m\frac{\left(s^{2}+s\alpha+\omega_{1}^{2}\right)\left(s^{2}+s\alpha_{2}+\omega_{2}^{2}\right)}{s\left(s^{2}+s\alpha_{h}+\omega_{h}^{2}\right)}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+donde 
+\begin_inset Formula $\omega_{1}$
+\end_inset
+
+ y 
+\begin_inset Formula $\omega_{2}$
+\end_inset
+
+ son las frecuencias naturales del resonador, 
+\begin_inset Formula $\omega_{h}$
+\end_inset
+
+ la frecuencia resonante del resonador de Helmholtz, y 
+\begin_inset Formula $\alpha_{1}$
+\end_inset
+
+,
+\begin_inset Formula $\alpha_{2}$
+\end_inset
+
+, 
+\begin_inset Formula $\alpha_{h}$
+\end_inset
+
+ son los parámetros de atenuación
+\end_layout
+
+\begin_layout Subsection
+Modelo Extendido
+\end_layout
+
+\begin_layout Subsection
+Referencias
+\end_layout
+
+\begin_layout Standard
+el karplus
+\end_layout
+
+\begin_layout Standard
+el sullivan
+\end_layout
+
+\begin_layout Standard
+el jaffe
+\end_layout
+
+\begin_layout Standard
+el de resonancia
 \end_layout
 
 \end_body

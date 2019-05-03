@@ -114,6 +114,16 @@ filename "C:/Users/lugfe/Documents/GitHub/ASSD/ASSD-TP2/Programa_principal/Infor
 \begin_layout Standard
 \begin_inset CommandInset include
 LatexCommand include
+filename "C:/Users/lugfe/Documents/GitHub/ASSD/ASSD-TP2/Additive Synthesis/sintesisAditiva.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand include
 filename "C:/Users/lugfe/Documents/GitHub/ASSD/ASSD-TP2/Ejercicio 4/Informe/Ejercicio4.lyx"
 
 \end_inset
@@ -125,6 +135,16 @@ filename "C:/Users/lugfe/Documents/GitHub/ASSD/ASSD-TP2/Ejercicio 4/Informe/Ejer
 \begin_inset CommandInset include
 LatexCommand include
 filename "C:/Users/lugfe/Documents/GitHub/ASSD/ASSD-TP2/Ejercicio 5/Informe/ejercicio 5.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand include
+filename "C:/Users/lugfe/Documents/GitHub/ASSD/ASSD-TP2/Ej6(sample_synthesis)/Informe/Informe_Ej6.lyx"
 
 \end_inset
 

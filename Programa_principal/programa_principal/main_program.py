@@ -39,14 +39,16 @@ def not_meta_track(synth_trk_inst):
     # return len(s.synthesize(t, i, True, 1000)[0]) != 0
 
 waver = wav_gen.WaveManagement()
-pattern = midi.read_midifile(".\ArchivosMIDI\\Led_Zeppelin_-_Whole_Lotta_Love.mid")
+pattern = midi.read_midifile(".\ArchivosMIDI\\pirates.mid")
 trks = [pattern[i] for i in range(len(pattern))]
 
 #synths = [additiveSynthesis(pattern.resolution) for i in range(len(pattern))]
 #for s in synths:
 #    s.set_create_notes_callback(s.create_notes_callback)
 
-synths = [sammy.SampleSynthesizer(pattern.resolution) for i in range(len(pattern))]
+synths = [karplus.KarplusSynthesizer(pattern.resolution) for i in range(len(pattern))]
+for s in synths:
+    s.set_create_notes_callback(s.create_notes_callback)
 
 insts = [synth.DRUMS]*len(trks)
 

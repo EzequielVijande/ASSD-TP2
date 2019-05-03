@@ -5,13 +5,13 @@ import matplotlib.pyplot as plt
 import midi
 import synth
 from scipy import signal
-import KS_synth_Extras
+import karplus_extras
 
 
-class KSSynthesizer(synth.Synthesizer):
+class KarplusSynthesizer(synth.Synthesizer):
     def __init__(self, resolution):
-        self.set_create_notes_callback(self.create_note_array)
-        super(KSSynthesizer, self).__init__(resolution)
+        super(KarplusSynthesizer, self).__init__(resolution)
+        self.set_create_notes_callback(self.make_note)
         # overdrive variables
         self.lp1 = 0.996    # para el low pass
         self.lp0 = .1    # para el low pass
@@ -20,28 +20,31 @@ class KSSynthesizer(synth.Synthesizer):
         self.a1 = np.float(0)   # dc blocking filter
         self.b1 = np.float(0)   # dc blocking filter
 
-    def set_dc_blocking_filter(self, pitch):
+    def set_create_notes_callback(self, callback):
+        self.create_notes_callback = callback
+
+    def set_dc_blocking_filter(self, pitch):        #defino variables del filtro de continua segun la frecuencia
         freq = 2 ** ((pitch - 69) / 12) * 440
         wco = 2.0*math.pi*freq/10.0
         self.a0 = 1.0/(1.0 + wco/2.0)
         self.a1 = -1.0 * self.a0
         self.b1 = self.a0*(1 - wco/2.0)
 
-    # https://en.wikipedia.org/wiki/MIDI_tuning_standard#Frequency_values
-    def create_note_array(self, pitch, duration: int, intensity, instrument: int):
-        if instrument == synth.GUITAR:
+
+    def make_note(self, pitch, duration: int, intensity, instrument):
+        if instrument == synth.GUITAR:      #guitarra acustica
             return self.acoustic_guitar(pitch, duration, intensity)
-        elif instrument == synth.DRUMS:
-            return self.drum(pitch, duration, intensity)
-        elif instrument == synth.ELECTRIC_GUITAR:
+        elif instrument == synth.DRUMS:     #percusion
+            return self.drums(pitch, duration, intensity)
+        elif instrument == synth.ELECTRIC_GUITAR:   #guitarra electrica
             return self.electric_guitar(pitch, duration, intensity)
         else:
             return self.acoustic_guitar(pitch, duration, intensity)
 
 
     def acoustic_guitar(self, pitch, duration: int, intensity):
-        wavetable = self.create_noise(self.frame_rate, pitch)
-        wavetable = self.normalize(wavetable)
+        wavetable = self.create_noise(self.frame_rate, pitch)       #ruido
+        wavetable = self.normalize(wavetable)                       #normalizo
         notes = []
         current_note = 0
         previous_note = np.float(0)
@@ -51,47 +54,67 @@ class KSSynthesizer(synth.Synthesizer):
                 wavetable[current_note] = 0.996 * 0.5 * (wavetable[current_note] + previous_note)  # promedio
             notes.append(wavetable[current_note])  # el promedio (con prob 1/s) o queda igual (con prob 1-1/s)
             previous_note = notes[-1]  # ultimo elemento de la lista
-            current_note += 1
+            current_note += 1           #incremento indice
             current_note = current_note % wavetable.size
-        return np.array(notes)
+        return np.array(self.normalize_notes(notes))
 
-    def electric_guitar(self, pitch, duration:int, intensity):
+    def electric_guitar(self, pitch, duration: int, intensity):
         distorsion = 1.0
         notes = []
-        notes_post_distortion = []
-        burst = self.create_noise(self.frame_rate, pitch)
+        # notes_post_distortion = []
+        burst = self.create_noise(self.frame_rate, pitch)       #ruido
         burst = self.normalize(burst)
-        burst = self.dynamics(burst, intensity)
+        burst = self.dynamics(burst, intensity)                 #filtro para la intensidad de la nota
         while len(notes) < duration:
             xsoft = self.lowpass(burst, pitch)      #pasabajos y normalizo
-            x = self.lowpass(xsoft, pitch)      #otro pasabajos para que no se escuche tan metalico, sin púa
+            x = self.lowpass(xsoft, pitch)          #otro pasabajos para que no se escuche tan metalico, sin púa
 
-            w = self.dc_blocking_filter(x, pitch)
-            y = self.overdrive(w, distorsion)
-            z = self.lowpass(np.add(1.4*w, y),pitch)
+            w = self.dc_blocking_filter(x, pitch)   #filtro que bloquea la continua
+            y = self.overdrive(w, distorsion)       #distorsion
+            z = self.lowpass(np.add(1.4*w, y),pitch)    #pasabajos hace que suene mejor
             #burst = self.feedback_delay(y, pitch)
             notes.extend(z)
         notes = self.normalize_notes(notes)
         return notes
 
+    # percusion con decay
+    def drums(self, pitch, duration: int, intensity):
+        b = 0.5  # drumlike sound
+        wavetable = np.ones(self.frame_rate // pitch)
+        notes = []
+        current_note = 0
+        previous_note = np.float(0)
+        while len(notes) < duration:
+            rand = np.random.binomial(1, 1 - 1 / (1 + intensity / 127))
+            sign = -1 + 2 * np.random.binomial(1, b)   # si sale 1 queda 1; si sale 0, queda -1
+            if rand == 0:
+                wavetable[current_note] = sign * 0.85 * 0.5 * (wavetable[current_note] + previous_note)  # promedio
+                notes.append(wavetable[current_note])
+            else:
+                notes.append(sign * wavetable[current_note])
+            previous_note = notes[-1]  # ultimo elemento de la lista
+            current_note += 1
+            current_note = current_note % wavetable.size
+
+            #normalizo no con self.normalize, ni self.normalize_notes porque el vector tiene valores entre [0,1], NO [-1, 1]
+        suma = sum(notes)
+        if notes:
+            notes = self.normalize_notes(notes)
+        return np.array(notes)
+
     def dc_blocking_filter(self, x, pitch):
-        N = self.frame_rate // pitch
         self.set_dc_blocking_filter(pitch)  # seteo variables del filtro que filtra la continua
         y = np.array([0.0] * x.size)
-        w = np.array([0.0] * x.size)
-        prev_x, prev_y, prev_w, prevN_y = 0.0, 0.0, 0.0, 0.0
-        q = 0.01
-
-        #el overdrive que se escuchaba bien
+        prev_x, prev_y= 0.0, 0.0
         for n in range(x.size):
          if n > 0:
              prev_x = x[n-1]
          else:
              prev_x = 0.0
          if n > 0:
-                 prev_y = y[n-1]
+            prev_y = y[n-1]
          else:
-                 prev_y = 0
+             prev_y = 0
          y[n] = self.a0*x[n] + self.a1*prev_x + self.b1*prev_y       #filtro
         return y
 
@@ -99,7 +122,6 @@ class KSSynthesizer(synth.Synthesizer):
         for n in range(y.size):
             y[n] = distorsion*self.soft_clip(y[n])         #distorsiono
         return self.normalize(y)
-
 
     def feedback_delay(self, x, pitch):
         N = self.frame_rate//pitch
@@ -123,7 +145,7 @@ class KSSynthesizer(synth.Synthesizer):
                     y[n] = x[n]
         return y
 
-    def lowpass(self, x:np.ndarray, pitch):
+    def lowpass(self, x: np.ndarray, pitch):
         c = 1 / abs(1 + 2 * math.cos(2 * math.pi * pitch / self.frame_rate))
         y = np.array([0.0]*x.size)
         prev_x, prevprev_x = np.float(0), np.float(0)
@@ -152,41 +174,20 @@ class KSSynthesizer(synth.Synthesizer):
             return notes
 
     def soft_clip(self, x):       # soft clipping
-            if x >= 1:
-                return 2/3
-            elif x <= -1:
-                return -2/3
-            else:
-                return x - x**3/3
+        if x >= 1:
+            return 2/3
+        elif x <= -1:
+            return -2/3
+        else:
+            return x - x**3/3
 
-    # percusion con decay
-    def drum(self, pitch, duration: int, intensity):
-        b = 0.5  # drumlike sound
-        wavetable = np.ones(self.frame_rate // pitch)
-        wavetable = self.normalize(wavetable)
-        notes = []
-        current_note = 0
-        previous_note = np.float(0)
-        while len(notes) < duration:
-            rand = np.random.binomial(1, 1 - 1 / (1 + intensity / 127))
-            sign = -1 + 2 * np.random.binomial(1, b)   # si sale 1 queda 1; si sale 0, queda -1
-            if rand == 0:
-                wavetable[current_note] = sign * 0.9 * 0.5 * (wavetable[current_note] + previous_note)  # promedio
-                notes.append(wavetable[current_note])
-            else:
-                notes.append(sign * wavetable[current_note])
-            previous_note = notes[-1]  # ultimo elemento de la lista
-            current_note += 1
-            current_note = current_note % wavetable.size
-        return np.array(notes)
+
 
     def create_noise(self, fs, pitch):  # vector con 1 ó -1
         freq = 2 ** ((pitch - 69) / 12) * 440
         wavetable_size = fs // int(freq)
         wavetable = np.random.uniform(-1.0, 1.0, wavetable_size)
-        #wavetable = (2 * np.random.randint(0, 2, wavetable_size) - 1)
         return wavetable
-        #return wavetable.astype(np.float)
 
     # para normalizar vector conocido
     def normalize(self, raw):       # normalizo entre -1, 1
