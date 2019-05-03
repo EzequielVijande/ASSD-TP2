@@ -126,12 +126,12 @@ inputs_prueba.txt
  la manera en que este fue escrito:
 \end_layout
 
-\begin_layout Standard
+\begin_layout Itemize
 La primera línea antes de un nuevo input de prueba tendrá una letra 'P'
  mayúscula
 \end_layout
 
-\begin_layout Standard
+\begin_layout Itemize
 La segunda línea tendrá el input de pruebao vector 
 \begin_inset Quotes eld
 \end_inset
@@ -161,7 +161,7 @@ in
  del mismo número complejo.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Itemize
 La tercera línea tendrá el vector de output 
 \begin_inset Quotes eld
 \end_inset
@@ -190,7 +190,7 @@ in
  en el ítem anterior.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Itemize
 La cuarta línea tendrá el vector de output luego de pasar por la ifft.
  Se corroboró que este fuera el mismo que 
 \begin_inset Quotes eld
