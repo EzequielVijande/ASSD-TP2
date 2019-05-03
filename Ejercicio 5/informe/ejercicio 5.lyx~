@@ -489,7 +489,7 @@ status open
 \begin_inset Graphics
 	filename ruidoUniforme.PNG
 	lyxscale 50
-	scale 60
+	scale 50
 
 \end_inset
 
@@ -521,7 +521,7 @@ status open
 \begin_inset Graphics
 	filename ruidoNormal.PNG
 	lyxscale 50
-	scale 60
+	scale 50
 
 \end_inset
 
@@ -1576,7 +1576,7 @@ Por otro lado, también, se consiguió un sonido bastante fiel en cuanto a
 \end_layout
 
 \begin_layout Standard
-En principio, quedan muchas posibilidades de desarrollo en adelante, variedades
+En principio, quedan muchas posibilidades de desarrollo a futuro, variedades
  de filtros por implementar, algunos, son: un filtro pasabajos relacionado
  a la dinámica –intensidad de cada nota–, un filtro que simule la resistencia
  de cada cuerda, y otro que simule la caja de resonancia de la guitarra.

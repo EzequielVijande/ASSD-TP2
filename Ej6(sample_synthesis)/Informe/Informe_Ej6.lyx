@@ -1438,7 +1438,7 @@ La ventaja principal de este método es que garantiza continuidad de fase
  de frecuencias dentro de un mismo bin de tiempo toma mayor relevancia.
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Desempeño y comparación de cada algoritmo
 \end_layout
 
@@ -1450,9 +1450,10 @@ A continuación se presenta una tabla en la que se muestra el desempeño en
 \begin_layout Standard
 \align center
 \begin_inset Float figure
+placement H
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
@@ -1688,7 +1689,7 @@ Cada uno de los audios sintetizados mostrados en la tabla se encuentran
  todos los instrumentos salvo para los bombos.
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Implementación del sintetizador
 \end_layout
 
@@ -1700,6 +1701,7 @@ A continuación se presenta una tabla con los instrumentos que se implementaron
 \begin_layout Standard
 \align center
 \begin_inset Float table
+placement H
 wide false
 sideways false
 status collapsed
@@ -1869,7 +1871,7 @@ Se guardaron 3 notas por octava para cada instrumento.Para cada una de esas
  de 5 duraciones distintas.
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Conclusiones
 \end_layout
 
