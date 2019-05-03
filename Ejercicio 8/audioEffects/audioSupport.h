@@ -7,6 +7,7 @@
 
 
 #include "stdbool.h"
+#include "effectStructs.h"
 
 typedef struct{
     bool succeded;
@@ -17,7 +18,9 @@ typedef struct{
 
 }audioSupportResults_t;
 
-audioSupportResults_t implementAudioEffects(int effect, void * pEffectsParam);
-audioSupportResults_t uninstallAudioEffects(void * pDataSupport);
+
+void refreshParamsEfects(int var1, int var2, int effect);
+audioSupportResults_t implementAudioEffects(int effect, audioEffectsParameters_t * pEffectsParam);
+audioSupportResults_t uninstallAudioEffects(void * pDataSupport, audioEffectsParameters_t * p);
 
 #endif //AUDIOSUPPORT_H

@@ -290,7 +290,7 @@ noprefix "false"
 placement H
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
@@ -848,7 +848,7 @@ Por lo que
 placement H
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
@@ -1166,7 +1166,122 @@ noprefix "false"
 \end_layout
 
 \begin_layout Subsubsection
-Propagacion de fase
+Algoritmo y propagacion de fase
+\end_layout
+
+\begin_layout Standard
+El metodo consiste en aplicarle la fft a cada bloque de analisis dado por
+ 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ y a partir de estos espectro conseguir un numero de espectros igual a la
+ cantidad de bloques de sintesis,modificar los mismos para corregir las
+ discontinuidades de fase y finalmente sumar y superponer la antitransformada
+ de los espectros a la salida.
+\end_layout
+
+\begin_layout Standard
+El primer paso es obtener una cantidad de espectros igual a la cantidad
+ de bloques de sintesis a partir de los espectros de los bloques de analisis.Esto
+ se puede hacer simplemente mediante una simple interpolacion de los espectros
+ que se tienen segun:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Formula 
+\begin{equation}
+X_{interp}(k)=f(\tau^{-1}(k))
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Formula 
+\begin{equation}
+f(t)=\frac{t-\sigma(n)}{\sigma(n+1)-\sigma(n)}X(n+1)+\frac{\sigma(n+1)-t}{\sigma(n+1)-\sigma(n)}X(n),\sigma(n)\leqslant t\leqslant\sigma(n+1)
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Las magnitudes del espectro final son iguales a las interpoladas.Sin embargo,
+ es necesario ajustar la fase del siguiente paso es corregir los espectros
+ para que no haya discontinuidades de fase.El objetivo es asegurar que la
+ fase de cada bin de frecuencia sea continua y lineal a traves de los bins
+ de tiempo(en este caso son los bloques de sintesis).
+\end_layout
+
+\begin_layout Standard
+La fase debe ser lineal ya que asumiendo que el espectro en un bin de tiempo
+ es una suma de senoidales se tiene:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Formula $X_{nH_{s}}(k)=A_{k}e^{j(\omega_{k}nH_{s}+\phi_{k})}=A_{k}e^{j(\frac{2\pi k}{N}nH_{s}+\phi_{k})}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+De la expresion anterior se tiene que la diferencia de fase entre dos bins
+ de tiempo consecutivos es:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Formula 
+\begin{equation}
+\phi_{n+1}-\phi_{n}=\triangle\phi=\frac{2\pi}{N}H_{s}\label{eq:diferencia de fase}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Donde en nuestro caso 
+\begin_inset Formula $H_{s}$
+\end_inset
+
+es 
+\begin_inset Formula $HopSize$
+\end_inset
+
+ y 
+\begin_inset Formula $N$
+\end_inset
+
+ es igual al largo de la ventana de analisis.Con la ecuacion (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:diferencia de fase"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) en teoria se podria obtener la fase en todos los bins de tiempo con solo
+ conocer la fase inicial para el bin de frecuencia dado.Sin embargo,en la
+ realildad las senales con las que se trabaja no estan formadas por armonicos
+ de periodo fundamental 
+\begin_inset Formula $\frac{1}{N}$
+\end_inset
+
+, por lo que tambien es necesario estimar la frecuencia exacta para cada
+ bin de frecuencia.
 \end_layout
 
 \begin_layout Subsubsection

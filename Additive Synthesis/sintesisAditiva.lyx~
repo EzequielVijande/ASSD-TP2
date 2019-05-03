@@ -32,7 +32,7 @@
 \spacing single
 \use_hyperref false
 \papersize default
-\use_geometry false
+\use_geometry true
 \use_package amsmath 1
 \use_package amssymb 1
 \use_package cancel 1
@@ -57,6 +57,10 @@
 \shortcut idx
 \color #008000
 \end_index
+\leftmargin 2cm
+\topmargin 2cm
+\rightmargin 2cm
+\bottommargin 2cm
 \secnumdepth 3
 \tocdepth 3
 \paragraph_separation indent
@@ -78,40 +82,40 @@
 \begin_body
 
 \begin_layout Section
-Sintesis Aditiva
+Síntesis Aditiva
 \end_layout
 
 \begin_layout Subsection
-Introduccion
+Introducción
 \end_layout
 
 \begin_layout Standard
-En esta seccion se trata la sintesis aditiva y su implementacion en codigo.
- Comenzando con una breve introduccion teorica de la sintesis aditiva, luego
- se explican las formas implementadas de sintesis aditiva y los resultados
+En esta sección se trata la síntesis aditiva y su implementación en código.
+ Comenzando con una breve introducción teórica de la síntesis aditiva, luego
+ se explican las formas implementadas de síntesis aditiva y los resultados
  obtenidos.
  Para finalizar se presenta el rango de funcionamiento de los instrumentos
- sintetizados y las conclusiones obtenidas a lo largo de la investigacion.
- Tras todo lo amprendido sobre las sintesis aditiva, se crearon presets
- para cuatro instrumentos para inclui en el programa principal.
+ sintetizados y las conclusiones obtenidas a lo largo de la investigación.
+ Tras todo lo aprendido sobre las síntesis aditiva, se crearon presets para
+ cuatro instrumentos para incluir en el programa principal.
 \end_layout
 
 \begin_layout Subsection
-Marco Teorico
+Marco Teórico
 \end_layout
 
 \begin_layout Standard
-La sintesis aditiva es un tipo de sintesis el cual genera un timbre especifico
- al sumar senoidales de difrente frecuencia.
+La síntesis aditiva es un tipo de síntesis el cual genera un timbre especifico
+ al sumar sinusoidales de diferentes frecuencia.
  El timbre de un instrumento es lo que diferencia un instrumento del otro.
  Ya que una guitarra tocando un concert A (440Hz) no suena igual a una flauta
  tocando la misma nota.
- Lo que define el timbre de un instrumento son los armonicos presentes ademas
- de la frecuencia fundamental y la amplitud de estos armonicos.
- Estos armonicos son denominados partials o overtones.
+ Lo que define el timbre de un instrumento son los armónicos presentes ademas
+ de la frecuencia fundamental y la amplitud de estos armónicos.
+ Estos armónicos son denominados partials o overtones.
  Cada partial es una senoidal pura de una frecuencia, a la cual su amplitud
  varia con el tiempo.
- De manera que se puede expresar la sintesis aditiva mas simple como:
+ De manera que se puede expresar la síntesis aditiva mas simple como:
 \end_layout
 
 \begin_layout Standard
@@ -127,18 +131,18 @@ Donde
 \begin_inset Formula $A_{k}$
 \end_inset
 
- es la envolvente para el k-esimo partial y es una funcion que varia en
+ es la envolvente para el k-esimo partial y es una función que varia en
  el tiempo.
 \end_layout
 
 \begin_layout Subsection
-Parametrizacion ADSR
+Parametrización ADSR
 \end_layout
 
 \begin_layout Standard
-La parametrizacion mas simple de una envolvente para la sintesis aditiva
- es la parametrizacion ADSR donde esta es igual para cada partial.
- Bajo esta suposicion, los instrumentos tienen cuatro parametros caracteristicos
+La parametrización mas simple de una envolvente para la síntesis aditiva
+ es la parametrización ADSR donde esta es igual para cada partial.
+ Bajo esta suposición, los instrumentos tienen cuatro parámetros característicos
 , reflejados claramente en la siguiente imagen:
 \end_layout
 
@@ -153,7 +157,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename imagenes/adsr_infographic600_grande.png
-	scale 80
+	scale 40
 
 \end_inset
 
@@ -182,28 +186,28 @@ Envolvente ADSR
 \end_layout
 
 \begin_layout Standard
-Los parametros son Attack, Decay, Sustain y Release.
- El parametro attack corresponde al tiempo que tarda un instrumento en llegar
+Los parámetros son Attack, Decay, Sustain y Release.
+ El parámetro attack corresponde al tiempo que tarda un instrumento en llegar
  a su amplitud maxima.
  Los instrumentos de cuerda suelen tener tiempo de atttack muy cortos ya
- que al soltar la cuerda el sonido llega a su maxima de manera casi instantanea.
- Otros instrumentso como los de viento pueden tardar mas en llegar a su
- maximo potencial.
- El parametro Decay corresponde al tiempo que tarda un instrumento en estabiliza
+ que al soltar la cuerda el sonido llega a su maxima de manera casi instantánea.
+ Otros instrumentos como los de viento pueden tardar mas en llegar a su
+ máximo potencial.
+ El parámetro Decay corresponde al tiempo que tarda un instrumento en estabiliza
 rse en su nivel de Sustain tras llegar a su maxima amplitud.
  Un instrumento puede no tener decay, en caso de que el sustain sea igual
  a la amplitud maxima.
- El parametro sustain indica el porcentaje de la amplitud maxima que tiene
- un instrumento una vez estabilizado, es un parametro en amplitud, no en
+ El parámetro sustain indica el porcentaje de la amplitud maxima que tiene
+ un instrumento una vez estabilizado, es un parámetro en amplitud, no en
  tiempo.
  Ya que el sustain no tiene un tiempo fijo, sino que es definido por el
  largo que se toca la nota.
- El ultimo parametro es el Release, que indica el tiempo que tarda en desvanecer
+ El ultimo parámetro es el Release, que indica el tiempo que tarda en desvanecer
 se la nota una vez que se dejo de tocar.
 \end_layout
 
 \begin_layout Standard
-Modelando esta funcion matematicamente se obtiene la siguiente funcion:
+Modelando esta función matemáticamente se obtiene la siguiente función:
 \end_layout
 
 \begin_layout Standard
@@ -236,23 +240,23 @@ t_{t} & tiempo-total-de-nota
 \end_layout
 
 \begin_layout Subsubsection
-Obtencion de parametros
+Obtención de parámetros
 \end_layout
 
 \begin_layout Standard
-A continuacion se obtuvieron los partials y parametros de la envolvente
+A continuación se obtuvieron los partials y parámetros de la envolvente
  ADSR de cuatro instrumentos con la ayuda de un software (Sonic Visualizer).
- A partir de la transformada de Fourier se obuvieron el numero de armonicos
+ A partir de la transformada de Fourier se obtuvieron el numero de armónicos
  predominantes en los instrumentos y las amplitudes de estos.
- La transfromada de Fourier no refleja con exactitud los parametros ya que
- estas amplitudes varian con el tiempo.
- Pero es una buena aproximacion si se quiere implementar una envolvente
- ADSR comun a todos los partials, variando solo la amplitud de las senoidales
- para cada armonico.
- A continuacion se muestra lo encontrado a partir de las muestras.
+ La transformada de Fourier no refleja con exactitud los parámetros ya que
+ estas amplitudes varían con el tiempo.
+ Pero es una buena aproximación si se quiere implementar una envolvente
+ ADSR común a todos los partials, variando solo la amplitud de las senoidales
+ para cada armónico.
+ A continuación se muestra lo encontrado a partir de las muestras.
 \end_layout
 
-\begin_layout Paragraph
+\begin_layout Paragraph*
 Guitarra
 \end_layout
 
@@ -267,7 +271,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename imagenes/Screenshot 2019-05-02 12.52.32.png
-	scale 50
+	scale 30
 
 \end_inset
 
@@ -278,7 +282,7 @@ status collapsed
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Envovlente y Transformada de Fourier
+Envolvente y Transformada de Fourier
 \end_layout
 
 \end_inset
@@ -297,6 +301,7 @@ Envovlente y Transformada de Fourier
 
 \begin_layout Standard
 \begin_inset Float table
+placement H
 wide false
 sideways false
 status collapsed
@@ -421,7 +426,7 @@ status collapsed
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Tabla de parametros
+Tabla de parámetros
 \end_layout
 
 \end_inset
@@ -439,7 +444,7 @@ Tabla de parametros
 \end_layout
 
 \begin_layout Paragraph
-Violin
+Violín
 \end_layout
 
 \begin_layout Standard
@@ -453,7 +458,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename imagenes/Screenshot 2019-05-02 12.54.38.png
-	scale 50
+	scale 30
 
 \end_inset
 
@@ -464,7 +469,7 @@ status collapsed
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Envovlente y Transformada de Fourier
+Envolvente y Transformada de Fourier
 \end_layout
 
 \end_inset
@@ -479,6 +484,7 @@ Envovlente y Transformada de Fourier
 
 \begin_layout Standard
 \begin_inset Float table
+placement H
 wide false
 sideways false
 status collapsed
@@ -603,7 +609,7 @@ status collapsed
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Tabla de parametros
+Tabla de parámetros
 \end_layout
 
 \end_inset
@@ -631,7 +637,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename imagenes/Screenshot 2019-05-02 12.54.03.png
-	scale 50
+	scale 30
 
 \end_inset
 
@@ -642,7 +648,7 @@ status collapsed
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Envovlente y Transformada de Fourier
+Envolvente y Transformada de Fourier
 \end_layout
 
 \end_inset
@@ -657,6 +663,7 @@ Envovlente y Transformada de Fourier
 
 \begin_layout Standard
 \begin_inset Float table
+placement H
 wide false
 sideways false
 status collapsed
@@ -781,7 +788,7 @@ status collapsed
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Tabla de parametros
+Tabla de parámetros
 \end_layout
 
 \end_inset
@@ -809,7 +816,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename imagenes/Screenshot 2019-05-02 12.53.37.png
-	scale 50
+	scale 30
 
 \end_inset
 
@@ -820,7 +827,7 @@ status collapsed
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Envovlente y Transformada de Fourier
+Envolvente y Transformada de Fourier
 \end_layout
 
 \end_inset
@@ -835,6 +842,7 @@ Envovlente y Transformada de Fourier
 
 \begin_layout Standard
 \begin_inset Float table
+placement H
 wide false
 sideways false
 status collapsed
@@ -959,7 +967,7 @@ status collapsed
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Tabla de parametros
+Tabla de parámetros
 \end_layout
 
 \end_inset
@@ -977,7 +985,7 @@ Resultados
 \end_layout
 
 \begin_layout Standard
-Al implementar la sintesis aditiva con los parametros anteriormente encontrados,
+Al implementar la síntesis aditiva con los parámetros anteriormente encontrados,
  se obtuvieron los siguientes resultados:
 \end_layout
 
@@ -996,7 +1004,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename imagenes/Original_Signal_Guitar.png
-	scale 80
+	scale 60
 
 \end_inset
 
@@ -1035,6 +1043,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename imagenes/Guitar_Signal.png
+	scale 50
 
 \end_inset
 
@@ -1064,6 +1073,7 @@ Señal Sintetizada
 
 \begin_layout Standard
 \begin_inset Float figure
+placement H
 wide false
 sideways false
 status collapsed
@@ -1072,6 +1082,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename imagenes/Guitar_Signal_Zoom.png
+	scale 40
 
 \end_inset
 
@@ -1110,6 +1121,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename imagenes/FFT_Guitar.png
+	scale 40
 
 \end_inset
 
@@ -1138,7 +1150,7 @@ Transformadas de Fourier
 \end_layout
 
 \begin_layout Paragraph
-Violin
+Violín
 \end_layout
 
 \begin_layout Standard
@@ -1152,7 +1164,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename imagenes/Original_Signal_Violin.png
-	scale 80
+	scale 50
 
 \end_inset
 
@@ -1187,6 +1199,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename imagenes/Violin_Signal.png
+	scale 40
 
 \end_inset
 
@@ -1212,6 +1225,7 @@ Señal Sintetizada
 
 \begin_layout Standard
 \begin_inset Float figure
+placement H
 wide false
 sideways false
 status collapsed
@@ -1220,6 +1234,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename imagenes/Violin_Signal_Zoom.png
+	scale 40
 
 \end_inset
 
@@ -1254,6 +1269,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename imagenes/FFT_Violin.png
+	scale 40
 
 \end_inset
 
@@ -1292,7 +1308,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename imagenes/Original_Signal_Saxo.png
-	scale 80
+	scale 50
 
 \end_inset
 
@@ -1327,6 +1343,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename imagenes/Saxo_Signal.png
+	scale 40
 
 \end_inset
 
@@ -1352,6 +1369,7 @@ Señal Sintetizada
 
 \begin_layout Standard
 \begin_inset Float figure
+placement H
 wide false
 sideways false
 status collapsed
@@ -1360,6 +1378,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename imagenes/Saxo_Signal_Zoom.png
+	scale 40
 
 \end_inset
 
@@ -1394,7 +1413,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename imagenes/FFT_Saxo.png
-	scale 50
+	scale 30
 
 \end_inset
 
@@ -1433,7 +1452,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename imagenes/Original_Signal_Trumpet.png
-	scale 80
+	scale 50
 
 \end_inset
 
@@ -1468,6 +1487,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename imagenes/Trumpet_Signal.png
+	scale 40
 
 \end_inset
 
@@ -1501,6 +1521,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename imagenes/Trumpet_Signal_Zoom.png
+	scale 40
 
 \end_inset
 
@@ -1535,7 +1556,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename imagenes/FFT_Trumpet.png
-	scale 50
+	scale 30
 
 \end_inset
 
@@ -1560,23 +1581,23 @@ Transformadas de Fourier
 \end_layout
 
 \begin_layout Subsection
-Investigacion de Mejoras
+Investigación de Mejoras
 \end_layout
 
 \begin_layout Standard
-Para mejorar esta sintesis aditiva, se probo tener en cuenta la desviacion
- aleatoria en frecuencia de cada partial, el cuel se ve en los instrumentos
- reales, los cuales no cumplen los armonicos perfectamente.
- Sino que puede variar lafrecuencia de ese verdadero fundamental.
- Para programar esta mejora se midio el desvio de cada partial para cada
- instrumento y se hizo el promedio de estsos desvios para cada instrumentos.
- A ontinuacion se sintetizaron nuevamente las mismas notas que la seccion
- anteorior, con un desvio agregado a cada partial, aleatorio generado or
- la computaodra.
+Para mejorar esta síntesis aditiva, se probo tener en cuenta la desviación
+ aleatoria en frecuencia de cada partial, el cual se ve en los instrumentos
+ reales, los cuales no cumplen los armónicos perfectamente.
+ Sino que puede variar la frecuencia de ese verdadero fundamental.
+ Para programar esta mejora se midió el desvío de cada partial para cada
+ instrumento y se hizo el promedio de estos desvíos para cada instrumentos.
+ A continuación se sintetizaron nuevamente las mismas notas que la sección
+ anterior, con un desvió agregado a cada partial, aleatorio generado por
+ la computadora.
  El resultado fue el siguiente:
 \end_layout
 
-\begin_layout Paragraph
+\begin_layout Standard
 Guitarra
 \end_layout
 
@@ -1591,7 +1612,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename imagenes/Guitar_Signal_Comp.png
-	scale 80
+	scale 60
 
 \end_inset
 
@@ -1602,7 +1623,7 @@ status collapsed
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Comparacion de sintetizaciones
+Comparación de sintetizadores
 \end_layout
 
 \end_inset
@@ -1616,7 +1637,7 @@ Comparacion de sintetizaciones
 \end_layout
 
 \begin_layout Paragraph
-Violin
+Violín
 \end_layout
 
 \begin_layout Standard
@@ -1630,7 +1651,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename imagenes/Violin_Signal_Comp.png
-	scale 80
+	scale 60
 
 \end_inset
 
@@ -1641,7 +1662,7 @@ status collapsed
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Comparacion de sintetizaciones
+Comparación de sintetizadores
 \end_layout
 
 \end_inset
@@ -1669,7 +1690,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename imagenes/Saxo_Signal_Comp.png
-	scale 80
+	scale 60
 
 \end_inset
 
@@ -1680,7 +1701,7 @@ status collapsed
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Comparacion de sintetizaciones
+Comparación de sintetizadores
 \end_layout
 
 \end_inset
@@ -1708,7 +1729,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename imagenes/Trumpet_Signal_Comp.png
-	scale 80
+	scale 60
 
 \end_inset
 
@@ -1719,7 +1740,7 @@ status collapsed
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Comparacion de sintetizaciones
+Comparación de sintetizadores
 \end_layout
 
 \end_inset
@@ -1733,35 +1754,35 @@ Comparacion de sintetizaciones
 \end_layout
 
 \begin_layout Standard
-Como se puede apreciar, este desvio genera que la envolvente no sea tan
- lineal como en el caso anterior, lo cual hace que visualemtne se aproxime
+Como se puede apreciar, este desvío genera que la envolvente no sea tan
+ lineal como en el caso anterior, lo cual hace que visualmente se aproxime
  mejor a la senal original.
- De cuaquier manera, desde la percepcion auditiva no se encotnrar cambios
- significativos a la hora de imitar instrumnetos reales.
- Por lo que para ahrrar tiempo de procesamiento, esta caracterisitca no
+ De cualquier manera, desde la percepción auditiva no se encontrar cambios
+ significativos a la hora de imitar instrumentos reales.
+ Por lo que para ahorrar tiempo de procesamiento, esta característica no
  se agrego a los presets para el programa principal.
 \end_layout
 
 \begin_layout Subsection
-Proposicion de parametrizacion
+Proposición de parametrización
 \end_layout
 
 \begin_layout Standard
-Al escuchar los audios generados por la parametrizacion ADSR, se puede notar
- como estos suenan sinteticos y no se acercan mucho a la realidad a la hora
+Al escuchar los audios generados por la parametrización ADSR, se puede notar
+ como estos suenan sintéticos y no se acercan mucho a la realidad a la hora
  de imitar instrumentos reales.
  Para mejorar este problema se puede empezar comparando la envolvente ADSR
  con envolventes reales obtenidas de muestras.
 \end_layout
 
 \begin_layout Standard
-A partir de la comparacion de estas envolventes, se pudo proponer una envolvente
- mas real, la cual llevaria a mejores resultados.
- Esta envolvente tiene tambien parametros de attack, decay y release.
+A partir de la comparación de estas envolventes, se pudo proponer una envolvente
+ mas real, la cual llevaría a mejores resultados.
+ Esta envolvente tiene también parámetros de attack, decay y release.
  Pero estos se dividen en dos etapas, una etapa exponencial y una etapa
- logaritimica.
- Ademas, el sustain contiene un ripple, y un droop rate.
- De manera que la funcion se puede graficar de la siguiente manera:
+ logarítmica.
+ Ademas el sustain contiene un droop rate.
+ De manera que la función se puede graficar de la siguiente manera:
 \end_layout
 
 \begin_layout Standard
@@ -1772,6 +1793,13 @@ sideways false
 status collapsed
 
 \begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename imagenes/Screenshot 2019-05-02 16.20.02.png
+	scale 40
+
+\end_inset
+
 
 \end_layout
 
@@ -1779,7 +1807,7 @@ status collapsed
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-
+Envolvente ADSR exponencial/logarítmica
 \end_layout
 
 \end_inset
@@ -1797,21 +1825,7 @@ status collapsed
 \end_layout
 
 \begin_layout Standard
-Y la expresion matematica es la siguiente:
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula $f(t)=$
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Se encontro que se asimila mas a las muestras obsrevadas, y da mas flexibilidad
- a la hora del diseno de una envolvente.
- Una envolvente de esta manera puede teneer parte exponencial cero en el
- decay y parte logaritima cero en attack, formado lo siguiente:
+Y la expresión matemática es la siguiente:
 \end_layout
 
 \begin_layout Standard
@@ -1822,10 +1836,74 @@ sideways false
 status collapsed
 
 \begin_layout Plain Layout
+\begin_inset Graphics
+	filename imagenes/Screenshot 2019-05-02 16.20.45.png
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
+Expresiones matemáticas
+\end_layout
 
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Se encontró que se asimila mas a las muestras observadas, y da mas flexibilidad
+ a la hora del diseño de una envolvente.
+ La gran notable desventaja es la cantidad de parámetros a tener en cuenta
+ a la hora de diseñar la envolvente.
+ Se encontró que la manera mas eficiente es gráficamente ir variando los
+ parámetros hasta encontrar la envolvente deseada con un graficador como
+ lo es Desmos.
+\end_layout
+
+\begin_layout Standard
+Una envolvente de esta manera puede tener parte exponencial cero en el decay
+ y parte logarítmica cero en attack, formado lo siguiente:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename imagenes/Screenshot 2019-05-03 00.27.29.png
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Ejemplo 1 Envolvente
 \end_layout
 
 \end_inset
@@ -1855,6 +1933,13 @@ sideways false
 status collapsed
 
 \begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename imagenes/Screenshot 2019-05-03 00.30.19.png
+	scale 40
+
+\end_inset
+
 
 \end_layout
 
@@ -1862,7 +1947,7 @@ status collapsed
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-
+Ejemplo 2 Envolvente
 \end_layout
 
 \end_inset
@@ -1880,21 +1965,21 @@ status collapsed
 \end_layout
 
 \begin_layout Standard
-Igualmente, se encontro que la manera de obtener el sonido mas realista
+Igualmente, se encontró que la manera de obtener el sonido mas realista
  es guardando las envolventes de muestras con el uso de espectroscopia e
  utilizando el algoritmo OLA para extender o contraer estas envolventes
  a la necesidad de la longitud de la nota.
 \end_layout
 
 \begin_layout Subsection
-Sintesis Aditiva a base de muestras
+Síntesis Aditiva a base de muestras
 \end_layout
 
 \begin_layout Standard
 Como se explico anteriormente, se obtuvo un sonido mas realista al obtener
  la envolventes de muestras con el uso de un espectrograma.
- A cotinuacion se presentan las envolventes del armonico fundamental de
- los instrumentos sintetizados y como resulta la senal final en comparacion
+ A continuación se presentan las envolventes del armónico fundamental de
+ los instrumentos sintetizados y como resulta la senal final en comparación
  con la original.
 \end_layout
 
@@ -1913,6 +1998,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename imagenes/Original_Signal_Guitar_time.png
+	scale 60
 
 \end_inset
 
@@ -1951,6 +2037,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename imagenes/guitar_envelope.png
+	scale 60
 
 \end_inset
 
@@ -1989,6 +2076,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename imagenes/Synth_Signal_Guitar.png
+	scale 60
 
 \end_inset
 
@@ -2017,7 +2105,7 @@ Señal Sintetizada
 \end_layout
 
 \begin_layout Paragraph
-Violin
+Violín
 \end_layout
 
 \begin_layout Standard
@@ -2031,6 +2119,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename imagenes/Original_Signal_Violin_time.png
+	scale 60
 
 \end_inset
 
@@ -2065,6 +2154,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename imagenes/violin_envelope.png
+	scale 60
 
 \end_inset
 
@@ -2099,6 +2189,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename imagenes/Synth_Signal_Violin.png
+	scale 60
 
 \end_inset
 
@@ -2137,6 +2228,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename imagenes/Original_Signal_Saxo_time.png
+	scale 60
 
 \end_inset
 
@@ -2171,6 +2263,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename imagenes/saxo_envelope.png
+	scale 60
 
 \end_inset
 
@@ -2205,6 +2298,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename imagenes/Synth_Signal_Saxo.png
+	scale 60
 
 \end_inset
 
@@ -2243,6 +2337,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename imagenes/Original_Signal_Trumpet_time.png
+	scale 60
 
 \end_inset
 
@@ -2277,6 +2372,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename imagenes/trumpet_envelope.png
+	scale 60
 
 \end_inset
 
@@ -2311,6 +2407,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename imagenes/Synth_Signal_Trumpet.png
+	scale 60
 
 \end_inset
 
@@ -2339,9 +2436,9 @@ Rango de Funcionamiento
 \end_layout
 
 \begin_layout Standard
-La primer limitacion del funcionamiento es el rango natural de cada instrumento
+La primer limitación del funcionamiento es el rango natural de cada instrumento
  el cual se sintetiza.
- A continuacion se muestra una tabla de estos mismos:
+ A continuación se muestra una tabla de estos mismos:
 \end_layout
 
 \begin_layout Standard
@@ -2403,7 +2500,7 @@ E2 (82 Hz) a F6 (1397 Hz)
 \begin_inset Text
 
 \begin_layout Plain Layout
-Violin
+Violín
 \end_layout
 
 \end_inset
@@ -2469,7 +2566,7 @@ E3 (165 Hz) to B5 (988 Hz)
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Parametro de funcionamiento acorde rango de frecuencias
+Parámetro de funcionamiento acorde rango de frecuencias
 \end_layout
 
 \end_inset
@@ -2487,198 +2584,17 @@ Parametro de funcionamiento acorde rango de frecuencias
 \end_layout
 
 \begin_layout Standard
-La otra limitacion de funcionamiento de debe a la longitud de la nota que
+La otra limitación de funcionamiento de debe a la longitud de la nota que
  se quiere sintetizar, ya que una nota no puede tardar menos de lo que duro
  el tiempo de attack mas el tiempo de decay mas el tiempo de release.
- este timepo minimo se puede ver en la siguiente tabla.
-\end_layout
-
-\begin_layout Standard
-TERMINAR TABLA
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float table
-placement H
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Tabular
-<lyxtabular version="3" rows="5" columns="3">
-<features tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Instrumento
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Minima duracion
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Maxima Duracion
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Guitarra
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Violin
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Saxo
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Trompeta
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
-
+ Ademas al usar el algoritmo OLA para modificar la envolvente, la compresión
+ o alargamiento tiene un limite antes de que se introduzca distorsión.
+ Se observo experimentalmente que el rango aceptable de duración es aproximadame
+nte entre 
+\begin_inset Formula $0.1seg-5seg$
 \end_inset
 
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Parametro de funcionamiento acorde duracion de nota
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
+.
 \end_layout
 
 \begin_layout Subsection
@@ -2686,7 +2602,16 @@ Conclusiones
 \end_layout
 
 \begin_layout Standard
-ESCRIBIR CONCLUSION
+En conclusión, se pudo notar como la síntesis aditiva es un método rápido
+ y sencillo para sintetizar instrumentos, pero este no es el indicado a
+ la hora de imitar instrumentos reales.
+ Cuando se obtuvieron envolventes de muestras se mejoro sustancialmente
+ la calidad de sonido.
+ Una posible mejora para mejorar la calidad de sonido es obtener las envolventes
+ de un espectrograma superior al de la librería suministrada por Python.
+ Ademas, se podría detectar los tiempos de attack, decay y release de las
+ envolventes extraídas de muestras para así aplicar el algoritmo OLA a solo
+ los tramos correspondientes al sustain.
 \end_layout
 
 \end_body
