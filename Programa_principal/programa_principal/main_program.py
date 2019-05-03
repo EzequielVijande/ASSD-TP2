@@ -220,11 +220,10 @@ j = 0
 if not not_meta_track(trks[0]) and synths[0].get_tempo_map(trks[0]) is not None:
     # new_tempo_map should be None if the first meta track does not contain tempo information
     new_tempo_map = synths[0].get_tempo_map(trks[0])
-    print(new_tempo_map)
     for k in range(1, len(synths_trks_insts)):
         s, t, i = synths_trks_insts[k]
         s.set_tempo_map(new_tempo_map)
-    synths_trks_insts = synths_trks_insts[1:]
+    #synths_trks_insts = synths_trks_insts[1:]
 
 iterable_list = list(range(len(synths_trks_insts)))
 

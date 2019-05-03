@@ -76,8 +76,6 @@ class Synthesizer:
         self.create_notes_callback = callback
 
     def synthesize(self, track: midi.Track, instrument: str, first_time: bool=False, n_frames: int=100000):
-        # print('synth tempo_map'+ str(self.tempo_map))
-        # print(self.curr_bpm)
         if first_time:
             self.x_out = []
             self.avg_counter = 0

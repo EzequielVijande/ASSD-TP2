@@ -1436,6 +1436,15 @@ La ventaja principal de este metodo es que garantiza continuidad de fase
 Desempeño y comparación de cada algoritmo
 \end_layout
 
+\begin_layout Standard
+A continuacion se presenta una tabla en la que se muestra el desempeno en
+ tiempo de cda algoritmo ppara distintos instrumentos:
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
 \begin_layout Section
 Implementación del sintetizador
 \end_layout
@@ -1608,7 +1617,7 @@ Instrumentos y su algoritmo correspondiente
 \end_layout
 
 \begin_layout Standard
-Se guardaron un numero de 
+Se guardaron un numero de
 \end_layout
 
 \begin_layout Section

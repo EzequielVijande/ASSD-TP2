@@ -84,11 +84,11 @@
 
 \begin_body
 
-\begin_layout Part
+\begin_layout Section
 Sintesis basada en muestras
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Introduccion
 \end_layout
 
@@ -111,7 +111,7 @@ A lo largo de esta seccion se presenta cuales son las principales dificultades
  cual fue el razonamiento que llevo al sintetizador implementado.
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Time Scaling Algorithms
 \end_layout
 
@@ -244,7 +244,7 @@ Existen una gran variedad de algoritmos TSM,generalmente se distinguen entre
  en el dominio de la frecuencia.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Overlap and Add(OLA)
 \end_layout
 
@@ -751,7 +751,7 @@ des no es tan perceptible como para los instrumentos con armonicos bien
  definidos).
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Waveform Synchronous Overlap and Add(WSOLA)
 \end_layout
 
@@ -1433,11 +1433,11 @@ La ventaja principal de este metodo es que garantiza continuidad de fase
 \end_layout
 
 \begin_layout Section
-Desempeno y comparacion de cada algoritmo
+Desempeño y comparación de cada algoritmo
 \end_layout
 
 \begin_layout Section
-Implementacion del sintetizador
+Implementación del sintetizador
 \end_layout
 
 \begin_layout Standard
@@ -1608,7 +1608,7 @@ Instrumentos y su algoritmo correspondiente
 \end_layout
 
 \begin_layout Standard
-
+Se guardaron un numero de 
 \end_layout
 
 \begin_layout Section
