@@ -6,6 +6,7 @@ import struct, math
 import wav_gen
 from additiveSynthesis import additiveSynthesis
 import SampleSynthesizer as sammy
+import karplus
 import synth
 import GraphSpectrogram as gs
 
@@ -38,7 +39,7 @@ def not_meta_track(synth_trk_inst):
     # return len(s.synthesize(t, i, True, 1000)[0]) != 0
 
 waver = wav_gen.WaveManagement()
-pattern = midi.read_midifile(".\ArchivosMIDI\\beethoven_duo_for_clarinet_and_bassoon_1.mid")
+pattern = midi.read_midifile(".\ArchivosMIDI\\Led_Zeppelin_-_Whole_Lotta_Love.mid")
 trks = [pattern[i] for i in range(len(pattern))]
 
 #synths = [additiveSynthesis(pattern.resolution) for i in range(len(pattern))]

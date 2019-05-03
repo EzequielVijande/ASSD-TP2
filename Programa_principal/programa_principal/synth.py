@@ -4,6 +4,7 @@ import math
 
 #Strings que indican el instrumento
 GUITAR = "guitar"
+ELECTRIC_GUITAR = "electric guitar"
 DRUMS = "drums"
 CORN_ANGLAIS = "corn anglais"
 VIOLIN = "violin"
