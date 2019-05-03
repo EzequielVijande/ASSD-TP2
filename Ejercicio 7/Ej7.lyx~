@@ -424,7 +424,73 @@ Si N fuera menor a L entonces no seria posible recuperar la senal a partir
 \end_layout
 
 \begin_layout Subsection
+Normalizacion de amplitud
+\end_layout
+
+\begin_layout Subsection
 Resolucion en el tiempo vs resolucion en frecuencia
+\end_layout
+
+\begin_layout Standard
+Existe una relacion de compromiso entre la resolucion en frecuencia y la
+ resolucion en tiempo de la STFT.Debido al principio de incertidumbre no
+ es posible medir simultaneamente y con precision arbitraria el contenido
+ armonico de la senal asi como el intervalo de tiempo en el que se encuentra.
+\end_layout
+
+\begin_layout Standard
+Se comienza por definir la resolucion en tiempo y en frecuencia de la senal
+ de la misma manera que se define la desviacion para una variable aleatoria,asum
+iendo media 0 sin perdida de generalidad:
+\end_layout
+
+\begin_layout Standard
+\align center
+
+\size larger
+\begin_inset Formula $\Delta t=\sqrt{\stackrel[-\infty]{+\infty}{\int}t^{2}\frac{|w(t)|^{2}}{|\stackrel[-\infty]{+\infty}{\int}w(t)dt|^{2}}dt}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+
+\size larger
+\begin_inset Formula $\triangle\omega=\sqrt{\stackrel[-\infty]{+\infty}{\int}\omega^{2}\frac{|W(\omega)|^{2}}{|\stackrel[-\infty]{+\infty}{\int}W(\omega)d\omega|^{2}}d\omega}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Se toma la funcion ventana y su transformada ya que para un tiempo y frecuencia
+ fijo se sabe que el tiempo y la frecuencia estan acotados entre:
+\end_layout
+
+\begin_layout Standard
+\align center
+
+\size large
+\begin_inset Formula $t_{0}-\triangle t<t<t_{0}+\triangle t$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+
+\size large
+\begin_inset Formula $\omega_{0}+\triangle\omega<\omega<\omega_{0}+\triangle\omega$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
 \end_layout
 
 \begin_layout Section

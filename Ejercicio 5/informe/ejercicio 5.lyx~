@@ -710,7 +710,7 @@ La onda reflejada del puente de la guitarra se relaciona con esta función.
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-Z(s)=\frac{F(s)}{U_{1}(s)}=m\frac{\left(s^{2}+s\alpha+\omega_{1}^{2}\right)\left(s^{2}+s\alpha_{2}+\omega_{2}^{2}\right)}{s\left(s^{2}+s\alpha_{h}+\omega_{h}^{2}\right)}
+Z(s)=\frac{F(s)}{U_{1}(s)}=m\frac{\left(s^{t}+s\alpha+\omega_{1}^{2}\right)\left(s^{2}+s\alpha_{2}+\omega_{2}^{2}\right)}{s\left(s^{2}+s\alpha_{h}+\omega_{h}^{2}\right)}
 \end{equation}
 
 \end_inset
@@ -743,7 +743,34 @@ donde
 \begin_inset Formula $\alpha_{h}$
 \end_inset
 
- son los parámetros de atenuación
+ son los parámetros de amortiguación, relacionados con el factor de calidad
+ de la frecuencia característica de la siguiente manera:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\alpha_{j}=\frac{2\pi f_{j}}{Q_{j}}\,\,\,\,\,\,\,\,\,\,\,\,\,\,Q=\frac{f_{j}}{\varDelta f_{j}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Conociendo entonces estos parámetros podría implementarse un filtro que
+ simule la caja de resonancia de la guitarra; en síntesis, lo que se busca
+ es un matchear impedancias de la cuerda y el ambiente (aire), para transmitir
+ la onda, en vez de que se refleje.
+\end_layout
+
+\begin_layout Subsubsection
+Sintonización
+\end_layout
+
+\begin_layout Standard
+
 \end_layout
 
 \begin_layout Subsection

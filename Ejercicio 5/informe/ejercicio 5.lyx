@@ -766,10 +766,91 @@ Conociendo entonces estos parámetros podría implementarse un filtro que
 \end_layout
 
 \begin_layout Subsubsection
-Sintonización
+Afinación
 \end_layout
 
 \begin_layout Standard
+Como se comentó en secciones anteriores, el tono de la nota está dado por:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+f=\frac{f_{s}}{N+0.5}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+El hecho de que 
+\begin_inset Formula $N$
+\end_inset
+
+ sea un número entero limita el rango de notas posibles a implementar, hace
+ que los tonos posibles estén cuantizados; principalmente para altas frecuencias
+, ya que para grandes valores de N (tonos bajos), la diferencia entre el
+ tono a 
+\begin_inset Formula $N$
+\end_inset
+
+ y 
+\begin_inset Formula $N+1$
+\end_inset
+
+ es pequeña.
+ Por otro lado, para tonos altos, 
+\begin_inset Formula $N$
+\end_inset
+
+ y 
+\begin_inset Formula $N+1$
+\end_inset
+
+, se relacionan con tonos completamente diferentes, lo que dificulta la
+ afinación o tuning.
+ En un diagrama, se puede visualizar así:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename tuning.PNG
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Tono deseado vs.
+ tono resultante para 
+\begin_inset Formula $f_{s}=50KHz$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
 
 \end_layout
 

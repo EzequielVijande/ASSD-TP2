@@ -84,11 +84,11 @@
 
 \begin_body
 
-\begin_layout Part
+\begin_layout Section
 Espectrograma
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Introducción
 \end_layout
 
@@ -163,11 +163,11 @@ El objetivo de esta sección es la de explicar los parámetros relevantes
  los parámetros apropiados a utilizar y porque.
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Desarrollo matematico
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Definicion
 \end_layout
 
@@ -423,11 +423,11 @@ Si N fuera menor a L entonces no seria posible recuperar la senal a partir
  hay overlap pero todas las muestras estan incluidas dentro de alguna ventana.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Normalizacion de amplitud
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Resolucion en el tiempo vs resolucion en frecuencia
 \end_layout
 
@@ -493,11 +493,11 @@ Se toma la funcion ventana y su transformada ya que para un tiempo y frecuencia
 
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Parámetros
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Ventana
 \end_layout
 
@@ -531,7 +531,7 @@ La forma de la ventana tendra impacto en el grado de fuga espectral que
  del contenido armonico aportado por los extremos del intervalo.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Largo del segmento
 \end_layout
 
@@ -541,11 +541,11 @@ El largo del segmento es igual largo de la ventana.
  temporal y en frecuencia del espectrograma.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Overlap entre segmentos
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Largo de la FFT
 \end_layout
 
@@ -562,11 +562,11 @@ Como fue explicado en el desarrollo matematico, el minimo de muestras necesarios
  puede permitir distinguir mejor rasgos del espectro.
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Aplicacion del espectrograma
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Conclusiones
 \end_layout
 

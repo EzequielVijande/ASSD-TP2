@@ -1284,6 +1284,32 @@ noprefix "false"
  bin de frecuencia.
 \end_layout
 
+\begin_layout Standard
+La frecuencia exacta de un bin puede expresarse como:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Formula 
+\begin{equation}
+\omega_{k}=\frac{2\pi}{N}k+\triangle\omega_{a}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+La frecuencia exacta puede determinarse a partir del cambio de fase que
+ se observa entre dos bins consecutivos de tiempo y el cambio de fase esperado
+ si la frecuencia exacta fuera un multiplo de 
+\begin_inset Formula $\frac{1}{N}$
+\end_inset
+
+.
+\end_layout
+
 \begin_layout Subsubsection
 Ventajas y desventajas
 \end_layout

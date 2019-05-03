@@ -760,7 +760,58 @@ donde
 
 \begin_layout Standard
 Conociendo entonces estos parámetros podría implementarse un filtro que
- simule la caja de resonancia de la guita
+ simule la caja de resonancia de la guitarra; en síntesis, lo que se busca
+ es un matchear impedancias de la cuerda y el ambiente (aire), para transmitir
+ la onda, en vez de que se refleje.
+\end_layout
+
+\begin_layout Subsubsection
+Afinación
+\end_layout
+
+\begin_layout Standard
+Como se comentó en secciones anteriores, el tono de la nota está dado por:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+f=\frac{f_{s}}{N+0.5}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+El hecho de que 
+\begin_inset Formula $N$
+\end_inset
+
+ sea un número entero limita el rango de notas posibles a implementar, hace
+ que los tonos posibles estén cuantizados; principalmente para altas frecuencias
+, ya que para grandes valores de N (tonos bajos), la diferencia entre el
+ tono a 
+\begin_inset Formula $N$
+\end_inset
+
+ y 
+\begin_inset Formula $N+1$
+\end_inset
+
+ es pequeña.
+ Por otro lado, para tonos altos, 
+\begin_inset Formula $N$
+\end_inset
+
+ y 
+\begin_inset Formula $N+1$
+\end_inset
+
+, se relacionan con tonos completamente diferentes, lo que dificulta la
+ afinación o tuning.
+ En un di
 \end_layout
 
 \begin_layout Subsection
