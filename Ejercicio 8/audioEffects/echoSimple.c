@@ -3,7 +3,7 @@
 #include "math.h"
 #include "stdlib.h"
 
-#define L 8000
+#define L 20000
 #define FPB 64
 #define G 0.7
 
@@ -22,7 +22,7 @@ void * prepareEchoSimple(void){
     echoSimple_t * p;
     p = malloc(sizeof(echoSimple_t));
     p->n = 0;
-    p->delay = L/2;
+    p->delay = (int)(L/1.2);
     return (void *) p;
 
 }
@@ -101,5 +101,5 @@ void echoSimpleCall(const SAMPLE * in, SAMPLE * out, unsigned long framesPerBuff
 
 void refreshEchoSimple(int var1, int var2, void * p2effect){
     echoSimple_t * pData = (echoSimple_t *) p2effect;
-    pData->delay = L / 12-(var1+1);
+    pData->delay = L / (12-(var1+1));
 }

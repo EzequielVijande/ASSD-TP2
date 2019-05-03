@@ -86,8 +86,6 @@ void userInteract(userPreferences_t * pUserPreferences){
 }
 
 int checkingChangeDecisions(userPreferences_t * pUserPreferences){
-    printf("In this moment is being applied the effect that you choosed, Enjoy it!\n"
-            "(If you want to quit, press only q and then ENTER)\n");
     int ret = UI_NOERROR;
     char c = '0';
     //do{

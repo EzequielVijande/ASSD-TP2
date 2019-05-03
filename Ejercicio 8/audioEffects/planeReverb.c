@@ -4,7 +4,7 @@
 #include "math.h"
 #include "stdlib.h"
 
-#define L 8000
+#define L 20000
 #define FPB 64
 #define G 0.7
 

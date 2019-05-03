@@ -5,7 +5,7 @@
 #include "stdlib.h"
 
 
-#define L 8000
+#define L 15000
 #define FPB 64
 #define G 0.7
 

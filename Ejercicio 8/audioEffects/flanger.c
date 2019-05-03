@@ -4,7 +4,7 @@
 #include "math.h"
 #include "stdlib.h"
 
-#define L 8000
+#define L 1200
 #define FPB 64
 #define G 0.7
 
@@ -118,5 +118,6 @@ void refreshFlanger(int var1, int var2, void * p2effect){
     flanger_t * pData = (flanger_t *) p2effect;
     pData->delayO = L/((12-var1)*3);
     pData->delayE = L/((12-var2)*3);
+    pData->freq = 1.0;
 }
 
