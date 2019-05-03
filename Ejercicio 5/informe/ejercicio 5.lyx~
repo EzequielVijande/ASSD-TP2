@@ -359,7 +359,53 @@ reference "eq:KSec2"
 \end_inset
 
  el sistema es estable.
- Ésto se comprobó 
+ Ésto se comprobó gráficamente mediante software.
+ A continuación, se muestra el diagrama de polos y ceros del sistema.
+ En este caso, 
+\begin_inset Formula $R_{L}=0.996$
+\end_inset
+
+, y el sistema es estable, como se puede observar, pues los polos se encuentran
+ dentro de la circunferencia unitaria.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename zpstring.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Diagrama de polos y ceros para el modelo básico, con 
+\begin_inset Formula $R_{L}=0.996$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_body

@@ -460,12 +460,134 @@ Sin embargo, se implementó tanto con ruido uniforme como con normal.
  su respectiva campana gaussiana.
 \end_layout
 
+\begin_layout Standard
+A continuación, dos muestras, una con ruido uniforme y la siguiente con
+ normal.
+ Si bien, en cuanto a sonido sus diferencias son imperceptibles, se puede
+ ver que la muestra con ruido blanco tiene más ármonicos, aunque de menor
+ amplitud.
+ Por otro lado, el ruido normal tiene amplitud impredecible, al tener una
+ desviación, pero van a estar mayormente centrados en la media, al contrario
+ con el uniforme.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename ruidoUniforme.PNG
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Muestra de ruido uniforme.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename ruidoNormal.PNG
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Muestra de ruido uniforme.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Caja de Resonancia
+\end_layout
+
+\begin_layout Standard
+El cuerpo de la guitarra actúa como un resonador
+\end_layout
+
 \begin_layout Subsection
-Modelo extendido
+Modelo Extendido
 \end_layout
 
 \begin_layout Subsection
 Referencias
+\end_layout
+
+\begin_layout Standard
+el karplus
+\end_layout
+
+\begin_layout Standard
+el sullivan
+\end_layout
+
+\begin_layout Standard
+el jaffe
+\end_layout
+
+\begin_layout Standard
+el de resonancia
 \end_layout
 
 \end_body
